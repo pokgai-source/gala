@@ -7,52 +7,132 @@
       "place": "cover-1",
       "query": "Kennon Road Baguio",
       "caption": "Kennon zigzag",
-      "file": "Kennon Road, Baguio City.jpg"
+      "file": "Kennon Road, Baguio City.jpg",
+      "author": "Lawrence Ruiz",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kennon_Road,_Baguio_City.jpg",
+      "w640": [
+        640,
+        480
+      ],
+      "checked": "2026-10-10",
+      "prepared": "Kennon Road, Baguio City.jpg"
     },
     {
       "id": "cover-session",
       "place": "cover-2",
       "query": "Session Road Baguio",
       "caption": "Session Road",
-      "file": "Magsaysay Ave x Session Road, Baguio City, Feb 2025.jpg"
+      "file": "Magsaysay Ave x Session Road, Baguio City, Feb 2025.jpg",
+      "author": "Ralff Nestor Nacor",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Magsaysay_Ave_x_Session_Road,_Baguio_City,_Feb_2025.jpg",
+      "w640": [
+        640,
+        482
+      ],
+      "checked": "2026-10-10",
+      "prepared": "Magsaysay Ave x Session Road, Baguio City, Feb 2025.jpg"
     },
     {
       "id": "cover-strawberries",
       "place": "cover-3",
       "query": "La Trinidad strawberry",
       "caption": "La Trinidad strawberries",
-      "file": "Strawberry Picking La Trinidad 2018.jpg"
+      "file": "Strawberry Picking La Trinidad 2018.jpg",
+      "author": "Joey Razon for the Philippine News Agency",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Strawberry_Picking_La_Trinidad_2018.jpg",
+      "w640": [
+        640,
+        427
+      ],
+      "checked": "2026-10-10",
+      "prepared": "Strawberry Picking La Trinidad 2018.jpg"
     },
     {
       "id": "city-hero",
       "place": "city-hero",
       "query": "Baguio City view pine",
       "caption": "Baguio",
-      "file": "Baguio skyline - view from Diplomat Hotel (Baguio, Benguet)(2018-11-27).jpg"
+      "file": "Baguio skyline - view from Diplomat Hotel (Baguio, Benguet)(2018-11-27).jpg",
+      "author": "patrickroque01",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Baguio_skyline_-_view_from_Diplomat_Hotel_(Baguio,_Benguet)(2018-11-27).jpg",
+      "w640": [
+        640,
+        480
+      ],
+      "checked": "2026-10-10",
+      "prepared": "Baguio skyline - view from Diplomat Hotel (Baguio, Benguet)(2018-11-27).jpg"
     },
     {
       "id": "burnham-park",
       "place": "baguio-burnham-park",
       "query": "Burnham Park Baguio lake",
-      "file": "Burnham Park Lake (Baguio City; 12-04-2022).jpg"
+      "file": "Burnham Park Lake (Baguio City; 12-04-2022).jpg",
+      "author": "Patrickroque01",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Burnham_Park_Lake_(Baguio_City;_12-04-2022).jpg",
+      "w640": [
+        640,
+        480
+      ],
+      "checked": "2026-10-10",
+      "prepared": "Burnham Park Lake (Baguio City; 12-04-2022).jpg"
     },
     {
       "id": "mines-view",
       "place": "baguio-mines-view",
       "query": "Mines View Park Baguio",
-      "file": "Enjoy the cool breeze while looking on the beautiful view at Mines View Park, Baguio Philippines.jpg"
+      "file": "Enjoy the cool breeze while looking on the beautiful view at Mines View Park, Baguio Philippines.jpg",
+      "author": "Avrilsc95",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Enjoy_the_cool_breeze_while_looking_on_the_beautiful_view_at_Mines_View_Park,_Baguio_Philippines.jpg",
+      "w640": [
+        640,
+        480
+      ],
+      "checked": "2026-10-10",
+      "prepared": "Enjoy the cool breeze while looking on the beautiful view at Mines View Park, Baguio Philippines.jpg"
     },
     {
       "id": "bencab",
       "place": "baguio-bencab-museum",
       "query": "BenCab Museum",
-      "file": "Views from BenCab Museum, Tuba, Benguet (1).jpg"
+      "file": "Views from BenCab Museum, Tuba, Benguet (1).jpg",
+      "author": "Ralff Nestor Nacor",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Views_from_BenCab_Museum,_Tuba,_Benguet_(1).jpg",
+      "w640": [
+        640,
+        482
+      ],
+      "checked": "2026-10-10",
+      "prepared": "Views from BenCab Museum, Tuba, Benguet (1).jpg"
     },
     {
       "id": "camp-john-hay",
       "place": "baguio-camp-john-hay",
       "query": "Camp John Hay Baguio",
-      "file": "Statue of Liberty, Camp John Hay, Baguio, Jul 2025.jpg"
+      "file": "Statue of Liberty, Camp John Hay, Baguio, Jul 2025.jpg",
+      "author": "Ralff Nestor Nacor",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Statue_of_Liberty,_Camp_John_Hay,_Baguio,_Jul_2025.jpg",
+      "w640": [
+        640,
+        482
+      ],
+      "checked": "2026-10-10",
+      "prepared": "Statue of Liberty, Camp John Hay, Baguio, Jul 2025.jpg"
     },
     {
       "id": "public-market",
@@ -68,13 +148,33 @@
       "id": "strawberry-farm",
       "place": "latrinidad-strawberry-farm",
       "query": "La Trinidad Strawberry Farm Benguet",
-      "file": "Strawberry Farm (3), La Trinidad, Benguet, March 2023.jpg"
+      "file": "Strawberry Farm (3), La Trinidad, Benguet, March 2023.jpg",
+      "author": "Ralff Nestor Nacor",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Strawberry_Farm_(3),_La_Trinidad,_Benguet,_March_2023.jpg",
+      "w640": [
+        640,
+        482
+      ],
+      "checked": "2026-10-10",
+      "prepared": "Strawberry Farm (3), La Trinidad, Benguet, March 2023.jpg"
     },
     {
       "id": "pma",
       "place": "baguio-pma",
       "query": "Philippine Military Academy Fort del Pilar",
-      "file": "Fort Del Pilar, PMA, Baguio, Jul 2025 (1).jpg"
+      "file": "Fort Del Pilar, PMA, Baguio, Jul 2025 (1).jpg",
+      "author": "Ralff Nestor Nacor",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fort_Del_Pilar,_PMA,_Baguio,_Jul_2025_(1).jpg",
+      "w640": [
+        640,
+        482
+      ],
+      "checked": "2026-10-10",
+      "prepared": "Fort Del Pilar, PMA, Baguio, Jul 2025 (1).jpg"
     }
   ]
 }
