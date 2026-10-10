@@ -9,7 +9,7 @@ export const BUDGET = { htmlKB: 150, totalKB: 300, minTap: 48, phone: 360 };
 export async function checkDesign(siteDir, pagePath) {
   const file = join(siteDir, pagePath, "index.html");
   const errors = [];
-  const at = `design ${pagePath}`;
+  const at = `design ${pagePath || "home"}`;
   const htmlBytes = statSync(file).size;
   if (htmlBytes > BUDGET.htmlKB * 1024) errors.push(`${at}: HTML is ${Math.round(htmlBytes / 1024)} KB (budget ${BUDGET.htmlKB} KB)`);
 

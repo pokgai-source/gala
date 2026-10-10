@@ -6,10 +6,10 @@
 import { writeFileSync, mkdirSync, rmSync, cpSync, readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { loadData, indexFacts, daysOld } from "./lib/facts.mjs";
+import { loadData, indexFacts, daysOld, fmtDate } from "./lib/facts.mjs";
 import { validateRoute, indexStops } from "./lib/route.mjs";
 import { buildPayload, MAX_AGE_DAYS } from "./lib/payload.mjs";
-import { renderPage } from "./lib/render.mjs";
+import { renderPage, renderHome } from "./lib/render.mjs";
 import { copyFonts } from "./lib/fonts.mjs";
 import { themeErrors } from "./lib/theme.mjs";
 
@@ -75,6 +75,10 @@ for (const routeId of Object.keys(data.routes)) {
   console.log(`built ${routeId} → _site/${routeId}/index.html, print.html`);
 }
 
+const cards = Object.entries(data.routes).map(([id, r]) => ({ id, from: r.title.from, to: r.title.to,
+  checked: fmtDate(buildPayload(data, id, { root }).latestChecked) }));
+writeFileSync(join(out, "index.html"), renderHome({ root, cards }));
+
 for (const h of data.hotels) {
   const theme = { ...h.theme, name: h.name, logo: h.logo || null, contact: h.contact || null };
   const payload = { ...buildPayload(data, h.route, { root, theme }), pdfHref: `../${h.route}-roadbook.pdf` };
@@ -94,7 +98,7 @@ if (!args.has("--no-qa")) {
     const { makePdf } = await import("./qa/pdf.mjs");
     const { shots } = await import("./qa/shots.mjs");
     const { checkDesign } = await import("./qa/check-design.mjs");
-    const pages = [...Object.keys(data.routes), ...data.hotels.map((h) => `${h.route}/${h.slug}`)];
+    const pages = ["", ...Object.keys(data.routes), ...data.hotels.map((h) => `${h.route}/${h.slug}`)];
     for (const routeId of Object.keys(data.routes)) console.log(`pdf → ${(await makePdf(out, routeId)).slice(root.length + 1)}`);
     const designErrors = [];
     for (const p of pages) {

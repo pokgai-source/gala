@@ -33,3 +33,20 @@ export function renderPage({ root, payload, fontPrefix, templateFile, theme = pa
   }
   return html;
 }
+
+// Home page: one card per roadbook.
+export function renderHome({ root, cards }) {
+  const d = join(root, "site", "_design");
+  let html = read(join(root, "site", "index.html"));
+  const list = cards.map((c) => `    <article class="book">
+      <h2><span class="from">${esc(c.from)}</span>${esc(c.to)}</h2>
+      <p class="checked">Checked ${esc(c.checked)}</p>
+      <div class="row"><a class="btn" href="${esc(c.id)}/">Open the roadbook</a><a class="btn alt" href="${esc(c.id)}/${esc(c.id)}-roadbook.pdf">Printable PDF</a></div>
+    </article>`).join("\n");
+  const slots = { CSS: `<style>${fontFaceCss(root, "_design/fonts/")}\n${read(join(d, "gala.css"))}</style>`, ROUTES: list };
+  for (const [k, v] of Object.entries(slots)) {
+    if (!html.includes(`<!--GALA:${k}-->`)) throw new Error(`home is missing slot GALA:${k}`);
+    html = html.split(`<!--GALA:${k}-->`).join(v);
+  }
+  return html;
+}
