@@ -3,6 +3,7 @@ name: Publish site
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
   schedule:
     - cron: "0 0 1 * *" # monthly rebuild so "Needs re-check" flags stay current
@@ -13,7 +14,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -24,28 +25,57 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Validate data and build _site/
+          cache: npm
+      - name: Install tools
+        run: npm ci
+      - name: Install Chromium for PDF, screenshots and design checks
+        run: npx playwright install --with-deps chromium
+
+      - name: Trace real road lines for maps (only where missing)
+        continue-on-error: true
+        run: |
+          for f in data/routes/*.json; do
+            case "$f" in *.geo.json) continue;; esac
+            id=$(basename "$f" .json)
+            [ -f "data/routes/$id.geo.json" ] || node scripts/trace-route.mjs "$id"
+          done
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build site, PDF, screenshots and design checks
         run: node scripts/build.mjs
 
       - name: Check links inside the site (must pass)
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --offline --no-progress --include-fragments '_site/**/*.html'
+          args: --offline --no-progress --include-fragments '_site/**/index.html'
           fail: true
 
       - name: Check source and Maps links (report only)
         uses: lycheeverse/lychee-action@v2
         continue-on-error: true
         with:
-          args: --no-progress --max-retries 2 --timeout 20 --accept '200..=299,403,429' --exclude 'google\.com/maps' 'data/*.json' '_site/**/*.html'
+          args: --no-progress --max-retries 2 --timeout 20 --accept '200..=299,403,429' --exclude 'google\.com/maps' 'data/*.json' '_site/**/index.html'
           fail: false
 
+      - name: Upload screenshots and PDFs for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: roadbook-check
+          path: |
+            _site/**/check/*.png
+            _site/**/*.pdf
+
       - uses: actions/configure-pages@v5
+        if: github.ref == 'refs/heads/main'
       - uses: actions/upload-pages-artifact@v3
+        if: github.ref == 'refs/heads/main'
         with:
           path: _site
 
   deploy:
+    if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     environment:
