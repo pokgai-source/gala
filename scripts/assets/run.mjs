@@ -54,7 +54,11 @@ for (const f of readdirSync(join(root, "data")).filter((f) => /^stops-.+\.json$/
         if (line) log(`  closest to the road: ${all.map((x) => ({ x, o: offsetFrom(x.lnglat, line) })).sort((a, b) => a.o.d - b.o.d).slice(0, 4)
           .map(({ x, o }) => `${x.id} "${x.name}" ${Math.round(o.d)} m ${o.side < 0 ? "right" : "left"}`).join("; ")}`);
       }
-    } catch (e) { log(`pin ${s.id}: lookup failed (${e.message})`); }
+    } catch (e) {
+      // a pin that hasn't passed the current rules can't keep its OpenStreetMap label; retried next run
+      if (s.osmFor !== forKey) { s.lnglatSource = "approximate"; delete s.osmFor; }
+      log(`pin ${s.id}: lookup failed (${e.message})${s.lnglatSource === "approximate" ? " — marked approximate until it can be checked" : ""}`);
+    }
     await sleep(3000);
   }
   writeJson(p, file);
