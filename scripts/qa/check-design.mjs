@@ -15,7 +15,7 @@ export async function checkDesign(siteDir, pagePath) {
 
   const browser = await launch();
   try {
-    const page = await browser.newPage({ viewport: { width: BUDGET.phone, height: 780 } });
+    const page = await browser.newPage({ viewport: { width: BUDGET.phone, height: 780 }, reducedMotion: "reduce" }); // measure resting layout, not mid-animation frames
     const fontBytes = new Map();
     page.on("requestfinished", (req) => {
       const u = req.url();
