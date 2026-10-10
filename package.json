@@ -12,6 +12,7 @@
     "@fontsource/overpass": "^5.2.5",
     "fontkit": "^2.0.4",
     "playwright": "1.49.1",
+    "sharp": "^0.33.5",
     "topojson-client": "3.1.0",
     "world-atlas": "2.0.2"
   }

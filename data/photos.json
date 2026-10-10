@@ -1,0 +1,70 @@
+{
+  "updated": "2026-10-10",
+  "note": "Photos from Wikimedia Commons under free licences (credited on the page). 'file' empty = the assets job saves candidates to docs/photo-candidates/<id>/ for review.",
+  "photos": [
+    {
+      "id": "cover-kennon",
+      "place": "cover-1",
+      "query": "Kennon Road Baguio",
+      "caption": "Kennon zigzag"
+    },
+    {
+      "id": "cover-session",
+      "place": "cover-2",
+      "query": "Session Road Baguio",
+      "caption": "Session Road"
+    },
+    {
+      "id": "cover-strawberries",
+      "place": "cover-3",
+      "query": "La Trinidad strawberry",
+      "caption": "La Trinidad strawberries"
+    },
+    {
+      "id": "city-hero",
+      "place": "city-hero",
+      "query": "Baguio City view pine",
+      "caption": "Baguio"
+    },
+    {
+      "id": "burnham-park",
+      "place": "baguio-burnham-park",
+      "query": "Burnham Park Baguio lake"
+    },
+    {
+      "id": "mines-view",
+      "place": "baguio-mines-view",
+      "query": "Mines View Park Baguio"
+    },
+    {
+      "id": "bencab",
+      "place": "baguio-bencab-museum",
+      "query": "BenCab Museum"
+    },
+    {
+      "id": "camp-john-hay",
+      "place": "baguio-camp-john-hay",
+      "query": "Camp John Hay Baguio"
+    },
+    {
+      "id": "public-market",
+      "place": "baguio-public-market",
+      "query": "Baguio City Market"
+    },
+    {
+      "id": "good-shepherd",
+      "place": "baguio-good-shepherd",
+      "query": "Good Shepherd Convent Baguio"
+    },
+    {
+      "id": "strawberry-farm",
+      "place": "latrinidad-strawberry-farm",
+      "query": "La Trinidad Strawberry Farm Benguet"
+    },
+    {
+      "id": "pma",
+      "place": "baguio-pma",
+      "query": "Philippine Military Academy Fort del Pilar"
+    }
+  ]
+}

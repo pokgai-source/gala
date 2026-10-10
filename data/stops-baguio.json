@@ -31,7 +31,15 @@
       "lnglat": [
         120.635,
         15.1
-      ]
+      ],
+      "osm": {
+        "brand": "Petron",
+        "near": [
+          120.635,
+          15.1
+        ],
+        "radius": 3000
+      }
     },
     {
       "id": "sctex-seaoil-citymall",
@@ -57,7 +65,15 @@
       "lnglat": [
         120.665,
         15.075
-      ]
+      ],
+      "osm": {
+        "brand": "SEAOIL",
+        "near": [
+          120.665,
+          15.075
+        ],
+        "radius": 3000
+      }
     },
     {
       "id": "nlex-caltex-mega",
@@ -83,7 +99,52 @@
       "lnglat": [
         120.69,
         15.04
-      ]
+      ],
+      "osm": {
+        "brand": "Caltex",
+        "near": [
+          120.69,
+          15.04
+        ],
+        "radius": 3000
+      }
+    },
+    {
+      "id": "nlex-shell-mexico-nb",
+      "name": "Shell Mexico NLEX northbound",
+      "type": [
+        "gas"
+      ],
+      "segment": "NLEX",
+      "where": "Mexico, Pampanga (northbound)",
+      "maps": "https://www.google.com/maps/search/?api=1&query=Shell+NLEX+Mexico+Pampanga+northbound",
+      "why": "Shell station with DC fast EV chargers (ACMobility, Evro network).",
+      "featured": false,
+      "ev": {
+        "operator": "ACMobility (Evro)",
+        "kw": null,
+        "plugs": [],
+        "note": "DC fast chargers; power not published."
+      },
+      "source": {
+        "name": "Top Gear Philippines",
+        "url": "https://www.topgear.com.ph/news/industry-news/acmobility-shell-mexico-pampanga-charging-hub-a6941-20260723",
+        "published": "2026-07-23"
+      },
+      "checked": "2026-10-10",
+      "status": "check",
+      "lnglat": [
+        120.655,
+        15.09
+      ],
+      "osm": {
+        "brand": "Shell",
+        "near": [
+          120.655,
+          15.09
+        ],
+        "radius": 3000
+      }
     },
     {
       "id": "tplex-ptt-victoria",
@@ -109,7 +170,15 @@
       "lnglat": [
         120.6,
         15.6
-      ]
+      ],
+      "osm": {
+        "brand": "PTT",
+        "near": [
+          120.6,
+          15.6
+        ],
+        "radius": 3000
+      }
     },
     {
       "id": "tplex-total-rosales",
@@ -134,7 +203,56 @@
       "lnglat": [
         120.62,
         15.89
-      ]
+      ],
+      "osm": {
+        "brand": "Total",
+        "near": [
+          120.62,
+          15.89
+        ],
+        "radius": 3000
+      }
+    },
+    {
+      "id": "tplex-shell-rosario",
+      "name": "Shell TPLEX Rosario",
+      "type": [
+        "gas",
+        "food"
+      ],
+      "segment": "TPLEX",
+      "where": "TPLEX end, Rosario, La Union",
+      "maps": "https://www.google.com/maps/search/?api=1&query=Shell+TPLEX+Rosario+La+Union",
+      "why": "Last stop before the mountain. Shell Café, Cha-Time, Potato Corner and snacks, with a fast EV charger.",
+      "featured": false,
+      "ev": {
+        "operator": "Shell Recharge",
+        "kw": 180,
+        "plugs": [
+          "CCS2"
+        ],
+        "note": "Plus two 22 kW AC points. Up to 4 cars at once."
+      },
+      "source": {
+        "name": "Shell Pilipinas (press release)",
+        "url": "https://pilipinas.shell.com.ph/media/current-year-press-releases-news/shell-recharge-unlocks-north-luzon-for-ev-drivers-with-ultra-rapid-chargers.html",
+        "published": "2023-09-12"
+      },
+      "checked": "2026-10-10",
+      "status": "check",
+      "note": "Charger news is from 2023. Confirm it's still running in the Shell Recharge app.",
+      "lnglat": [
+        120.49,
+        16.23
+      ],
+      "osm": {
+        "brand": "Shell",
+        "near": [
+          120.49,
+          16.23
+        ],
+        "radius": 2500
+      }
     },
     {
       "id": "nlex-drive-and-dine",
