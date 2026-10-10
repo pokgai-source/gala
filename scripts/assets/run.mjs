@@ -6,7 +6,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { traceRoute, waypointHash, findStation, listStations } from "./osm.mjs";
+import { traceRoute, waypointHash, brandStations, pickOnRoute, listStations } from "./osm.mjs";
 import { searchCandidates, fileInfo, download } from "./commons.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
@@ -28,28 +28,27 @@ for (const f of readdirSync(routesDir).filter((f) => f.endsWith(".json") && !f.e
   catch (e) { log(`map ${id}: trace failed (${e.message}); keeping the old line`); }
 }
 
-// 2. stop pins
+// 2. stop pins: brand stations beside the traced road, on the stop's side, nearest to the hint
 for (const f of readdirSync(join(root, "data")).filter((f) => /^stops-.+\.json$/.test(f))) {
-  const p = join(root, "data", f), file = readJson(p);
+  const routeId = f.slice(6, -5), p = join(root, "data", f), file = readJson(p);
+  const geoFile = join(routesDir, `${routeId}.geo.json`);
+  const line = existsSync(geoFile) ? readJson(geoFile).coordinates : null;
   for (const s of file.stops.filter((s) => s.osm)) {
     if (s.lnglatSource?.startsWith("OpenStreetMap") && s.osmFor === JSON.stringify(s.osm)) continue;
     try {
-      const hit = await findStation(s.osm);
+      const all = await brandStations(s.osm);
+      const hit = line ? pickOnRoute(all, line, s.osm.near, { maxOff: s.osm.maxOff || 150, side: s.osm.side }) : null;
       if (hit) {
         s.lnglat = hit.lnglat.map((v) => +v.toFixed(5));
-        s.lnglatSource = `OpenStreetMap ${hit.type}/${hit.id}`;
+        s.lnglatSource = `OpenStreetMap ${hit.id}`;
         s.osmFor = JSON.stringify(s.osm);
-        log(`pin ${s.id}: ${s.lnglatSource}, ${km(hit.lnglat, s.osm.near)} km from the hint`);
+        log(`pin ${s.id}: ${hit.id} "${hit.name}", ${km(hit.lnglat, s.osm.near)} km from the hint`);
       } else {
         s.lnglatSource = "approximate";
-        log(`pin ${s.id}: no ${s.osm.brand} station within ${s.osm.radius} m — kept approximate`);
-        try {
-          const all = await listStations(s.osm.near, s.osm.radius * 2);
-          log(`  fuel stations within ${s.osm.radius * 2} m: ${all.length ? all.map((x) => `${x.id} "${x.name}" brand="${x.brand}" ${km(x.lnglat, s.osm.near)} km`).join("; ") : "none"}`);
-        } catch (e) { log(`  station list failed (${e.message})`); }
+        log(`pin ${s.id}: no ${s.osm.brand} station beside the road (${all.length} ${s.osm.brand} within ${s.osm.searchRadius || 8000} m) — kept approximate`);
       }
     } catch (e) { log(`pin ${s.id}: lookup failed (${e.message})`); }
-    await sleep(1500);
+    await sleep(3000);
   }
   writeJson(p, file);
 }

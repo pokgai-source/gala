@@ -38,7 +38,8 @@
           120.635,
           15.1
         ],
-        "radius": 3000
+        "radius": 3000,
+        "side": "right"
       },
       "lnglatSource": "approximate"
     },
@@ -73,7 +74,9 @@
           120.665,
           15.075
         ],
-        "radius": 3000
+        "radius": 3000,
+        "side": "right",
+        "maxOff": 300
       },
       "lnglatSource": "approximate"
     },
@@ -108,7 +111,8 @@
           120.69,
           15.04
         ],
-        "radius": 3000
+        "radius": 3000,
+        "side": "right"
       },
       "lnglatSource": "approximate"
     },
@@ -146,7 +150,8 @@
           120.655,
           15.09
         ],
-        "radius": 3000
+        "radius": 3000,
+        "side": "right"
       },
       "lnglatSource": "approximate"
     },
@@ -181,7 +186,8 @@
           120.6,
           15.6
         ],
-        "radius": 3000
+        "radius": 3000,
+        "side": "right"
       },
       "lnglatSource": "approximate"
     },
@@ -215,7 +221,8 @@
           120.62,
           15.89
         ],
-        "radius": 3000
+        "radius": 3000,
+        "side": "right"
       },
       "lnglatSource": "approximate"
     },
@@ -257,7 +264,8 @@
           120.49,
           16.23
         ],
-        "radius": 2500
+        "radius": 2500,
+        "maxOff": 800
       },
       "lnglatSource": "approximate"
     },

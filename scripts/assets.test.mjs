@@ -27,3 +27,17 @@ test("waypoint hash is stable and changes with the points", () => {
   assert.equal(waypointHash(a), waypointHash(structuredClone(a)));
   assert.notEqual(waypointHash(a), waypointHash([[121, 14.6], [120.6, 16.41]]));
 });
+
+import { pickOnRoute } from "./assets/osm.mjs";
+test("pickOnRoute keeps stations beside the route on the requested side, nearest to the hint", () => {
+  const line = [[120.0, 15.0], [120.0, 16.0]]; // heading north
+  const stations = [
+    { id: "way/1", lnglat: [120.001, 15.5] },   // ~107 m east (right side going north)
+    { id: "way/2", lnglat: [119.999, 15.5] },   // ~107 m west (left side)
+    { id: "way/3", lnglat: [120.05, 15.5] },    // 5 km off the road
+    { id: "way/4", lnglat: [120.001, 15.9] },   // right side but far from the hint
+  ];
+  assert.equal(pickOnRoute(stations, line, [120.0, 15.5], { side: "right" }).id, "way/1");
+  assert.equal(pickOnRoute(stations, line, [120.0, 15.5], { side: "left" }).id, "way/2");
+  assert.equal(pickOnRoute([stations[2]], line, [120.0, 15.5], {}), null);
+});
