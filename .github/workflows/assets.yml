@@ -36,7 +36,7 @@ jobs:
         run: |
           git config user.name "gala-assets-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data docs/photo-candidates docs/assets-report.md site/img || true
+          git add -A data docs site
           if git diff --cached --quiet; then echo "nothing new"; exit 0; fi
           git commit -m "assets: map lines, stop pins and photos"
           git push
