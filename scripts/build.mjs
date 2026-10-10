@@ -3,7 +3,7 @@
 // - renders one roadbook per data/routes/<route>.json from the shared template in site/_design/
 // - copies self-hosted fonts and the data files
 // Usage: node scripts/build.mjs [--no-qa]
-import { writeFileSync, mkdirSync, rmSync, cpSync } from "node:fs";
+import { writeFileSync, mkdirSync, rmSync, cpSync, readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadData, indexFacts, daysOld } from "./lib/facts.mjs";
@@ -70,7 +70,9 @@ for (const routeId of Object.keys(data.routes)) {
   if (!payload.map.traced) warnings.push(`map ${routeId}: using waypoints (run node scripts/trace-route.mjs ${routeId})`);
   mkdirSync(join(out, routeId), { recursive: true });
   writeFileSync(join(out, routeId, "index.html"), renderPage({ root, payload, fontPrefix: "../_design/fonts/" }));
-  console.log(`built ${routeId} → _site/${routeId}/index.html`);
+  writeFileSync(join(out, routeId, "print.html"), renderPage({ root, payload, fontPrefix: "../_design/fonts/",
+    templateFile: join(root, "site", "_design", "print.html"), extraCss: readFileSync(join(root, "site", "_design", "print.css"), "utf8") }));
+  console.log(`built ${routeId} → _site/${routeId}/index.html, print.html`);
 }
 
 for (const h of data.hotels) {

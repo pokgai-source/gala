@@ -275,6 +275,7 @@
   if (!raw) return;
   var D = JSON.parse(raw.textContent);
   window.GALA = { data: D, esc: esc, fmtDate: fmtDate, checkedLine: checkedLine, roadSign: roadSign, mapSvg: mapSvg,
+    servicesBoard: servicesBoard, kmPost: kmPost, uniqueSources: uniqueSources, now: now,
     renderHero: renderHero, renderPlates: renderPlates, renderRoadCheck: renderRoadCheck, renderWay: renderWay,
     renderCity: renderCity, renderBeforeYouGo: renderBeforeYouGo, renderFooter: renderFooter, lightWholeRoute: lightWholeRoute };
   if (document.documentElement.dataset.mode === "print") return; // print.html drives its own layout

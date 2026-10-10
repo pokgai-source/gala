@@ -11,14 +11,14 @@ export function themeStyle(theme) {
   return `<style>:root{--brand:${theme.brand};--brand-2:${theme.brand2};--accent:${theme.accent};--on-accent:${theme.onAccent}}</style>`;
 }
 
-export function renderPage({ root, payload, fontPrefix, templateFile, theme = payload.theme }) {
+export function renderPage({ root, payload, fontPrefix, templateFile, theme = payload.theme, extraCss = "" }) {
   const d = join(root, "site", "_design");
   const tpl = read(templateFile || join(d, "roadbook.html"));
   const t = payload.route.title;
   const slots = {
     TITLE: esc(`${t.from} ${t.to}, GALA Roadbook`),
     DESCRIPTION: esc(`Self-drive roadbook, ${t.from} ${t.to}: route, tolls, stops, coding, weather and emergency numbers. Every fact shows its source and when it was last checked.`),
-    CSS: `<style>${fontFaceCss(root, fontPrefix)}\n${read(join(d, "gala.css"))}</style>`,
+    CSS: `<style>${fontFaceCss(root, fontPrefix)}\n${read(join(d, "gala.css"))}\n${extraCss}</style>`,
     THEME: themeStyle(theme),
     SIGNS: read(join(d, "signs.svg")),
     ART: read(join(d, "art.svg")),

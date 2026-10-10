@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en" data-mode="print" data-theme="light">
+<head>
+<meta charset="utf-8">
+<title><!--GALA:TITLE--></title>
+<meta name="description" content="<!--GALA:DESCRIPTION-->">
+<!--GALA:CSS-->
+<!--GALA:THEME-->
+</head>
+<body class="print">
+<!--GALA:SIGNS-->
+<!--GALA:ART-->
+<!-- Page 1 (outside): inside flap | back | cover.  Page 2 (inside): 01 | 02 | 03 -->
+<section class="sheet" aria-label="Outside">
+  <div class="panel" id="pp-flap"></div>
+  <div class="panel" id="pp-back"></div>
+  <div class="panel cover" id="pp-cover"></div>
+</section>
+<section class="sheet" aria-label="Inside">
+  <div class="panel" id="pp-way"></div>
+  <div class="panel" id="pp-city"></div>
+  <div class="panel" id="pp-before"></div>
+</section>
+<!--GALA:DATA-->
+<!--GALA:JS-->
+<script>
+(function () {
+  "use strict";
+  var G = window.GALA, D = G.data, esc = G.esc;
+  function set(id, html) { document.getElementById(id).innerHTML = html; }
+  function head(n, title, art, cls) {
+    return '<div class="phead ' + (cls || "") + '"><svg aria-hidden="true"><use href="#' + art + '"/></svg><span class="ghost">' + n + "</span><h2>" + esc(title) + "</h2></div>";
+  }
+  var month = G.now().month;
+  function sourcesLine(items) {
+    var names = [], seen = {}, dates = {};
+    items.forEach(function (i) { var n = i.source && i.source.name; if (n && !seen[n]) { seen[n] = 1; names.push(n); } dates[i.checked] = 1; });
+    var ds = Object.keys(dates).sort();
+    return '<p class="checked">Checked ' + esc(G.fmtDate(ds[ds.length - 1])) + (ds.length > 1 ? " (oldest " + esc(G.fmtDate(ds[0])) + ")" : "") + ", from " + esc(names.join("; ")) + "</p>" +
+      (items.some(function (i) { return i.stale; }) ? '<p class="stale-note">Some entries need re-checking.</p>' : "");
+  }
+  function stopRow(t) {
+    return '<li class="stop">' + G.kmPost(t.post) + "<div><h4>" + esc(t.title) + (t.status === "check" ? ' <span class="ask">confirm open</span>' : "") + "</h4><p>" + esc(t.body) + "</p>" + (t.services.length ? G.servicesBoard(t.services) : "") + "</div></li>";
+  }
+
+  // COVER
+  var r = D.route, th = D.theme, d = G.fmtDate(D.latestChecked).split(" ");
+  var brand = th && th.name ? esc(th.name) + "<span>made by GALA</span>" : "GALA<span>Roadbook</span>";
+  set("pp-cover",
+    '<div class="cover-band"><svg class="ridges" viewBox="0 0 1200 400" preserveAspectRatio="none" aria-hidden="true">' +
+    '<path class="ridge-a" d="M0 210 L120 150 L230 200 L360 110 L470 180 L600 90 L720 170 L840 120 L960 190 L1080 130 L1200 170 L1200 400 L0 400Z"/>' +
+    '<path class="ridge-b" d="M0 270 L140 200 L260 250 L390 180 L520 240 L660 170 L790 235 L930 185 L1060 245 L1200 205 L1200 400 L0 400Z"/>' +
+    '<path class="ridge-c" d="M0 330 L160 280 L300 320 L460 260 L620 315 L780 270 L940 320 L1080 280 L1200 300 L1200 400 L0 400Z"/></svg>' +
+    '<p class="brandline">' + brand + '</p><h1 class="title"><span class="from">' + esc(r.title.from) + '</span><span class="to">' + esc(r.title.to) + "</span></h1>" +
+    '<p class="tagline">' + esc(r.tagline) + "</p>" +
+    '<svg class="stamp" viewBox="0 0 120 120" role="img" aria-label="Facts checked ' + esc(G.fmtDate(D.latestChecked)) + '"><defs><path id="pring" d="M60 60 m-44 0 a44 44 0 1 1 88 0 a44 44 0 1 1 -88 0"/></defs>' +
+    '<circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="60" cy="60" r="34" fill="none" stroke="currentColor" stroke-width="1.5"/>' +
+    '<text font-family="Overpass, sans-serif" font-weight="900" font-size="12.5" letter-spacing="2.4" fill="currentColor"><textPath href="#pring">FACTS CHECKED ★ GALA VERIFIED ★</textPath></text>' +
+    '<text x="60" y="56" text-anchor="middle" font-family="Overpass, sans-serif" font-weight="900" font-size="20" fill="currentColor">' + esc((d[0] + " " + d[1]).toUpperCase()) + '</text><text x="60" y="75" text-anchor="middle" font-family="Overpass, sans-serif" font-weight="800" font-size="14" fill="currentColor">' + esc(d[2]) + "</text></svg>" +
+    '<div class="polaroids">' + r.polaroids.slice(0, 3).map(function (p) {
+      return '<figure class="polaroid"><span class="tape"></span>' + (p.photo ? '<img src="' + esc(p.photo) + '" alt="">' : '<svg viewBox="0 0 100 100" aria-hidden="true"><use href="#art-' + esc(p.art) + '"/></svg>') + "<figcaption>" + esc(p.caption) + "</figcaption></figure>";
+    }).join("") + "</div></div>" +
+    '<div class="plates">' + D.plates.map(function (p) {
+      if (p.kind === "coding-today") {
+        return '<div class="plate"><span class="k">' + esc(p.label.replace(/ today$/, "")) + '</span><span class="v">Weekdays</span><span class="s">7am to 7pm. Plate table inside.</span>' + G.checkedLine(p) + "</div>";
+      }
+      return '<div class="plate ' + esc(p.style) + '"><span class="k">' + esc(p.label) + '</span><span class="v num">' + esc(p.value) + '</span><span class="s">' + esc(p.note) + "</span>" + G.checkedLine(p) + "</div>";
+    }).join("") + "</div>");
+
+  // INSIDE FLAP: road check, route strip, morning-of
+  set("pp-flap",
+    '<h2 class="hand-h">Road check before you go</h2><ul class="roads">' + D.roadCheck.map(function (x) {
+      return "<li>" + G.roadSign(x.sign, x.tons) + "<div><strong>" + esc(x.label) + '</strong><span class="state">' + esc(x.state) + "</span><p>" + esc(x.value) + "</p>" + G.checkedLine(x) + "</div></li>";
+    }).join("") + "</ul>" +
+    '<h3>The route</h3><ol class="strip">' + r.routeStrip.map(function (s) {
+      return '<li><span class="dot"></span><span class="place">' + esc(s.place) + "</span>" + (s.via ? '<span class="via">' + esc(s.via) + (s.viaNote ? ", " + esc(s.viaNote) : "") + "</span>" : "") + "</li>";
+    }).join("") + "</ol>" +
+    (D.morningCheck.length ? '<div class="morning"><h3>Morning-of check</h3><ol>' + D.morningCheck.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ol></div>" : ""));
+
+  // BACK: emergency, credits, about
+  set("pp-back",
+    '<div class="sos"><h3>Emergency</h3>' + D.emergency.map(function (f) {
+      var shown = f.data.tel === "135000" ? "1-35000" : f.data.tel;
+      return '<div class="row"><strong class="num">' + esc(shown) + "</strong><p>" + esc(f.value) + "</p>" + G.checkedLine(f) + "</div>";
+    }).join("") + "</div>" +
+    "<div><h3>Thanks to</h3>" + (D.creators.length ? "<ul>" + D.creators.map(function (c) { return "<li>" + esc(c.name) + ", " + esc(c.usedFor) + "</li>"; }).join("") + "</ul>" : "<p>No creators credited yet.</p>") + "</div>" +
+    '<div class="about"><p class="sign-off">Ingat sa byahe!</p><p>Every fact shows where it came from and when we last checked it. Roads change fast: check the live roadbook the morning you drive.</p>' +
+    '<p class="url">pokgai-source.github.io/gala/' + esc(D.routeId) + "/</p>" +
+    "<p>" + (th && th.name ? "Made by GALA for " + esc(th.name) + "." : "Made by GALA, Guided Adventures, Local Areas.") + " Tara sa next GALA.</p></div>");
+
+  // 01 ON THE WAY
+  var R = D.receipt;
+  set("pp-way", head("01", "On the way", "head-way") + '<div class="pbody">' +
+    '<div class="pmap">' + G.mapSvg(D) + "</div>" +
+    '<table class="receipt num">' + R.segments.map(function (s) { return "<tr><td>" + esc(s.label) + '<span class="tag">' + esc(s.note) + "</span></td><td>" + esc(s.value) + "</td></tr>"; }).join("") +
+    '<tr class="sum"><td>One way</td><td>' + esc(R.total) + "</td></tr></table>" + G.uniqueSources(R.facts).map(G.checkedLine).join("") +
+    '<ol class="timeline">' + D.timeline.map(stopRow).join("") + "</ol>" + sourcesLine(D.timeline.filter(function (t) { return t.kind === "stop"; }))+ "</div>");
+
+  // 02 IN TOWN
+  var C = D.city, days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+  set("pp-city", head("02", "In " + r.title.to, "head-city") + '<div class="pbody">' +
+    '<h3>Number coding, 7am to 7pm</h3><table class="coding"><tr>' + days.map(function (x) { return "<th>" + x + "</th>"; }).join("") + "</tr><tr>" +
+    days.map(function (x) { return "<td>" + esc((C.coding.data.byDay[x] || []).join(" & ")) + "</td>"; }).join("") + "</tr></table>" +
+    '<p class="small">Last digit of your plate. Weekends are coding-free.</p>' + G.checkedLine(C.coding) +
+    "<h3>" + esc(C.zone.label) + '</h3><p class="small">' + esc(C.zone.value) + "</p>" + G.checkedLine(C.zone) +
+    "<h3>Must-sees and pasalubong</h3><ul class=\"places\">" + C.places.map(function (p) {
+      var sign = p.status === "closed" ? G.roadSign("stop", null, "mini") : "";
+      return "<li>" + sign + "<strong>" + esc(p.title) + "</strong> " + esc(p.body) + (p.status === "closed" && p.note ? ' <em class="closed">' + esc(p.note) + "</em>" : "") + "</li>";
+    }).join("") + "</ul>" + sourcesLine(C.places) + "</div>");
+
+  // 03 BEFORE YOU GO
+  var W = D.weather, out = "";
+  if (W) {
+    var rain = W.data.rainNormalMm, max = Math.max.apply(null, rain);
+    var wet = W.data.months.filter(function (m, i) { return rain[i] > 300; });
+    var cold = W.data.months.filter(function (m, i) { return W.data.recordLowC[i] < 10; });
+    out += "<h3>Rain by month</h3><div class=\"rain\">" + rain.map(function (mm, i) { return '<div class="' + (i === month ? "now" : "") + '" style="height:' + Math.max(3, Math.round(mm / max * 100)) + '%"></div>'; }).join("") +
+      '</div><div class="rain-labels">' + W.data.months.map(function (x, i) { return '<span class="' + (i === month ? "now" : "") + '">' + esc(x[0]) + "</span>"; }).join("") + "</div>" +
+      '<p class="small">' + esc(W.value) + "</p>" + G.checkedLine(W) +
+      '<h3>What to pack</h3><ul class="pack"><li>Jacket or hoodie. Nights get cold.</li>' +
+      (wet.length ? "<li>Umbrella and rain jacket in " + esc(wet.join(", ")) + ".</li>" : "") +
+      (cold.length ? "<li>Extra warm layer in " + esc(cold.join(", ")) + ".</li>" : "") + "<li>Closed shoes for slopes and stairs.</li></ul>";
+  }
+  out += C.parking.map(function (f) { return "<h3>" + esc(f.label) + '</h3><p class="small">' + esc(f.value) + "</p>" + G.checkedLine(f); }).join("");
+  if (D.wayHome.length) out += '<h3>On the way home</h3><ol class="timeline">' + D.wayHome.map(stopRow).join("") + "</ol>" + sourcesLine(D.wayHome);
+  if (D.wayNote) out += '<div class="margin-note">' + esc(D.wayNote.text) + "</div>";
+  set("pp-before", head("03", "Before you go", "head-weather", "sky") + '<div class="pbody">' + out + "</div>");
+
+  G.lightWholeRoute();
+})();
+</script>
+</body>
+</html>
