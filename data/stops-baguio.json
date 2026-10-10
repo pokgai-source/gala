@@ -160,8 +160,7 @@
         "radius": 3000,
         "side": "right"
       },
-      "lnglatSource": "OpenStreetMap way/1001512904",
-      "osmFor": "{\"brand\":\"Shell\",\"near\":[120.655,15.09],\"radius\":3000,\"side\":\"right\"}",
+      "lnglatSource": "approximate",
       "short": "Shell with DC fast EV chargers."
     },
     {
