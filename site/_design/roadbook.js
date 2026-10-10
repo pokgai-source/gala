@@ -305,6 +305,16 @@
         (c.licenseUrl ? '<a href="' + esc(c.licenseUrl) + '" target="_blank" rel="noopener">' + esc(c.license) + "</a>" : esc(c.license)) + "</li>";
     }).join("") + "</ul><p>Photos via Wikimedia Commons. Your own trip photos can replace any of them.</p></details>";
   }
+  // laptop only: the tri-fold's inside panels unfold as the block scrolls through view
+  function renderUnfold(D) {
+    var el = document.getElementById("unfold");
+    if (!el || !D.foldImages) return;
+    var w = D.foldImages.size[0], h = D.foldImages.size[1];
+    el.innerHTML = "<h2>Your printable roadbook</h2>" + '<div class="fold">' + [1, 2, 3].map(function (n) {
+      return '<img class="f' + n + '" src="fold-' + n + '.webp" width="' + w + '" height="' + h + '" alt="Printable roadbook, inside panel ' + n + '" loading="lazy" decoding="async">';
+    }).join("") + "</div>" + '<a class="btn" href="' + esc(D.pdfHref) + '">Download the printable roadbook (PDF)</a>';
+    el.hidden = false;
+  }
   function renderFooter(D) {
     set("foot", '<div class="wrap"><p class="sign-off">Ingat sa byahe!</p>' +
       "<p>Every fact shows where it came from and when we last checked it. Facts older than " + D.maxAgeDays + " days get a \"Needs re-check\" note.</p>" +
@@ -362,6 +372,6 @@
     renderHero: renderHero, renderPlates: renderPlates, renderRoadCheck: renderRoadCheck, renderWay: renderWay,
     renderCity: renderCity, renderBeforeYouGo: renderBeforeYouGo, renderFooter: renderFooter, lightWholeRoute: lightWholeRoute };
   if (document.documentElement.dataset.mode === "print") return; // print.html drives its own layout
-  renderHero(D); renderPlates(D); renderRoadCheck(D); renderWay(D); renderCity(D); renderBeforeYouGo(D); renderFooter(D);
+  renderHero(D); renderPlates(D); renderUnfold(D); renderRoadCheck(D); renderWay(D); renderCity(D); renderBeforeYouGo(D); renderFooter(D);
   initCodingChecker(D); initMapFollow();
 })();

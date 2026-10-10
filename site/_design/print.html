@@ -32,6 +32,10 @@
     return '<div class="phead ' + (cls || "") + '"><svg aria-hidden="true"><use href="#' + art + '"/></svg><span class="ghost">' + n + "</span><h2>" + esc(title) + "</h2></div>";
   }
   var month = G.now().month;
+  var B = D.assetBase || "../";
+  function pimg(ph, alt) { return '<img src="' + esc(B + ph.src640) + '" width="' + ph.size[0] + '" height="' + ph.size[1] + '" alt="' + esc(alt) + '">'; }
+  var printed = [];  // photos that appear in the PDF, for the credits block
+  function used(ph) { if (ph && printed.indexOf(ph) === -1) printed.push(ph); return ph; }
   function sourcesLine(items) {
     var names = [], seen = {}, dates = {};
     items.forEach(function (i) { var n = i.source && i.source.name; if (n && !seen[n]) { seen[n] = 1; names.push(n); } dates[i.checked] = 1; });
@@ -57,8 +61,9 @@
     '<circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="60" cy="60" r="34" fill="none" stroke="currentColor" stroke-width="1.5"/>' +
     '<text font-family="Overpass, sans-serif" font-weight="900" font-size="12.5" letter-spacing="2.4" fill="currentColor"><textPath href="#pring">FACTS CHECKED ★ GALA VERIFIED ★</textPath></text>' +
     '<text x="60" y="56" text-anchor="middle" font-family="Overpass, sans-serif" font-weight="900" font-size="20" fill="currentColor">' + esc((d[0] + " " + d[1]).toUpperCase()) + '</text><text x="60" y="75" text-anchor="middle" font-family="Overpass, sans-serif" font-weight="800" font-size="14" fill="currentColor">' + esc(d[2]) + "</text></svg>" +
-    '<div class="polaroids">' + r.polaroids.slice(0, 3).map(function (p) {
-      return '<figure class="polaroid"><span class="tape"></span>' + (p.photo ? '<img src="' + esc(p.photo) + '" alt="">' : '<svg viewBox="0 0 100 100" aria-hidden="true"><use href="#art-' + esc(p.art) + '"/></svg>') + "<figcaption>" + esc(p.caption) + "</figcaption></figure>";
+    '<div class="polaroids">' + r.polaroids.slice(0, 3).map(function (p, i) {
+      var ph = used(D.photos && D.photos["cover-" + (i + 1)]);
+      return '<figure class="polaroid"><span class="tape"></span>' + (ph ? pimg(ph, "") : '<svg viewBox="0 0 100 100" aria-hidden="true"><use href="#art-' + esc(p.art) + '"/></svg>') + "<figcaption>" + esc((ph && ph.caption) || p.caption) + "</figcaption></figure>";
     }).join("") + "</div></div>" +
     '<div class="plates">' + D.plates.map(function (p) {
       if (p.kind === "coding-today") {
@@ -70,7 +75,7 @@
   // INSIDE FLAP: road check, route strip, morning-of
   set("pp-flap",
     '<h2 class="hand-h">Road check before you go</h2><ul class="roads">' + D.roadCheck.map(function (x) {
-      return "<li>" + G.roadSign(x.sign, x.tons) + "<div><strong>" + esc(x.label) + '</strong><span class="state">' + esc(x.state) + "</span><p>" + esc(x.value) + "</p>" + G.checkedLine(x) + "</div></li>";
+      return "<li>" + G.roadSign(x.sign, x.tons) + "<div><strong>" + esc(x.label) + '</strong><span class="state">' + esc(x.state) + "</span><p>" + esc(x.short || x.value) + "</p>" + G.checkedLine(x) + "</div></li>";
     }).join("") + "</ul>" +
     '<h3>The route</h3><ol class="strip">' + r.routeStrip.map(function (s) {
       return '<li><span class="dot"></span><span class="place">' + esc(s.place) + "</span>" + (s.via ? '<span class="via">' + esc(s.via) + (s.viaNote ? ", " + esc(s.viaNote) : "") + "</span>" : "") + "</li>";
@@ -102,12 +107,19 @@
   set("pp-city", head("02", "In " + r.title.to, "head-city") + '<div class="pbody">' +
     (C.coding ? "<h3>Number coding, " + esc(G.hoursText(C.coding.data.hours)) + '</h3><table class="coding"><tr>' + codingDays.map(function (x) { return "<th>" + esc(x) + "</th>"; }).join("") + "</tr><tr>" +
       codingDays.map(function (x) { return "<td>" + esc(C.coding.data.byDay[x].join(" & ")) + "</td>"; }).join("") + "</tr></table>" +
-      '<p class="small">Last digit of your plate. ' + esc(C.coding.value) + "</p>" + G.checkedLine(C.coding) : "") +
-    (C.zone ? "<h3>" + esc(C.zone.label) + '</h3><p class="small">' + esc(C.zone.value) + "</p>" + G.checkedLine(C.zone) : "") +
-    (C.places.length ? "<h3>Must-sees and pasalubong</h3><ul class=\"places\">" + C.places.map(function (p) {
-      var sign = p.status === "closed" ? G.roadSign("stop", null, "mini") : "";
-      return "<li>" + sign + "<strong>" + esc(p.title) + "</strong> " + esc(p.body) + (p.status === "closed" && p.note ? ' <em class="closed">' + esc(p.note) + "</em>" : "") + "</li>";
-    }).join("") + "</ul>" + sourcesLine(C.places) : "") + "</div>");
+      '<p class="small">Last digit of your plate. ' + esc(C.coding.short || C.coding.value) + "</p>" + G.checkedLine(C.coding) : "") +
+    (C.zone ? "<h3>" + esc(C.zone.label) + '</h3><p class="small">' + esc(C.zone.short || C.zone.value) + "</p>" + G.checkedLine(C.zone) : "") +
+    (C.places.length ? "<h3>Must-sees and pasalubong</h3>" + thumbs(C.places) + sourcesLine(C.places) : "") + "</div>");
+  function thumbs(places) {
+    var withPhoto = places.filter(function (p) { return D.photos && D.photos[p.id]; }).slice(0, 6);
+    var rest = places.filter(function (p) { return withPhoto.indexOf(p) === -1; });
+    return '<div class="thumbs">' + withPhoto.map(function (p) {
+      var ph = used(D.photos[p.id]);
+      return "<figure>" + pimg(ph, p.title) + "<figcaption>" + (p.status === "closed" ? G.roadSign("stop", null, "mini") : "") + esc(p.title) + "</figcaption></figure>";
+    }).join("") + "</div>" +
+    (rest.length ? '<p class="small">Also: ' + rest.map(function (p) { return esc(p.title) + (p.status === "closed" ? " (closed)" : ""); }).join(", ") + ".</p>" : "") +
+    places.filter(function (p) { return p.status === "closed" && p.note; }).map(function (p) { return '<p class="small closed">' + esc(p.title) + ": " + esc(p.note) + "</p>"; }).join("");
+  }
 
   // 03 BEFORE YOU GO
   var W = D.weather, out = "";
@@ -127,6 +139,10 @@
   if (D.wayNote) out += '<div class="margin-note">' + esc(D.wayNote.text) + "</div>";
   set("pp-before", head("03", "Before you go", "head-weather", "sky") + '<div class="pbody">' + out + "</div>");
 
+  if (printed.length) (document.querySelector("#pp-back .about") || document.getElementById("pp-back")).insertAdjacentHTML(document.querySelector("#pp-back .about") ? "beforebegin" : "beforeend",
+    '<div class="photo-credits"><h3>Photo credits</h3><ul>' + printed.map(function (ph) {
+      return "<li>" + esc(ph.caption || ph.id) + ": " + esc(ph.credit.author) + ", " + esc(ph.credit.license) + ", Wikimedia Commons</li>";
+    }).join("") + "</ul></div>");
   G.lightWholeRoute();
 })();
 </script>

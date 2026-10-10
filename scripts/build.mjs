@@ -72,8 +72,10 @@ cpSync(join(root, "site"), out, { recursive: true, filter: (src) => !src.include
 cpSync(join(root, "data"), join(out, "data"), { recursive: true });
 copyFonts(root, join(out, "_design", "fonts"));
 
+const payloads = {};
 for (const routeId of Object.keys(data.routes)) {
   const payload = buildPayload(data, routeId, { root });
+  payloads[routeId] = payload;
   if (!payload.map.traced) warnings.push(`map ${routeId}: using waypoints (run node scripts/trace-route.mjs ${routeId})`);
   mkdirSync(join(out, routeId), { recursive: true });
   writeFileSync(join(out, routeId, "index.html"), renderPage({ root, payload, fontPrefix: "../_design/fonts/" }));
@@ -108,7 +110,14 @@ if (!args.has("--no-qa")) {
     const { shots } = await import("./qa/shots.mjs");
     const { checkDesign } = await import("./qa/check-design.mjs");
     const pages = ["", ...Object.keys(data.routes), ...data.hotels.map((h) => `${h.route}/${h.slug}`)];
-    for (const routeId of Object.keys(data.routes)) console.log(`pdf → ${(await makePdf(out, routeId)).slice(root.length + 1)}`);
+    const { makeFoldImages } = await import("./qa/fold.mjs");
+    for (const routeId of Object.keys(data.routes)) {
+      console.log(`pdf → ${(await makePdf(out, routeId)).slice(root.length + 1)}`);
+      // laptop unfold: cut the inside panels, then re-render the page so it shows them
+      const fold = await makeFoldImages(out, routeId);
+      const payload = { ...payloads[routeId], foldImages: { size: fold.size } };
+      writeFileSync(join(out, routeId, "index.html"), renderPage({ root, payload, fontPrefix: "../_design/fonts/" }));
+    }
     const designErrors = [];
     for (const p of pages) {
       await shots(out, p);

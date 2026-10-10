@@ -25,7 +25,7 @@ body.print { font: 400 8pt/1.35 var(--body); color: var(--ink); -webkit-print-co
 .cover .tagline { font-size: 15pt; }
 .cover .stamp { position: absolute; top: 2.05in; right: .4in; left: auto; bottom: auto; transform: rotate(12deg); width: .95in; height: .95in; }
 .cover .plate.coding .v { font-size: 14pt; }
-.cover .polaroids { position: absolute; right: .45in; bottom: .25in; display: flex; }
+.cover .polaroids { position: absolute; right: .45in; bottom: .42in; display: flex; }
 .cover .polaroid { width: 1.05in; padding: 4px 4px 2px; }
 .cover .polaroid figcaption { font-size: 7pt; }
 .cover .polaroid:nth-child(3) { display: block; }
@@ -109,3 +109,14 @@ table.coding td { border: 1.5px solid var(--ink); padding: 3px; font-family: var
 .panel .margin-note { font-size: 11pt; }
 .panel .stale-note { font-size: 7.4pt; }
 .panel .stop p { font-size: 6.8pt; }
+
+/* photos in print */
+.cover .polaroid img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
+.thumbs { display: grid; grid-template-columns: 1fr 1fr; gap: .06in; }
+.thumbs figure { margin: 0; }
+.thumbs img { display: block; width: 100%; height: .82in; object-fit: cover; border-radius: 3px; }
+.thumbs figcaption { font-size: 6.6pt; font-weight: 800; line-height: 1.15; margin-top: 1px; }
+.thumbs .mini { width: .11in; height: .11in; vertical-align: -1px; margin-right: 2px; }
+.panel .small.closed { color: var(--berry); font-weight: 800; }
+.photo-credits h3 { font-size: 8pt; }
+.photo-credits ul { margin: 0; padding-left: .12in; font-size: 5.5pt; line-height: 1.25; }
