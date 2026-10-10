@@ -65,3 +65,35 @@ export async function traceRoute(trace) {
     roads: r.legs.map((l) => l.summary).join(" | "), km: Math.round(r.distance / 1000), minutes: Math.round(r.duration / 60),
     traced: new Date().toISOString().slice(0, 10), coordinates: coords };
 }
+
+// Every fuel station near a point, for the report when a brand lookup finds nothing.
+export async function listStations(near, radius) {
+  const [lng, lat] = near;
+  const q = `[out:json][timeout:25];nwr["amenity"="fuel"](around:${radius},${lat},${lng});out center tags;`;
+  return (await overpass(q)).map((e) => ({ id: `${e.type}/${e.id}`, name: e.tags?.name || "", brand: e.tags?.brand || "",
+    lnglat: [e.lon ?? e.center?.lon, e.lat ?? e.center?.lat] }));
+}
+
+// Expressway stops sit right beside the road. Keep brand stations within maxOff metres of the route line
+// (on the given side when asked: "right" = northbound side when the line runs Manila → north), nearest to the hint.
+const M_LAT = 110540, mLng = (lat) => 111320 * Math.cos((lat * Math.PI) / 180);
+export function offsetFrom(p, line) { return offset(p, line); }
+function offset(p, line) {
+  let best = { d: Infinity, side: 0 };
+  for (let i = 0; i < line.length - 1; i++) {
+    const [a, b] = [line[i], line[i + 1]], k = mLng(p[1]);
+    const ax = a[0] * k, ay = a[1] * M_LAT, bx = b[0] * k, by = b[1] * M_LAT, px = p[0] * k, py = p[1] * M_LAT;
+    const dx = bx - ax, dy = by - ay, len2 = dx * dx + dy * dy || 1;
+    const t = Math.max(0, Math.min(1, ((px - ax) * dx + (py - ay) * dy) / len2));
+    const cx = ax + t * dx, cy = ay + t * dy, d = Math.hypot(px - cx, py - cy);
+    if (d < best.d) best = { d, side: Math.sign(dx * (py - ay) - dy * (px - ax)) }; // >0 left, <0 right
+  }
+  return best;
+}
+export function pickOnRoute(stations, line, near, { maxOff = 150, side } = {}) {
+  const want = side === "right" ? -1 : side === "left" ? 1 : 0;
+  const ok = stations.filter((s) => s.lnglat?.[0] != null).map((s) => ({ s, o: offset(s.lnglat, line) }))
+    .filter(({ o }) => o.d <= maxOff && (!want || o.side === want));
+  ok.sort((x, y) => Math.hypot(x.s.lnglat[0] - near[0], x.s.lnglat[1] - near[1]) - Math.hypot(y.s.lnglat[0] - near[0], y.s.lnglat[1] - near[1]));
+  return ok[0]?.s || null;
+}
