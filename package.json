@@ -5,7 +5,7 @@
   "description": "GALA roadbooks: data-driven pages, tri-fold PDF and design checks.",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "test": "node --test \"scripts/*.test.mjs\""
+    "test": "node --test --test-concurrency=1 \"scripts/*.test.mjs\""
   },
   "devDependencies": {
     "@fontsource/kalam": "^5.2.5",
