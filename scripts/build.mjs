@@ -1,20 +1,24 @@
 // Build _site/ for GitHub Pages.
-// - copies site/ and data/ into _site/
-// - validates data files (every fact needs a source URL and checked date)
-// - inlines the route's data into pages that contain <!--GALA:DATA route="..."-->
-//   so a roadbook is one request on a weak signal. Facts still live only in data/.
-import { readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, readdirSync, statSync, existsSync } from "node:fs";
+// - validates data (every fact and stop needs a source URL and checked date; route files must name real facts/stops)
+// - renders one roadbook per data/routes/<route>.json from the shared template in site/_design/
+// - copies self-hosted fonts and the data files
+// Usage: node scripts/build.mjs [--no-qa]
+import { writeFileSync, mkdirSync, rmSync, cpSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { loadData, indexFacts, daysOld } from "./lib/facts.mjs";
+import { validateRoute, indexStops } from "./lib/route.mjs";
+import { buildPayload, MAX_AGE_DAYS } from "./lib/payload.mjs";
+import { renderPage } from "./lib/render.mjs";
+import { copyFonts } from "./lib/fonts.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const out = join(root, "_site");
-const MAX_AGE_DAYS = 45;
+const args = new Set(process.argv.slice(2));
 const errors = [];
 const warnings = [];
 
-const readJson = (p) => JSON.parse(readFileSync(join(root, p), "utf8"));
-const daysOld = (iso) => Math.floor((Date.now() - Date.parse(iso + "T00:00:00+08:00")) / 86400000);
+const data = loadData(root, { hotelsDir: process.env.GALA_HOTELS_DIR && join(root, process.env.GALA_HOTELS_DIR) });
 
 function checkSourced(kind, item) {
   const where = `${kind} ${item.id ?? "?"}`;
@@ -26,26 +30,22 @@ function checkSourced(kind, item) {
     warnings.push(`${where}: checked ${daysOld(item.checked)} days ago — run gala-fact-check`);
 }
 
-const facts = readJson("data/facts.json");
 const ids = new Set();
-for (const f of facts.facts) {
+for (const f of data.facts.facts) {
   if (!f.label || !f.value) errors.push(`fact ${f.id}: missing label or value`);
   if (ids.has(f.id)) errors.push(`fact ${f.id}: duplicate id`);
   ids.add(f.id);
   checkSourced("fact", f);
 }
-const creators = readJson("data/creators.json");
-
-const routes = {};
-for (const file of readdirSync(join(root, "data")).filter((f) => /^stops-.+\.json$/.test(f))) {
-  const route = file.slice(6, -5);
-  const stops = readJson(join("data", file));
-  for (const s of stops.stops) {
-    if (!s.maps?.startsWith("https://")) errors.push(`stop ${s.id}: missing maps link`);
-    if (typeof s.featured !== "boolean") errors.push(`stop ${s.id}: featured must be true/false`);
-    checkSourced("stop", s);
-  }
-  routes[route] = stops;
+for (const stops of Object.values(data.stopsByRoute)) for (const s of stops.stops) {
+  if (!s.maps?.startsWith("https://")) errors.push(`stop ${s.id}: missing maps link`);
+  if (typeof s.featured !== "boolean") errors.push(`stop ${s.id}: featured must be true/false`);
+  checkSourced("stop", s);
+}
+const F = indexFacts(data.facts);
+for (const [id, route] of Object.entries(data.routes)) {
+  if (!data.stopsByRoute[id]) { errors.push(`route ${id}: no data/stops-${id}.json`); continue; }
+  errors.push(...validateRoute(route, F, indexStops(data.stopsByRoute[id])));
 }
 
 if (errors.length) {
@@ -55,32 +55,17 @@ if (errors.length) {
 
 rmSync(out, { recursive: true, force: true });
 mkdirSync(out, { recursive: true });
-cpSync(join(root, "site"), out, { recursive: true });
+cpSync(join(root, "site"), out, { recursive: true, filter: (src) => !src.includes(`${join("site", "_design")}`) });
 cpSync(join(root, "data"), join(out, "data"), { recursive: true });
+copyFonts(root, join(out, "_design", "fonts"));
 
-const marker = /<!--GALA:DATA route="([a-z0-9-]+)"-->/;
-function walk(dir) {
-  for (const name of readdirSync(dir)) {
-    const p = join(dir, name);
-    if (statSync(p).isDirectory()) walk(p);
-    else if (name.endsWith(".html")) inline(p);
-  }
+for (const routeId of Object.keys(data.routes)) {
+  const payload = buildPayload(data, routeId, { root });
+  if (!payload.map.traced) warnings.push(`map ${routeId}: using waypoints (run node scripts/trace-route.mjs ${routeId})`);
+  mkdirSync(join(out, routeId), { recursive: true });
+  writeFileSync(join(out, routeId, "index.html"), renderPage({ root, payload, fontPrefix: "../_design/fonts/" }));
+  console.log(`built ${routeId} → _site/${routeId}/index.html`);
 }
-function inline(p) {
-  const html = readFileSync(p, "utf8");
-  const m = html.match(marker);
-  if (!m) return;
-  const route = m[1];
-  if (!routes[route]) {
-    console.error(`${p}: no data/stops-${route}.json`);
-    process.exit(1);
-  }
-  const payload = { builtAt: new Date().toISOString(), maxAgeDays: MAX_AGE_DAYS, facts, stops: routes[route], creators };
-  const json = JSON.stringify(payload).replace(/</g, "\\u003c");
-  writeFileSync(p, html.replace(marker, `<script id="gala-data" type="application/json">${json}</script>`));
-  console.log(`inlined ${route} data → ${p.slice(root.length + 1)}`);
-}
-walk(out);
 
 if (warnings.length) console.warn("Warnings:\n  " + warnings.join("\n  "));
-console.log(`Built _site/ — ${facts.facts.length} facts, ${Object.values(routes).reduce((n, r) => n + r.stops.length, 0)} stops.`);
+console.log(`Built _site/ — ${data.facts.facts.length} facts, ${Object.keys(data.routes).length} roadbook(s).`);

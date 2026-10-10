@@ -70,7 +70,7 @@ h1, h2, h3, h4 { font-family: var(--display); font-weight: var(--display-w); let
 .ridge-b { fill: var(--brand-2); }
 .ridge-c { fill: color-mix(in srgb, var(--brand) 82%, black); }
 .road-draw { stroke: var(--accent); }
-.hero-inner { position: relative; padding-block: 22px 176px; display: grid; gap: 12px; }
+.hero-inner { position: relative; padding-block: 22px 196px; display: grid; gap: 12px; }
 .brandline { margin: 0; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-family: var(--display); font-weight: var(--display-w); font-size: 18px; letter-spacing: .06em; }
 .brandline img { height: 32px; width: auto; border-radius: 4px; background: var(--on-brand); }
 .brandline span { font-family: var(--body); font-weight: 400; letter-spacing: 0; opacity: .85; font-size: 15px; }
@@ -79,7 +79,7 @@ h1, h2, h3, h4 { font-family: var(--display); font-weight: var(--display-w); let
 .title .to { display: block; font-size: clamp(64px, 20vw, 168px); color: var(--accent); }
 .tagline { font-family: var(--hand); font-size: clamp(24px, 6vw, 32px); transform: rotate(-3deg); transform-origin: left; margin: 2px 0 0 4px; }
 .stamp { position: absolute; right: 10px; top: 46px; width: 96px; height: 96px; transform: rotate(12deg); color: var(--accent); }
-.polaroids { position: absolute; right: 16px; bottom: 40px; display: flex; }
+.polaroids { position: absolute; right: 16px; bottom: 48px; display: flex; }
 .polaroid { margin: 0; width: 98px; background: #FBFBF7; padding: 7px 7px 4px; box-shadow: 0 6px 14px rgba(0,0,0,.28); position: relative; color: #2A2A26; }
 .polaroid svg, .polaroid img { display: block; width: 100%; max-width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
 .polaroid figcaption { font-family: var(--hand); font-size: 15px; line-height: 1.15; padding-top: 4px; text-align: center; }
@@ -93,7 +93,7 @@ h1, h2, h3, h4 { font-family: var(--display); font-weight: var(--display-w); let
   .title .to { font-size: clamp(72px, 11vw, 136px); }
   .polaroids { bottom: 64px; right: max(24px, calc((100vw - 1180px) / 2 + 24px)); }
   .polaroid { width: 160px; }
-  .stamp { width: 130px; height: 130px; top: 26px; right: max(24px, calc((100vw - 1180px) / 2 + 24px)); }
+  .stamp { width: 130px; height: 130px; top: 30px; right: max(470px, calc((100vw - 1180px) / 2 + 470px)); }
 }
 
 /* STAT PLATES */
@@ -117,14 +117,16 @@ h1, h2, h3, h4 { font-family: var(--display); font-weight: var(--display-w); let
 .roads { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 16px; }
 @media (min-width: 900px) { .roads { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .roads li { display: grid; grid-template-columns: 54px minmax(0, 1fr); gap: 2px 12px; align-items: start; }
-.roads .sign { grid-row: span 4; width: 54px; height: 54px; }
-.roads strong { font-family: var(--display); font-weight: var(--display-w); font-size: 20px; line-height: 1.15; }
+.roads .sign { width: 54px; height: 54px; }
+.roads li > div { min-width: 0; }
+.roads strong { display: block; font-family: var(--display); font-weight: var(--display-w); font-size: 20px; line-height: 1.15; }
 .roads .state { font-weight: 800; font-size: 15px; }
 .roads p { margin: 0; }
 
 /* SECTION HEADS */
 .sec { margin-top: 30px; }
 .sec-head { position: relative; background: var(--brand-2); color: var(--on-brand); height: 120px; overflow: hidden; border-radius: 3px 3px 0 0; }
+.sec-head.sky { background: #2B6A8A; }
 .sec-head > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .sec-head .ghost { position: absolute; right: 10px; top: -14px; font-family: var(--display); font-weight: var(--display-w); font-size: 96px; line-height: 1; color: transparent; -webkit-text-stroke: 2px color-mix(in srgb, var(--on-brand) 55%, transparent); }
 .sec-head h2 { position: absolute; left: 16px; bottom: 12px; font-size: 34px; line-height: 1; }
@@ -209,7 +211,7 @@ h1, h2, h3, h4 { font-family: var(--display); font-weight: var(--display-w); let
 .verdict { border-radius: 10px; padding: 14px; font-weight: 800; font-size: 19px; line-height: 1.3; background: var(--paper); }
 .verdict.go { background: var(--go-bg); color: var(--go); }
 .verdict.stop { background: var(--berry-bg); color: var(--berry); }
-.places { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.places { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 14px; }
 .places li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; border-bottom: 1px solid var(--line); padding-bottom: 14px; }
 .places li:last-child { border-bottom: 0; padding-bottom: 0; }
 .places strong { font-family: var(--display); font-weight: var(--display-w); font-size: 19px; overflow-wrap: anywhere; }

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title><!--GALA:TITLE--></title>
+<meta name="description" content="<!--GALA:DESCRIPTION-->">
+<meta name="theme-color" content="#15382A">
+<!--GALA:CSS-->
+<!--GALA:THEME-->
+</head>
+<body>
+<!--GALA:SIGNS-->
+<!--GALA:ART-->
+<header class="hero" id="hero">
+  <svg class="ridges" viewBox="0 0 1200 400" preserveAspectRatio="none" aria-hidden="true">
+    <path class="ridge-a" d="M0 210 L120 150 L230 200 L360 110 L470 180 L600 90 L720 170 L840 120 L960 190 L1080 130 L1200 170 L1200 400 L0 400Z"/>
+    <path class="ridge-b" d="M0 270 L140 200 L260 250 L390 180 L520 240 L660 170 L790 235 L930 185 L1060 245 L1200 205 L1200 400 L0 400Z"/>
+    <path class="road-draw" d="M40 400 L230 372 L120 356 L330 338 L220 322 L430 306" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="14 10"/>
+    <path class="ridge-c" d="M0 330 L160 280 L300 320 L460 260 L620 315 L780 270 L940 320 L1080 280 L1200 300 L1200 400 L0 400Z"/>
+  </svg>
+  <div class="wrap hero-inner" id="hero-inner"></div>
+</header>
+
+<main class="wrap">
+  <noscript><p class="notice">This roadbook needs JavaScript to show its checked facts.</p></noscript>
+  <section class="plates" id="plates" aria-label="Trip at a glance"></section>
+  <section class="notice" id="roadcheck" aria-labelledby="roads-h"></section>
+
+  <section class="sec" aria-labelledby="p1">
+    <div class="sec-head"><svg aria-hidden="true"><use href="#head-way"/></svg><span class="tape"></span><span class="ghost" aria-hidden="true">01</span><h2 id="p1">On the way</h2></div>
+    <div class="sec-body way" id="way"></div>
+  </section>
+
+  <div class="duo">
+    <section class="sec" aria-labelledby="p2">
+      <div class="sec-head"><svg aria-hidden="true"><use href="#head-city"/></svg><span class="tape"></span><span class="ghost" aria-hidden="true">02</span><h2 id="p2">In <span id="p2-place">town</span></h2></div>
+      <div class="sec-body" id="city"></div>
+    </section>
+    <section class="sec" aria-labelledby="p3">
+      <div class="sec-head sky"><svg aria-hidden="true"><use href="#head-weather"/></svg><span class="tape"></span><span class="ghost" aria-hidden="true">03</span><h2 id="p3">Before you go</h2></div>
+      <div class="sec-body" id="before"></div>
+    </section>
+  </div>
+</main>
+
+<footer class="foot" id="foot"></footer>
+<!--GALA:DATA-->
+<!--GALA:JS-->
+</body>
+</html>
