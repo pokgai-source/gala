@@ -26,7 +26,7 @@ export function buildPayload(data, routeId, { root, now = new Date(), theme = nu
   const S = indexStops(stopsFile);
   const stale = (item) => item.status === "stale" || (item.status !== "closed" && isStale(item.checked, now, MAX_AGE_DAYS));
   const meta = (item) => ({ checked: item.checked, source: item.source, stale: stale(item), staleText: stale(item) ? item.note || null : null });
-  const fact = (id) => { const f = F.get(id); return { id, label: f.label, value: f.value, data: f.data || {}, ...meta(f) }; };
+  const fact = (id) => { const f = F.get(id); return { id, label: f.label, value: f.value, short: f.short || null, data: f.data || {}, ...meta(f) }; };
   const photos = photoMap(data.photos, routeId);
   const stop = (s) => ({ ...stopItem(s), ...meta(s), photo: photos[s.id] || null });
 

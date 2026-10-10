@@ -137,12 +137,13 @@
     {
       "id": "public-market",
       "place": "baguio-public-market",
-      "query": "Baguio City Public Market vegetables stall"
+      "query": "Baguio market strawberries vegetables"
     },
     {
       "id": "good-shepherd",
       "place": "baguio-good-shepherd",
-      "query": "Good Shepherd Baguio"
+      "query": "Good Shepherd Baguio",
+      "file": "Good Shepherd Baguio City.JPG"
     },
     {
       "id": "strawberry-farm",
