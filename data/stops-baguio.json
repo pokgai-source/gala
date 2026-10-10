@@ -77,7 +77,8 @@
         ],
         "radius": 3000,
         "side": "right",
-        "maxOff": 300
+        "maxOff": 400,
+        "searchRadius": 15000
       },
       "lnglatSource": "approximate"
     },
@@ -113,7 +114,9 @@
           15.04
         ],
         "radius": 3000,
-        "side": "right"
+        "side": "right",
+        "searchRadius": 15000,
+        "maxOff": 400
       },
       "lnglatSource": "approximate"
     },
@@ -189,7 +192,9 @@
           15.6
         ],
         "radius": 3000,
-        "side": "right"
+        "side": "right",
+        "searchRadius": 15000,
+        "maxOff": 400
       },
       "lnglatSource": "approximate"
     },
@@ -224,7 +229,9 @@
           15.89
         ],
         "radius": 3000,
-        "side": "right"
+        "side": "right",
+        "searchRadius": 15000,
+        "maxOff": 400
       },
       "lnglatSource": "approximate"
     },
