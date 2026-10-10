@@ -114,3 +114,9 @@ export function routeIdErrors(routes) {
   return Object.entries(routes).filter(([file, r]) => r.id !== file)
     .map(([file, r]) => `route file data/routes/${file}.json has id "${r.id}" (must be "${file}")`);
 }
+
+// Stops whose map pin didn't come from OpenStreetMap (the assets job couldn't match them near the hint).
+export function pinWarnings(stopsFile) {
+  return (stopsFile.stops || []).filter((s) => s.lnglat && s.lnglatSource === "approximate")
+    .map((s) => `stop ${s.id}: map pin is approximate (OpenStreetMap had no match near the hint)`);
+}

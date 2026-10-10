@@ -26,11 +26,18 @@ date and `status`.
    - Compare with the stored `value` and `data`.
    - Same → keep value, update `checked`, `status: "ok"`, update `source` if you found a better/newer one.
    - Different → update `value`, `data`, `source`, `checked`, set `status: "changed"`, and note old → new.
+   - **Whenever `value` changes, rewrite `short`** (≤90 characters). The short line is what people read
+     first. The build warns when a number in `short` isn't in `value` or `data`.
    - Can't confirm (no source opens, or only blogs) → keep the value, **don't** bump `checked`,
      set `status: "stale"`.
    - Any fact whose `checked` is more than **45 days** old after this run → `status: "stale"`.
 3. For **each stop**: confirm it is still open and at the same place (official page, Google Maps listing,
    recent news or reviews). Update `checked`; set `status` the same way. Closed → `status: "closed"` and flag it.
+   - **EV chargers (`ev`):** confirm the operator, kW and plugs on the operator's own app or site
+     (Shell Recharge, ACMobility, etc.). Aggregators are leads only. Update `ev.checked`, or remove `ev` if the
+     charger is gone.
+   - **Map pins:** if the build warns that a pin is approximate, look at the stop's `osm.near` hint. Fix the
+     hint if it is wrong and push, so the Assets workflow re-pins it.
 4. Fill any fact listed under `missing` in `data/facts.json` when an official source is found; remove it from
    `missing` once filled.
 5. Set the top-level `updated` to today in each file you touched.

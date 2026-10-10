@@ -258,7 +258,7 @@ footer.foot .btn { background: var(--accent); color: var(--on-accent); max-width
 
 /* v3: less text */
 .more-fact { margin-top: 4px; }
-.more-fact > summary { display: inline-flex; align-items: center; gap: 4px; min-height: 32px; cursor: pointer; font-weight: 800; font-size: 14px; color: var(--pencil); list-style: none; }
+.more-fact > summary { display: inline-flex; align-items: center; gap: 4px; min-height: 48px; min-width: 48px; cursor: pointer; font-weight: 800; font-size: 14px; color: var(--pencil); list-style: none; }
 .more-fact > summary::-webkit-details-marker { display: none; }
 .more-fact > summary::after { content: "+"; font-weight: 900; }
 .more-fact[open] > summary::after { content: "–"; }
@@ -276,7 +276,7 @@ footer.foot .btn { background: var(--accent); color: var(--on-accent); max-width
 .ev { display: flex; gap: 6px; align-items: center; font-size: 14px; font-weight: 800; margin: 6px 0 0; }
 .ev-icon { width: 20px; height: 20px; flex: none; background: var(--sign-blue); border-radius: 4px; padding: 2px; }
 .nearby { margin-top: 10px; border-top: 2px dashed var(--line); padding-top: 8px; }
-.nearby > summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 800; color: var(--pencil); list-style: none; }
+.nearby > summary { min-height: 48px; display: flex; align-items: center; cursor: pointer; font-weight: 800; color: var(--pencil); list-style: none; }
 .nearby > summary::-webkit-details-marker { display: none; }
 .nearby > summary::before { content: "+"; display: inline-grid; place-items: center; width: 22px; height: 22px; margin-right: 8px; border: 2px solid currentColor; border-radius: 50%; font-weight: 900; }
 .nearby[open] > summary::before { content: "–"; }

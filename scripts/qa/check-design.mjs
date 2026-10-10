@@ -15,7 +15,8 @@ export async function checkDesign(siteDir, pagePath) {
 
   const browser = await launch();
   try {
-    const page = await browser.newPage({ viewport: { width: BUDGET.phone, height: 780 }, reducedMotion: "reduce" }); // measure resting layout, not mid-animation frames
+    // a real phone: 3x pixel density (so srcset picks what phones download), resting layout (not mid-animation)
+    const page = await browser.newPage({ viewport: { width: BUDGET.phone, height: 780 }, deviceScaleFactor: 3, reducedMotion: "reduce" });
     const fontBytes = new Map();
     page.on("requestfinished", (req) => {
       const u = req.url();
@@ -36,12 +37,13 @@ export async function checkDesign(siteDir, pagePath) {
       if (sw > phone) out.push(`page is ${sw}px wide at a ${phone}px phone (sideways scroll)`);
       document.querySelectorAll("[data-fact]").forEach((el) => {
         if (!el.querySelector(".checked")) out.push(`fact ${el.dataset.fact} has no "Checked" line`);
+        if (!el.querySelector('a[href^="http"]:not(.btn):not(.maplink):not(.credit)')) out.push(`fact ${el.dataset.fact} has no source link`);
       });
       document.querySelectorAll(".pill, .chip, .badge").forEach((el) => out.push(`banned class on "${el.textContent.trim().slice(0, 30)}"`));
       document.querySelectorAll("a, button, summary").forEach((el) => {
         if (/→\s*$/.test(el.textContent)) out.push(`arrow at end of "${el.textContent.trim().slice(0, 30)}"`);
       });
-      document.querySelectorAll("main a.btn, main button, main summary.btn, footer a.btn").forEach((el) => {
+      document.querySelectorAll("main a.btn, main button, main summary, main a.maplink, footer a.btn").forEach((el) => {
         const r = el.getBoundingClientRect();
         if (r.height > 0 && r.height < minTap) out.push(`tap target "${el.textContent.trim().slice(0, 30)}" is ${Math.round(r.height)}px tall`);
       });

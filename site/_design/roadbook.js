@@ -122,7 +122,8 @@
       : "GALA<span>Roadbook</span>";
     var polas = (r.polaroids || []).map(function (p, i) {
       var ph = D.photos && D.photos["cover-" + (i + 1)];
-      var pic = ph ? '<span class="pic">' + img(ph, { eager: true, sizes: "(min-width: 900px) 160px, 118px" }) + "</span>" : '<svg viewBox="0 0 100 100" aria-hidden="true"><use href="#art-' + esc(p.art) + '"/></svg>';
+      // phones show 2 polaroids at ~84px; the 3rd is hidden below 560px, so it loads lazily (never on phones)
+      var pic = ph ? '<span class="pic">' + img(ph, { eager: i < 2, sizes: "(min-width: 900px) 160px, (min-width: 560px) 118px, 84px" }) + "</span>" : '<svg viewBox="0 0 100 100" aria-hidden="true"><use href="#art-' + esc(p.art) + '"/></svg>';
       return '<figure class="polaroid"><span class="tape"></span>' + pic + "<figcaption>" + esc((ph && ph.caption) || p.caption) + "</figcaption></figure>";
     }).join("");
     var d = fmtDate(D.latestChecked).split(" ");
@@ -184,7 +185,7 @@
   function nearbyLi(n) {
     return '<li class="near" data-fact="' + esc(n.id) + '">' + kmPost(n.post) + "<div><strong>" + esc(n.title) + "</strong>" + featured(n) +
       "<p>" + esc(n.shortText) + "</p>" + servicesBoard(n.services, n.ev) + evLine(n.ev) +
-      '<a class="maplink" href="' + esc(n.mapsUrl) + '" target="_blank" rel="noopener">' + use("i-pin") + "Map</a>" + dateLine(n) + "</div></li>";
+      '<a class="maplink" href="' + esc(n.mapsUrl) + '" target="_blank" rel="noopener">' + use("i-pin") + "Map</a>" + dateLine(n) + more(n, n.body !== n.shortText ? n.body : "") + "</div></li>";
   }
   function stopLi(t) {
     var s = statusBits(t);
@@ -286,7 +287,7 @@
     }
     out += '<div class="sos"><h3>Emergency</h3>' + D.emergency.map(function (f) {
       var tel = f.data.tel, shown = f.data.display || tel;
-      return '<div class="row" data-fact="' + esc(f.id) + '"><div><strong class="num">' + esc(shown) + "</strong>" + esc(f.short || f.value) + dateLine(f) + '</div><a class="btn" href="tel:' + esc(tel) + '">' + use("i-phone") + "Call</a></div>";
+      return '<div class="row" data-fact="' + esc(f.id) + '"><div><strong class="num">' + esc(shown) + "</strong>" + esc(f.short || f.value) + dateLine(f) + more(f, f.short ? f.value : "") + '</div><a class="btn" href="tel:' + esc(tel) + '">' + use("i-phone") + "Call</a></div>";
     }).join("") + (D.missingEmergency.length ? '<p class="checked">Still being checked with official sources: ' + esc(D.missingEmergency.join("; ")) + ".</p>" : "") + "</div>";
     if (D.morningCheck.length) out += '<div class="morning"><h3>Morning-of check</h3><ol>' + D.morningCheck.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ol></div>";
     out += "<div><h3>Thanks to</h3>" + (D.creators.length

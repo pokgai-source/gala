@@ -90,10 +90,19 @@ function offset(p, line) {
   }
   return best;
 }
-export function pickOnRoute(stations, line, near, { maxOff = 150, side } = {}) {
+// metres between two [lng, lat] points
+export function metres([lng1, lat1], [lng2, lat2]) {
+  const R = 6371000, r = Math.PI / 180, dLat = (lat2 - lat1) * r, dLng = (lng2 - lng1) * r;
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * r) * Math.cos(lat2 * r) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
+
+// A brand station beside the road, on the stop's side, nearest the hint — and never far from the hint,
+// so a wrong station can't be published under an OpenStreetMap label.
+export function pickOnRoute(stations, line, near, { maxOff = 150, side, maxNear = 1500 } = {}) {
   const want = side === "right" ? -1 : side === "left" ? 1 : 0;
   const ok = stations.filter((s) => s.lnglat?.[0] != null).map((s) => ({ s, o: offset(s.lnglat, line) }))
-    .filter(({ o }) => o.d <= maxOff && (!want || o.side === want));
+    .filter(({ s, o }) => o.d <= maxOff && (!want || o.side === want) && metres(s.lnglat, near) <= maxNear);
   ok.sort((x, y) => Math.hypot(x.s.lnglat[0] - near[0], x.s.lnglat[1] - near[1]) - Math.hypot(y.s.lnglat[0] - near[0], y.s.lnglat[1] - near[1]));
   return ok[0]?.s || null;
 }

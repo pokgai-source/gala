@@ -14,7 +14,7 @@ const strip = (html) => String(html || "").replace(/<[^>]*>/g, "").replace(/\s+/
 
 export function creditFrom(meta) {
   return {
-    author: strip(meta.Artist?.value) || "Unknown",
+    author: strip(meta.Artist?.value) || null, // no artist: the photo can't be credited, so it can't be used
     license: strip(meta.LicenseShortName?.value),
     licenseUrl: strip(meta.LicenseUrl?.value) || null,
   };

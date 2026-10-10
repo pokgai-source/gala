@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
+import { existsSync, statSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { dirname, join } from "node:path";
@@ -14,6 +14,8 @@ test("full build makes fold images, shows the unfold on laptop only, and puts ph
   const b = spawnSync(process.execPath, [join(root, "scripts/build.mjs")], { encoding: "utf8" });
   assert.equal(b.status, 0, b.stderr + b.stdout);
   for (const n of [1, 2, 3]) assert.ok(existsSync(join(root, `_site/baguio/fold-${n}.webp`)), `fold-${n}.webp`);
+  const pdfKB = statSync(join(root, "_site/baguio/baguio-roadbook.pdf")).size / 1024;
+  assert.ok(pdfKB <= 1536, `PDF is ${Math.round(pdfKB)} KB (budget 1.5 MB for weak signal)`);
   const { launch } = await import("./qa/browser.mjs");
   const br = await launch();
   try {

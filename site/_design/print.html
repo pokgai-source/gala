@@ -33,7 +33,7 @@
   }
   var month = G.now().month;
   var B = D.assetBase || "../";
-  function pimg(ph, alt) { return '<img src="' + esc(B + ph.src640) + '" width="' + ph.size[0] + '" height="' + ph.size[1] + '" alt="' + esc(alt) + '">'; }
+  function pimg(ph, alt) { return '<img src="' + esc(B + (ph.srcPrint || ph.src640)) + '" width="' + ph.size[0] + '" height="' + ph.size[1] + '" alt="' + esc(alt) + '">'; }
   var printed = [];  // photos that appear in the PDF, for the credits block
   function used(ph) { if (ph && printed.indexOf(ph) === -1) printed.push(ph); return ph; }
   function sourcesLine(items) {

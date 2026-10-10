@@ -7,7 +7,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { traceRoute, waypointHash, brandStations, pickOnRoute, listStations, offsetFrom } from "./osm.mjs";
-import { searchCandidates, fileInfo, download } from "./commons.mjs";
+import { searchCandidates, fileInfo, download, allowedLicense } from "./commons.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const today = new Date().toISOString().slice(0, 10);
@@ -34,20 +34,23 @@ for (const f of readdirSync(routesDir).filter((f) => f.endsWith(".json") && !f.e
 for (const f of readdirSync(join(root, "data")).filter((f) => /^stops-.+\.json$/.test(f))) {
   const routeId = f.slice(6, -5), p = join(root, "data", f), file = readJson(p);
   const geoFile = join(routesDir, `${routeId}.geo.json`);
-  const line = existsSync(geoFile) ? readJson(geoFile).coordinates : null;
+  const geo = existsSync(geoFile) ? readJson(geoFile) : null, line = geo ? geo.coordinates : null;
   for (const s of file.stops.filter((s) => s.osm)) {
-    if (s.lnglatSource?.startsWith("OpenStreetMap") && s.osmFor === JSON.stringify(s.osm)) continue;
+    // re-pin when the hint or the traced road changes
+    const forKey = JSON.stringify({ osm: s.osm, line: geo ? geo.hash : null });
+    if (s.lnglatSource?.startsWith("OpenStreetMap") && s.osmFor === forKey) continue;
     try {
       const all = await brandStations(s.osm);
-      const hit = line ? pickOnRoute(all, line, s.osm.near, { maxOff: s.osm.maxOff || 150, side: s.osm.side }) : null;
+      const hit = line ? pickOnRoute(all, line, s.osm.near, { maxOff: s.osm.maxOff || 150, side: s.osm.side, maxNear: s.osm.maxNear || 1500 }) : null;
       if (hit) {
         s.lnglat = hit.lnglat.map((v) => +v.toFixed(5));
         s.lnglatSource = `OpenStreetMap ${hit.id}`;
-        s.osmFor = JSON.stringify(s.osm);
+        s.osmFor = forKey;
         log(`pin ${s.id}: ${hit.id} "${hit.name}", ${km(hit.lnglat, s.osm.near)} km from the hint`);
       } else {
         s.lnglatSource = "approximate";
-        log(`pin ${s.id}: no ${s.osm.brand} station beside the road (${all.length} ${s.osm.brand} within ${s.osm.searchRadius || 8000} m) — kept approximate`);
+        delete s.osmFor;
+        log(`pin ${s.id}: no ${s.osm.brand} station beside the road within ${s.osm.maxNear || 1500} m of the hint (${all.length} ${s.osm.brand} within ${s.osm.searchRadius || 8000} m) — kept approximate`);
         if (line) log(`  closest to the road: ${all.map((x) => ({ x, o: offsetFrom(x.lnglat, line) })).sort((a, b) => a.o.d - b.o.d).slice(0, 4)
           .map(({ x, o }) => `${x.id} "${x.name}" ${Math.round(o.d)} m ${o.side < 0 ? "right" : "left"}`).join("; ")}`);
       }
@@ -81,6 +84,10 @@ if (existsSync(photosFile)) {
     if (!sharp || ph.prepared === PREP) continue;
     try {
       const info = await fileInfo(ph.file, 1600);
+      if (!allowedLicense(info.license) || !info.author) {
+        log(`photo ${ph.id}: NOT prepared — ${ph.file} has licence "${info.license}" and author "${info.author}"; pick another file`);
+        continue;
+      }
       const buf = await download(info.thumb);
       const outDir = join(root, "site", "img", ph.route || "baguio");
       mkdirSync(outDir, { recursive: true });
