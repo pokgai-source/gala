@@ -2,30 +2,50 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GALA · Tara sa next GALA</title>
-<meta name="description" content="GALA (Guided Adventures, Local Areas): phone-first roadbooks for self-drive trips out of Manila.">
-<meta name="theme-color" content="#1f5f3f">
-<link rel="stylesheet" href="brand.css">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GALA Roadbooks</title>
+<meta name="description" content="GALA (Guided Adventures, Local Areas): phone-first roadbooks for self-drive trips out of Manila. Every fact shows its source and when it was last checked.">
+<meta name="theme-color" content="#15382A">
+<!--GALA:CSS-->
+<style>
+.home-hero .hero-inner { padding-block: 28px 150px; }
+.home-hero .title .to { font-size: clamp(88px, 28vw, 200px); }
+.books { display: grid; gap: 16px; margin-top: -40px; position: relative; }
+@media (min-width: 760px) { .books { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.book { background: var(--sheet); border: 2px solid var(--ink); border-radius: var(--r-sm); padding: 16px; display: grid; gap: 8px; }
+.book h2 { font-size: 30px; line-height: 1; }
+.book .from { display: block; font-size: 18px; color: var(--muted); }
+.book .row { display: grid; gap: 8px; }
+@media (min-width: 420px) { .book .row { grid-template-columns: 1fr 1fr; } }
+.book .btn { margin: 0; }
+.about-gala { margin-top: 26px; max-width: 64ch; }
+.about-gala p { margin: 0 0 10px; }
+</style>
 </head>
 <body>
-<header class="top">
-  <div class="wrap">
-    <p class="kicker">Guided Adventures, Local Areas</p>
-    <h1>GALA</h1>
-    <p>Tara sa next GALA.</p>
+<header class="hero home-hero">
+  <svg class="ridges" viewBox="0 0 1200 400" preserveAspectRatio="none" aria-hidden="true">
+    <path class="ridge-a" d="M0 210 L120 150 L230 200 L360 110 L470 180 L600 90 L720 170 L840 120 L960 190 L1080 130 L1200 170 L1200 400 L0 400Z"/>
+    <path class="ridge-b" d="M0 270 L140 200 L260 250 L390 180 L520 240 L660 170 L790 235 L930 185 L1060 245 L1200 205 L1200 400 L0 400Z"/>
+    <path class="road-draw" d="M40 400 L230 372 L120 356 L330 338 L220 322 L430 306" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="14 10"/>
+    <path class="ridge-c" d="M0 330 L160 280 L300 320 L460 260 L620 315 L780 270 L940 320 L1080 280 L1200 300 L1200 400 L0 400Z"/>
+  </svg>
+  <div class="wrap hero-inner">
+    <p class="brandline">Guided Adventures, Local Areas</p>
+    <h1 class="title"><span class="to">GALA</span></h1>
+    <p class="tagline">Tara sa next GALA.</p>
   </div>
 </header>
 <main class="wrap">
-  <section>
-    <h2>Roadbooks</h2>
-    <p>One link per trip: route, tolls, stops, coding, parking, weather and emergency numbers. Every fact shows its source and when it was last checked.</p>
-    <a class="btn block" href="baguio/">Manila → Baguio</a>
-    <p class="meta">Coming next: La Union (San Juan), then Tagaytay / Batangas.</p>
+  <section class="books" aria-label="Roadbooks">
+<!--GALA:ROUTES-->
+  </section>
+  <section class="about-gala">
+    <h2>What's in a roadbook</h2>
+    <p>One link per trip, made for the co-pilot: route and drive time, tolls and RFID, food, gas and restroom stops with one-tap Google Maps, number coding, parking, must-sees, weather and emergency numbers.</p>
+    <p>Every fact shows where it came from and when we last checked it.</p>
   </section>
 </main>
-<footer class="wrap">
-  <p class="made">Made by GALA · Tara sa next GALA</p>
-</footer>
+<footer class="foot"><div class="wrap"><p class="sign-off">Ingat sa byahe!</p><p>Made by GALA. Tara sa next GALA.</p></div></footer>
 </body>
 </html>

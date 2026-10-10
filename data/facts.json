@@ -407,7 +407,8 @@
       "label": "NLEX / SCTEX hotline",
       "value": "NLEX Corporation hotline 1-35000 for breakdowns, accidents and road hazards. Give your km marker and direction.",
       "data": {
-        "tel": "135000"
+        "tel": "135000",
+        "display": "1-35000"
       },
       "source": {
         "name": "NLEX Corporation",

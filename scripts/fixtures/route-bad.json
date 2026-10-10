@@ -1,0 +1,14 @@
+{
+  "id": "bad",
+  "title": { "from": "Manila to", "to": "Nowhere" },
+  "tagline": "x",
+  "polaroids": [],
+  "plates": [],
+  "roadCheck": ["kennon.statuz"],
+  "routeStrip": [],
+  "timeline": [{ "stopId": "nlex-x" }],
+  "wayHome": [],
+  "city": { "codingFact": "baguio.coding", "zoneFact": "baguio.coding-zone", "parkingFacts": [] },
+  "morningCheck": [],
+  "map": { "bbox": [119.75, 14.35, 121.45, 16.75], "width": 340, "waypoints": [], "labels": [] }
+}

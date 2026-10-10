@@ -1,35 +1,42 @@
 ---
 name: gala-roadbook
-description: Use when Jed says "build the <route> roadbook" or "update the <route> roadbook" (e.g. Baguio, La Union, Tagaytay). Runs the fact check, builds site/<route>/index.html from data files only, previews it, and publishes to GitHub Pages.
+description: Use when Jed says "build the <route> roadbook" or "update the <route> roadbook" (e.g. Baguio, La Union, Tagaytay). Runs the fact check, builds the roadbook from data files and the shared template, checks the design, and publishes to GitHub Pages.
 ---
 
 # GALA roadbook
 
+Every roadbook comes from one template (`site/_design/`) plus data. **Never hand-write route HTML.** For anything
+about the look, follow `gala-design`.
+
 ## Steps
 
-1. **Run `gala-fact-check` first.** Don't build on stale facts. If anything is `stale`, tell Jed and ask
-   (MCQ) whether to publish with the warning showing or wait.
-2. Make sure the data exists: `data/facts.json` (facts with ids prefixed by the route, e.g. `baguio.*`) and
-   `data/stops-<route>.json`. New route → copy `site/baguio/` as the starting template.
-3. Build or update `site/<route>/index.html`. It must contain **no facts** — only layout and the rendering
-   script. Facts come from the inlined data (see `scripts/build.mjs`; pages read
-   `<script id="gala-data" type="application/json">`, filled at build time).
-4. Sections, in this order (co-pilot reads top to bottom):
-   1. Route and drive times
-   2. Tolls and RFID
-   3. Stops — food, pasalubong, gas, restrooms; each with one-tap Google Maps button; "Featured" label when
-      `featured: true`
-   4. Number coding checker — plate last digit + day/time, runs on the phone only, stores nothing
-   5. Parking
-   6. Must-sees
-   7. Weather and what to pack
-   8. Emergency numbers — tap-to-call `tel:` links
-   9. Credits to vloggers (from `data/creators.json`)
-   10. Last-checked dates — shown next to every fact; `stale` facts show a warning
-5. Phone-first checklist: tap targets ≥ 48px, body text ≥ 17px, high contrast (sunlight), no web fonts or
-   images required to read the page, whole page < 100 KB, works if JS fails for the static parts where possible.
-6. `node scripts/build.mjs`, then `node scripts/serve.mjs` and preview at mobile width (375px) in the browser
-   pane. Show Jed a screenshot before big UI changes.
-7. Commit with a plain message, push to `main`. The Pages workflow publishes. Give Jed the link:
+1. **Run `gala-fact-check` first.** Don't build on stale facts. If anything is `stale`, tell Jed and ask (MCQ)
+   whether to publish with the "Needs re-check" note showing or wait.
+2. **Updating an existing route:** change facts in `data/facts.json` and stops in `data/stops-<route>.json`
+   only. The page updates itself.
+3. **New route:**
+   1. Copy `data/routes/baguio.json` to `data/routes/<route>.json`. Change `id` to the file name first, then the title, tagline, polaroids, plates,
+      road check, route strip, tolls receipt, timeline, city section, pack list, morning-of check, and the map `bbox`,
+      `waypoints` and `labels`.
+   2. Add facts with ids prefixed by the route to `data/facts.json`, and stops with `km` (when there is a km post)
+      and `lnglat` to `data/stops-<route>.json`.
+   3. Leave out sections the place doesn't need (`tollsReceipt`, `city`, `wayNote`, `weatherFact`); the page and PDF skip them.
+   4. Any fact inside route-file text goes in as a placeholder: `{factId:data.path|peso}`.
+   5. Run `node scripts/trace-route.mjs <route>` once to save the real road line
+      (`data/routes/<route>.geo.json`). If the network blocks it, CI traces it.
+4. Build: `npm install` (first time only), `npm test`, then `node scripts/build.mjs`. The build makes:
+   - the phone page
+   - `print.html`
+   - the tri-fold PDF
+   - four screenshots
+   - design checks, which must pass
+5. Follow the `gala-design` pre-publish checklist. Show Jed the phone screenshot and the PDF before big changes.
+6. Commit with a plain message and push to `main`. The Pages workflow publishes. Give Jed the link:
    `https://pokgai-source.github.io/gala/<route>/`.
-8. Add the roadbook to the list on `site/index.html` if it's new.
+
+## Budgets
+
+- Built HTML ≤150 KB.
+- HTML + fonts ≤300 KB.
+- Text must be readable before the fonts load (system fallbacks).
+- Tap targets ≥48px, body text 17px on phones.

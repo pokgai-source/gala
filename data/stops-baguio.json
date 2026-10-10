@@ -26,7 +26,12 @@
         "published": "2025-04-12"
       },
       "checked": "2026-10-10",
-      "status": "check"
+      "status": "check",
+      "km": 71,
+      "lnglat": [
+        120.635,
+        15.1
+      ]
     },
     {
       "id": "sctex-seaoil-citymall",
@@ -47,7 +52,12 @@
         "published": "2025-04-12"
       },
       "checked": "2026-10-10",
-      "status": "check"
+      "status": "check",
+      "km": 62,
+      "lnglat": [
+        120.665,
+        15.075
+      ]
     },
     {
       "id": "nlex-caltex-mega",
@@ -68,7 +78,12 @@
         "published": "2025-04-12"
       },
       "checked": "2026-10-10",
-      "status": "check"
+      "status": "check",
+      "km": 55,
+      "lnglat": [
+        120.69,
+        15.04
+      ]
     },
     {
       "id": "tplex-ptt-victoria",
@@ -90,7 +105,11 @@
         "published": "2025-04-12"
       },
       "checked": "2026-10-10",
-      "status": "check"
+      "status": "check",
+      "lnglat": [
+        120.6,
+        15.6
+      ]
     },
     {
       "id": "tplex-total-rosales",
@@ -111,7 +130,11 @@
         "published": "2025-04-12"
       },
       "checked": "2026-10-10",
-      "status": "check"
+      "status": "check",
+      "lnglat": [
+        120.62,
+        15.89
+      ]
     },
     {
       "id": "nlex-drive-and-dine",
@@ -131,7 +154,12 @@
         "published": "2025-04-12"
       },
       "checked": "2026-10-10",
-      "status": "check"
+      "status": "check",
+      "km": 21,
+      "lnglat": [
+        120.97,
+        14.74
+      ]
     },
     {
       "id": "baguio-bencab-museum",
