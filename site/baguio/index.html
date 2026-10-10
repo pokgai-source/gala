@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manila → Baguio Roadbook · GALA</title>
+<meta name="description" content="Self-drive roadbook from Manila to Baguio: route, tolls and RFID, stops, number coding checker, parking, weather and emergency numbers. Every fact shows its source and last-checked date.">
+<meta name="theme-color" content="#1f5f3f">
+<link rel="stylesheet" href="../brand.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <p class="kicker"><a class="logo" href="../">GALA</a> · Roadbook</p>
+    <h1>Manila → Baguio</h1>
+    <p>Tara sa next GALA. <span id="checked-line"></span></p>
+  </div>
+</header>
+
+<nav class="jump" aria-label="Sections">
+  <div class="wrap">
+    <a href="#route">Route</a><a href="#tolls">Tolls</a><a href="#stops">Stops</a><a href="#coding">Coding</a>
+    <a href="#parking">Parking</a><a href="#see">Must-sees</a><a href="#weather">Weather</a><a href="#sos">Emergency</a><a href="#credits">Credits</a>
+  </div>
+</nav>
+
+<main class="wrap">
+  <noscript><div class="alert bad"><strong>Turn on JavaScript</strong>This roadbook loads its checked facts with JavaScript.</div></noscript>
+  <div id="alerts"></div>
+
+  <section id="route"><h2>Route and drive time</h2><div id="route-body"></div></section>
+  <section id="tolls"><h2>Tolls and RFID</h2><div id="tolls-body"></div></section>
+  <section id="stops"><h2>Stops on the way</h2><div id="stops-body"></div></section>
+
+  <section id="coding">
+    <h2>Number coding checker</h2>
+    <p class="meta">Runs on your phone only. Nothing is saved or sent.</p>
+    <h3>Last digit of your plate</h3>
+    <div class="digits" id="digits" role="group" aria-label="Last digit of plate"></div>
+    <h3>Day</h3>
+    <div class="days" id="days" role="group" aria-label="Day"></div>
+    <div id="verdict" class="verdict idle" aria-live="polite">Tap your plate's last digit.</div>
+    <div id="coding-body"></div>
+  </section>
+
+  <section id="parking"><h2>Parking</h2><div id="parking-body"></div></section>
+  <section id="see"><h2>Must-sees</h2><div id="see-body"></div></section>
+  <section id="weather"><h2>Weather and what to pack</h2><div id="weather-body"></div></section>
+  <section id="sos"><h2>Emergency numbers</h2><div id="sos-body"></div></section>
+  <section id="credits"><h2>Credits</h2><div id="credits-body"></div></section>
+</main>
+
+<footer class="wrap">
+  <p>Every fact shows where it came from and when we last checked it. Facts older than <span id="max-age"></span> days get a “Needs re-check” flag. Road conditions change fast, so check DPWH-Cordillera the morning you drive.</p>
+  <p>Places marked <span class="badge featured">Featured</span> are paid placements. Nothing here is featured yet.</p>
+  <p class="made">Made by GALA · Tara sa next GALA</p>
+</footer>
+
+<!--GALA:DATA route="baguio"-->
+<script>
+(function () {
+  "use strict";
+  var raw = document.getElementById("gala-data");
+  if (!raw) { document.getElementById("alerts").innerHTML = '<div class="alert bad"><strong>Data missing</strong>This page was not built. Run node scripts/build.mjs.</div>'; return; }
+  var D = JSON.parse(raw.textContent);
+  var F = {}; D.facts.facts.forEach(function (f) { F[f.id] = f; });
+  var TZ = "Asia/Manila";
+
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function fmtDate(iso) { return new Date(iso + "T00:00:00+08:00").toLocaleDateString("en-PH", { day: "numeric", month: "short", year: "numeric", timeZone: TZ }); }
+  function age(iso) { return Math.floor((Date.now() - Date.parse(iso + "T00:00:00+08:00")) / 86400000); }
+  function status(item) { return (item.status !== "closed" && age(item.checked) > D.maxAgeDays) ? "stale" : item.status; }
+  function badge(item) {
+    var s = status(item);
+    if (s === "stale") return ' <span class="badge warn">Needs re-check</span>';
+    if (s === "changed") return ' <span class="badge new">Updated</span>';
+    if (s === "closed") return ' <span class="badge bad">Closed now</span>';
+    if (s === "check") return ' <span class="badge warn">Confirm before you go</span>';
+    return "";
+  }
+  function meta(item) {
+    var src = item.source || {};
+    return '<div class="meta">Checked ' + esc(fmtDate(item.checked)) + ' · <a href="' + esc(src.url) + '" target="_blank" rel="noopener">' + esc(src.name || "Source") + "</a>" +
+      (src.published ? " (" + esc(fmtDate(src.published)) + ")" : "") + "</div>";
+  }
+  function fact(id, opts) {
+    var f = F[id]; if (!f) return "";
+    opts = opts || {};
+    var note = (status(f) === "stale" && f.note) ? '<p class="meta">' + esc(f.note) + "</p>" : "";
+    return '<div class="card"><p class="label">' + esc(opts.label || f.label) + badge(f) + "</p><p>" + esc(f.value) + "</p>" + note + meta(f) + "</div>";
+  }
+  function set(id, html) { document.getElementById(id).innerHTML = html; }
+  function now() {
+    var p = {}; new Intl.DateTimeFormat("en-US", { timeZone: TZ, weekday: "short", hour: "numeric", hourCycle: "h23", month: "numeric", minute: "numeric" })
+      .formatToParts(new Date()).forEach(function (x) { p[x.type] = x.value; });
+    return { day: p.weekday, hour: +p.hour, minute: +p.minute, month: +p.month - 1 };
+  }
+
+  // header + footer
+  var latest = D.facts.facts.map(function (f) { return f.checked; }).sort().pop();
+  set("checked-line", "Facts checked " + esc(fmtDate(latest)) + ".");
+  set("max-age", String(D.maxAgeDays));
+
+  // alerts: anything closed or changed on the road
+  var alerts = "";
+  var k = F["kennon.status"];
+  if (k) alerts += '<div class="alert"><strong>Kennon Road' + badge(k) + "</strong>" + (k.data.open ? "Open to light vehicles only (max " + esc(k.data.maxTons) + " tons), with " + k.data.oneLaneSections.length + " one-lane sections." : "Closed.") + ' <a href="#route">Details</a></div>';
+  if (F["baguio.road-closures"]) alerts += '<div class="alert bad"><strong>Closed around Baguio</strong>' + esc(F["baguio.road-closures"].data.closed.join(" · ")) + "</div>";
+  set("alerts", alerts);
+
+  // route
+  var seq = F["route.sequence"], r = "";
+  if (seq) {
+    r += '<ol class="steps">' + seq.data.steps.map(function (s) {
+      return '<li><span class="road">' + esc(s.road) + "</span>: " + esc(s.from) + " → " + esc(s.to) +
+        (s.rfid ? ' <span class="meta">(' + esc(s.rfid) + ")</span>" : "") + (s.tip ? '<br><span class="meta">' + esc(s.tip) + "</span>" : "") + "</li>";
+    }).join("") + "</ol>" + meta(seq);
+  }
+  r += '<p><a class="btn block" href="https://www.google.com/maps/dir/?api=1&origin=Balintawak+Interchange+Quezon+City&destination=Baguio+City&travelmode=driving" target="_blank" rel="noopener">Open route in Google Maps</a></p>';
+  r += fact("route.drive-time") + fact("kennon.status") + fact("marcos.status") + fact("baguio.road-closures");
+  set("route-body", r);
+
+  // tolls
+  var t = F["tolls.manila-baguio"], seg = F["tolls.segments.class1"], peso = function (n) { return "₱" + Number(n).toLocaleString("en-PH"); };
+  var tb = "";
+  if (t && seg) {
+    tb += '<div class="card"><p class="label">One way, Class 1 (car, SUV, van)' + badge(seg) + '</p><table class="tolls">' +
+      "<tr><td>NLEX + SCTEX, Balintawak → Tarlac</td><td>" + peso(seg.data.nlexSctexBalintawakTarlac) + "</td></tr>" +
+      "<tr><td>TPLEX, La Paz → Rosario</td><td>" + peso(seg.data.tplexLaPazRosario) + "</td></tr>" +
+      "<tr><td><strong>Total</strong></td><td>" + peso(t.data.class1) + "</td></tr></table>" +
+      '<p class="meta">Class 2: ' + peso(t.data.class2) + " · Class 3: " + peso(t.data.class3) + "</p>" + meta(t) + "</div>";
+  }
+  tb += fact("rfid");
+  set("tolls-body", tb);
+
+  // stops
+  function stopCard(s) {
+    var st = status(s);
+    return '<article class="stop' + (st === "closed" ? " is-closed" : "") + '"><h4>' + esc(s.name) + (s.featured ? ' <span class="badge featured">Featured</span>' : "") + badge(s) + "</h4>" +
+      '<p class="where">' + esc(s.segment) + " · " + esc(s.where) + "</p>" +
+      '<p class="types">' + esc(s.type.join(" · ")) + "</p><p>" + esc(s.why) + "</p>" +
+      (s.note ? '<p class="meta">' + esc(s.note) + "</p>" : "") + meta(s) +
+      '<a class="btn block" href="' + esc(s.maps) + '" target="_blank" rel="noopener">Open in Google Maps</a></article>';
+  }
+  var stops = D.stops.stops;
+  var isSee = function (s) { return s.type.indexOf("must-see") !== -1; };
+  var way = stops.filter(function (s) { return !isSee(s) && !/^Baguio|La Trinidad/.test(s.segment); });
+  var town = stops.filter(function (s) { return !isSee(s) && /^Baguio|La Trinidad/.test(s.segment); });
+  set("stops-body",
+    '<p class="meta">Gas, food and restrooms, in driving order.</p>' + way.map(stopCard).join("") +
+    (town.length ? "<h3>Pasalubong in Baguio</h3>" + town.map(stopCard).join("") : ""));
+  set("see-body", stops.filter(isSee).map(stopCard).join(""));
+
+  // coding checker
+  var cf = F["baguio.coding"], pick = { digit: null, day: "Today" };
+  var digitsEl = document.getElementById("digits"), daysEl = document.getElementById("days");
+  [1, 2, 3, 4, 5, 6, 7, 8, 9, 0].forEach(function (d) {
+    var b = document.createElement("button"); b.type = "button"; b.textContent = d; b.setAttribute("aria-pressed", "false");
+    b.onclick = function () { pick.digit = d; press(digitsEl, b); verdict(); }; digitsEl.appendChild(b);
+  });
+  ["Today", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].forEach(function (d) {
+    var b = document.createElement("button"); b.type = "button"; b.textContent = d; b.setAttribute("aria-pressed", d === "Today" ? "true" : "false");
+    b.onclick = function () { pick.day = d; press(daysEl, b); verdict(); }; daysEl.appendChild(b);
+  });
+  function press(group, btn) { Array.prototype.forEach.call(group.children, function (x) { x.setAttribute("aria-pressed", x === btn ? "true" : "false"); }); }
+  function verdict() {
+    var v = document.getElementById("verdict");
+    if (pick.digit === null || !cf) { v.className = "verdict idle"; v.textContent = "Tap your plate's last digit."; return; }
+    var n = now(), day = pick.day === "Today" ? n.day : pick.day, label = pick.day === "Today" ? "Today (" + day + ")" : day;
+    var banned = (cf.data.byDay[day] || []).indexOf(pick.digit) !== -1;
+    var h = cf.data.hours.split("-"), start = parseInt(h[0], 10), end = parseInt(h[1], 10);
+    if (!banned) { v.className = "verdict go"; v.textContent = label + ": not coding for plates ending in " + pick.digit + ". Go."; return; }
+    var msg = label + ": CODING for plates ending in " + pick.digit + ". Stay out of the coding zone " + start + "am–" + (end - 12) + "pm.";
+    if (pick.day === "Today") {
+      if (n.hour < start) msg += " Right now you're clear until " + start + "am.";
+      else if (n.hour >= end) msg += " Coding is over for today.";
+      else msg += " Coding is ON right now.";
+    }
+    v.className = "verdict stop"; v.textContent = msg;
+  }
+  set("coding-body", fact("baguio.coding", { label: "The rule" }) + fact("baguio.coding-zone"));
+
+  // parking
+  set("parking-body", fact("baguio.parking") + fact("baguio.police-app") + fact("baguio.visitors"));
+
+  // weather
+  var w = F["weather.baguio"];
+  if (w) {
+    var m = now().month, max = Math.max.apply(null, w.data.rainNormalMm), rain = w.data.rainNormalMm[m], low = w.data.recordLowC[m];
+    var pack = ["Jacket or hoodie: nights get cold"];
+    if (rain > 300) pack.push("Umbrella and rain jacket: " + w.data.months[m] + " is a wet month");
+    if (low < 10) pack.push("Extra warm layer: record lows near " + Math.round(low) + "°C this month");
+    pack.push("Closed shoes for slopes and stairs");
+    set("weather-body",
+      '<div class="card"><p class="label">Average rainfall by month (mm)</p><div class="bars" aria-hidden="true">' +
+      w.data.rainNormalMm.map(function (mm, i) { return '<div class="' + (i === m ? "now" : "") + '" style="height:' + Math.max(3, Math.round(mm / max * 100)) + '%"></div>'; }).join("") +
+      '</div><div class="barlabels" aria-hidden="true">' + w.data.months.map(function (x) { return "<span>" + esc(x[0]) + "</span>"; }).join("") + "</div>" +
+      '<p class="meta">' + esc(w.data.months[m]) + ": " + rain + " mm average rain · record low " + low + "°C · record high " + w.data.recordHighC[m] + "°C</p></div>" +
+      '<div class="card"><p class="label">Pack for ' + esc(w.data.months[m]) + "</p><ul>" + pack.map(function (p) { return "<li>" + esc(p) + "</li>"; }).join("") + "</ul></div>" +
+      fact("weather.baguio"));
+  }
+
+  // emergency
+  var sos = ["emergency.911", "emergency.nlex"].map(function (id) {
+    var f = F[id]; if (!f) return "";
+    return '<div class="card"><div class="tel"><div><p class="label">' + esc(f.label) + badge(f) + "</p><p>" + esc(f.value) + '</p></div><a class="btn" href="tel:' + esc(f.data.tel) + '">Call</a></div>' + meta(f) + "</div>";
+  }).join("");
+  var missing = (D.facts.missing || []).filter(function (x) { return /^emergency\./.test(x.id); });
+  if (missing.length) sos += '<p class="meta">Still being verified from official sources: ' + esc(missing.map(function (x) { return x.what; }).join("; ")) + ".</p>";
+  set("sos-body", sos);
+
+  // credits
+  var cr = D.creators.creators;
+  set("credits-body", cr.length ? cr.map(function (c) {
+    return '<div class="card"><p class="label">' + esc(c.name) + "</p><p>" + esc(c.usedFor) + '</p><a href="' + esc(c.video) + '" target="_blank" rel="noopener">Watch on ' + esc(c.channel || "YouTube") + "</a></div>";
+  }).join("") : '<p class="meta">No creators credited yet. When a vlogger\'s video leads us to a stop or tip, we credit them here by name with a link.</p>');
+})();
+</script>
+</body>
+</html>

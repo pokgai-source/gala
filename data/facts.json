@@ -1,0 +1,452 @@
+{
+  "updated": "2026-10-10",
+  "maxAgeDays": 45,
+  "facts": [
+    {
+      "id": "route.sequence",
+      "label": "The route",
+      "value": "NLEX from Balintawak → SCTEX at the junction (follow signs for Tarlac, not Subic) → TPLEX to the Rosario exit → up the mountain by Kennon Road (light vehicles) or Marcos Highway.",
+      "data": {
+        "steps": [
+          {
+            "road": "NLEX",
+            "from": "Balintawak",
+            "to": "NLEX–SCTEX junction",
+            "rfid": "Easytrip"
+          },
+          {
+            "road": "SCTEX",
+            "from": "Junction",
+            "to": "Tarlac (La Paz)",
+            "tip": "Take the Tarlac branch, not Subic",
+            "rfid": "Easytrip"
+          },
+          {
+            "road": "TPLEX",
+            "from": "La Paz, Tarlac",
+            "to": "Rosario, La Union",
+            "rfid": "Autosweep"
+          },
+          {
+            "road": "Mountain road",
+            "from": "Rosario",
+            "to": "Baguio",
+            "tip": "Kennon Road (light vehicles) or Marcos Highway; check the advisory that morning"
+          }
+        ]
+      },
+      "source": {
+        "name": "Expressway.ph",
+        "url": "https://www.expressway.ph/routes/manila-to-baguio",
+        "published": "2026-02-01"
+      },
+      "checked": "2026-10-10",
+      "status": "ok"
+    },
+    {
+      "id": "route.drive-time",
+      "label": "Drive time, Manila → Baguio",
+      "value": "About 3 hours via NLEX–SCTEX–TPLEX with no traffic (DPWH estimate when TPLEX was completed). Weekends and holidays take longer; add time for the mountain road.",
+      "data": {
+        "hoursNoTraffic": 3
+      },
+      "source": {
+        "name": "Top Gear Philippines (citing DPWH)",
+        "url": "https://www.topgear.com.ph/news/motoring-news/dpwh-tplex-completion-a4354-20200715",
+        "published": "2020-07-15"
+      },
+      "checked": "2026-10-10",
+      "status": "ok",
+      "note": "Official estimate from 2020, not a measured 2026 time. Replace with Jed's own drive log when he does the route."
+    },
+    {
+      "id": "tolls.manila-baguio",
+      "label": "Toll total, one way",
+      "value": "Class 1 (cars, SUVs, vans) ₱981 · Class 2 ₱2,337 · Class 3 ₱2,941. Balintawak to Rosario exit, VAT included.",
+      "data": {
+        "class1": 981,
+        "class2": 2337,
+        "class3": 2941,
+        "currency": "PHP"
+      },
+      "source": {
+        "name": "Expressway.ph (rates from TRB-approved matrix)",
+        "url": "https://www.expressway.ph/routes/manila-to-baguio",
+        "published": "2026-02-01"
+      },
+      "checked": "2026-10-10",
+      "status": "ok",
+      "note": "TRB's own matrix pages (trb.gov.ph) are behind a bot check and could not be opened. No TRB-approved hike found for Feb–Oct 2026."
+    },
+    {
+      "id": "tolls.segments.class1",
+      "label": "Toll by segment (Class 1)",
+      "value": "NLEX + SCTEX, Balintawak → Tarlac (La Paz): ₱670 (Easytrip). TPLEX, La Paz → Rosario: ₱311 (Autosweep). NLEX alone, Balintawak → Sta. Ines: ₱440 since Jan 20, 2026.",
+      "data": {
+        "nlexSctexBalintawakTarlac": 670,
+        "tplexLaPazRosario": 311,
+        "nlexBalintawakStaInes": 440
+      },
+      "source": {
+        "name": "Expressway.ph (TRB-approved matrix)",
+        "url": "https://www.expressway.ph/routes/manila-to-baguio",
+        "published": "2026-02-01"
+      },
+      "alsoSee": [
+        {
+          "name": "GMA Regional TV — NLEX toll fees go up Jan 20, 2026",
+          "url": "https://www.gmanetwork.com/regionaltv/news/112496/nlex-toll-fees-go-up-starting-january-20-2026/story",
+          "published": "2026-01-20"
+        }
+      ],
+      "checked": "2026-10-10",
+      "status": "changed"
+    },
+    {
+      "id": "rfid",
+      "label": "RFID on this route",
+      "value": "You need two balances: Easytrip for NLEX and SCTEX (₱670+), Autosweep for TPLEX (₱311+). A merged \"One RFID\" account can cover both if you enrolled. Top up before you leave.",
+      "data": {
+        "easytripMin": 670,
+        "autosweepMin": 311
+      },
+      "source": {
+        "name": "Expressway.ph",
+        "url": "https://www.expressway.ph/routes/manila-to-baguio",
+        "published": "2026-02-01"
+      },
+      "checked": "2026-10-10",
+      "status": "changed",
+      "note": "One RFID (Easytrip + Autosweep in one account) launched Oct 2025 and is optional."
+    },
+    {
+      "id": "kennon.status",
+      "label": "Kennon Road",
+      "value": "Open to light vehicles only (max 5 tons). Camp 2 Acrow Bridge is closed, so traffic uses a one-lane detour. Two one-lane sections at Camp 6 (rockshed approach and falling rocks). DPWH closes it to non-residents in heavy rain (it did on Aug 3–22, 2026).",
+      "data": {
+        "open": true,
+        "maxTons": 5,
+        "oneLaneSections": [
+          "Camp 2 detour",
+          "Camp 6 rockshed approach",
+          "Camp 6 falling rocks"
+        ]
+      },
+      "source": {
+        "name": "Baguio City Guide (relaying DPWH-CAR advisory, Oct 9, 2026 6–7 AM)",
+        "url": "https://baguiocityguide.com/most-cordillera-national-roads-passable-four-roadlines-remain-closed/",
+        "published": "2026-10-09"
+      },
+      "alsoSee": [
+        {
+          "name": "Daily Tribune — Kennon closed to non-residents (Aug 2026)",
+          "url": "https://tribune.net.ph/2026/08/04/dpwh-several-benguet-roads-closed-or-reduced-to-one-lane",
+          "published": "2026-08-04"
+        }
+      ],
+      "checked": "2026-10-10",
+      "status": "changed",
+      "note": "Changes fast. Check DPWH-Cordillera's Facebook advisory the morning you drive."
+    },
+    {
+      "id": "marcos.status",
+      "label": "Marcos Highway",
+      "value": "Passable. It is not on DPWH-Cordillera's not-passable list as of Oct 9, 2026. Use it if you drive a heavy vehicle. In August a mudflow at Taloy Sur, Tuba cut it to one lane.",
+      "data": {
+        "open": true
+      },
+      "source": {
+        "name": "Baguio City Guide (relaying DPWH-CAR advisory, Oct 9, 2026)",
+        "url": "https://baguiocityguide.com/most-cordillera-national-roads-passable-four-roadlines-remain-closed/",
+        "published": "2026-10-09"
+      },
+      "alsoSee": [
+        {
+          "name": "Daily Tribune — Marcos Highway one lane at Taloy Sur",
+          "url": "https://tribune.net.ph/2026/08/04/dpwh-several-benguet-roads-closed-or-reduced-to-one-lane",
+          "published": "2026-08-04"
+        }
+      ],
+      "checked": "2026-10-10",
+      "status": "ok"
+    },
+    {
+      "id": "baguio.road-closures",
+      "label": "Roads closed around Baguio",
+      "value": "Not passable as of Oct 9, 2026: PMA Road and PMA Cut-Off Road No. 3 (sinking road), Baguio–Itogon Road at Goldfield (landslide; use Ucab–Midas Road), Benguet–Nueva Vizcaya Road at Beckel, La Trinidad (use Marlboro–Beckel or Labey–Lacamen Road).",
+      "data": {
+        "closed": [
+          "PMA Road",
+          "PMA Cut-Off Road No. 3",
+          "Baguio–Itogon Road (Goldfield)",
+          "Benguet–Nueva Vizcaya Road (Beckel)"
+        ]
+      },
+      "source": {
+        "name": "Baguio City Guide (relaying DPWH-CAR advisory, Oct 9, 2026)",
+        "url": "https://baguiocityguide.com/most-cordillera-national-roads-passable-four-roadlines-remain-closed/",
+        "published": "2026-10-09"
+      },
+      "checked": "2026-10-10",
+      "status": "ok",
+      "note": "PMA Road closure affects the PMA (Fort del Pilar) must-see."
+    },
+    {
+      "id": "baguio.coding",
+      "label": "Baguio number coding",
+      "value": "7am–7pm in the coding zone: Mon plates ending 1-2, Tue 3-4, Wed 5-6, Thu 7-8, Fri 9-0. Applies to tourists and holidays. No coding on weekends. The mayor can suspend it by executive order on calamity or bad-weather days.",
+      "data": {
+        "hours": "07:00-19:00",
+        "byDay": {
+          "Mon": [
+            1,
+            2
+          ],
+          "Tue": [
+            3,
+            4
+          ],
+          "Wed": [
+            5,
+            6
+          ],
+          "Thu": [
+            7,
+            8
+          ],
+          "Fri": [
+            9,
+            0
+          ]
+        },
+        "fine": 500
+      },
+      "source": {
+        "name": "GMA Regional TV",
+        "url": "https://gmanetwork.com/regionaltv/news/105780/number-coding-in-baguio-city-enforced-even-on-holidays-lgu-says/story",
+        "published": "2024-12-24"
+      },
+      "alsoSee": [
+        {
+          "name": "GMA News — coding suspended Sep 3, 2026 (still in force otherwise)",
+          "url": "https://www.gmanetwork.com/news/topstories/regions/1000979/baguio-suspends-gov-t-work-lifts-number-coding-on-sep-3-3026-amid-habagat/story/",
+          "published": "2026-09-03"
+        },
+        {
+          "name": "Baguio City Guide — Ordinance No. 1 s. 2003 summary",
+          "url": "https://baguiocityguide.com/number-coding-scheme-in-baguio-city/"
+        }
+      ],
+      "checked": "2026-10-10",
+      "status": "ok",
+      "note": "2026 suspensions found: Apr 8–24 (fuel price surge), Aug 4, Aug 10, Sep 3 (weather). Fine ₱500, and the license is confiscated until paid."
+    },
+    {
+      "id": "baguio.coding-zone",
+      "label": "Coding zone boundary",
+      "value": "Coding covers the roads inside a ring of perimeter roads. The perimeter roads themselves are free to use: Naguilian Rd, Abanao St Ext, Yandoc St, Legarda Rd, Marcos Hwy (Legarda to BGH Circle), Kennon Rd (BGH Circle to Military Cut-off), Military Cut-off, South Drive, M. Roxas Rd, Bokawkan Rd. You may drive the perimeter but not park on it 7am–7pm, Mon–Fri, on your coding day.",
+      "data": {
+        "perimeter": [
+          "Naguilian Road (Bokawkan jct to Abanao St)",
+          "Abanao Street Extension to Yandoc St",
+          "Yandoc Street",
+          "Legarda Road to Marcos Hwy jct",
+          "Marcos Highway (Legarda Rd to BGH Circle)",
+          "Kennon Road (BGH Circle to Military Cut-off)",
+          "Military Cut-off Road to Military Circle",
+          "South Drive (Military Circle to Teachers Camp Rd)",
+          "M. Roxas Road to Trancoville Bridge",
+          "Bokawkan Road (incl. Magsaysay Ave below flyover)"
+        ]
+      },
+      "source": {
+        "name": "Baguio City Guide (summary of Ordinance No. 1 s. 2003)",
+        "url": "https://baguiocityguide.com/number-coding-scheme-in-baguio-city/"
+      },
+      "checked": "2026-10-10",
+      "status": "ok",
+      "note": "Official city site (baguio.gov.ph) was under maintenance on 2026-10-10. Re-check against the ordinance text when it is back."
+    },
+    {
+      "id": "baguio.parking",
+      "label": "Parking in Baguio",
+      "value": "Street and park-side parking is a main cause of traffic. The city has studied making weekend tourists park at the Baguio Convention Center and ride a hop-on hop-off bus.",
+      "data": {},
+      "source": {
+        "name": "BusinessWorld",
+        "url": "https://www.bworldonline.com/?p=459995",
+        "published": "2022-07-07"
+      },
+      "checked": "2026-10-10",
+      "status": "stale",
+      "note": "Only source is from 2022, and no 2026 parking rules or rates were found. Needs a current official source or Jed's own visit."
+    },
+    {
+      "id": "baguio.visitors",
+      "label": "How busy Baguio gets",
+      "value": "1,586,890 tourists visited the Cordillera in 2025. 72.92% chose Baguio as their main stop (DOT-Cordillera).",
+      "data": {
+        "cordillera2025": 1586890,
+        "baguioShare": 0.7292
+      },
+      "source": {
+        "name": "Daily Tribune (citing DOT-Cordillera)",
+        "url": "https://tribune.net.ph/2026/07/26/baguio-accounts-for-73-percent-of-cordillera-tourist-arrivals",
+        "published": "2026-07-26"
+      },
+      "checked": "2026-10-10",
+      "status": "changed",
+      "note": "Dropped the 2023 count and the 50k–60k per week figure (from 2022) as outdated."
+    },
+    {
+      "id": "baguio.police-app",
+      "label": "BCPO viewBaguio app",
+      "value": "Baguio City Police app: live traffic, parking slots at tourist spots, crowd estimates, hotlines.",
+      "data": {},
+      "source": {
+        "name": "App Store",
+        "url": "https://apps.apple.com/ph/app/id6751752791"
+      },
+      "checked": "2026-10-10",
+      "status": "stale",
+      "note": "On 2026-10-10 the App Store page returned 'not found' (blank page in a browser). The app may have been pulled or renamed."
+    },
+    {
+      "id": "weather.baguio",
+      "label": "Baguio weather by month",
+      "value": "Driest Dec–Apr; very wet Jun–Sep (August averages 905 mm of rain). Coldest nights Dec–Mar: record lows 6–8°C. Bring a jacket any month, and rain gear Jun–Oct.",
+      "data": {
+        "months": [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec"
+        ],
+        "rainNormalMm": [
+          15.2,
+          23.4,
+          46.0,
+          104.1,
+          341.1,
+          475.8,
+          781.9,
+          905.0,
+          570.9,
+          454.3,
+          97.4,
+          26.2
+        ],
+        "recordLowC": [
+          6.3,
+          6.7,
+          7.4,
+          10.0,
+          12.0,
+          13.3,
+          12.5,
+          12.8,
+          12.6,
+          11.3,
+          9.2,
+          7.6
+        ],
+        "recordHighC": [
+          28.4,
+          28.7,
+          30.4,
+          30.0,
+          29.4,
+          28.7,
+          27.9,
+          27.7,
+          28.0,
+          27.7,
+          28.2,
+          28.2
+        ]
+      },
+      "source": {
+        "name": "PAGASA climatological normals (rainfall)",
+        "url": "https://bagong.pagasa.dost.gov.ph/climate/climatological-normals"
+      },
+      "alsoSee": [
+        {
+          "name": "PAGASA climatological extremes, Baguio (as of 2024)",
+          "url": "https://pubfiles.pagasa.dost.gov.ph/pagasaweb/files/cad/CLIMATOLOGICAL%20EXTREMES%20(as%20of%202024)/Baguio.pdf"
+        }
+      ],
+      "checked": "2026-10-10",
+      "status": "ok",
+      "note": "PAGASA shows average monthly temperatures only as graphs, so record highs and lows are used instead."
+    },
+    {
+      "id": "emergency.911",
+      "label": "Emergency",
+      "value": "Dial 911 (national emergency hotline, works in Baguio and along the expressways).",
+      "data": {
+        "tel": "911"
+      },
+      "source": {
+        "name": "Daily Tribune — Unified 911 (DILG)",
+        "url": "https://tribune.net.ph/2026/09/18/remulla-unified-911-brings-emergency-response-closer-to-filipinos",
+        "published": "2026-09-18"
+      },
+      "checked": "2026-10-10",
+      "status": "ok"
+    },
+    {
+      "id": "emergency.nlex",
+      "label": "NLEX / SCTEX hotline",
+      "value": "NLEX Corporation hotline 1-35000 for breakdowns, accidents and road hazards. Give your km marker and direction.",
+      "data": {
+        "tel": "135000"
+      },
+      "source": {
+        "name": "NLEX Corporation",
+        "url": "https://www.nlex.com.ph/"
+      },
+      "checked": "2026-10-10",
+      "status": "ok"
+    }
+  ],
+  "missing": [
+    {
+      "id": "emergency.bghmc",
+      "what": "Baguio General Hospital (BGHMC) ER number",
+      "why": "No official page found. Directory listings only."
+    },
+    {
+      "id": "emergency.bcpo",
+      "what": "Baguio City Police Office hotline",
+      "why": "Only blog listings found. City website under maintenance."
+    },
+    {
+      "id": "emergency.tourism",
+      "what": "Baguio City Tourism Office contact",
+      "why": "City website under maintenance."
+    },
+    {
+      "id": "emergency.tplex",
+      "what": "TPLEX patrol/hotline",
+      "why": "tplex.com.ph didn't load. Only a third-party directory number found."
+    },
+    {
+      "id": "baguio.parking-current",
+      "what": "Current 2026 parking rules, pay-parking areas and rates",
+      "why": "Only proposals from 2018–2022 found."
+    },
+    {
+      "id": "weather.baguio-avg-temp",
+      "what": "Average monthly temperature (PAGASA)",
+      "why": "PAGASA publishes it only as graphs."
+    }
+  ]
+}

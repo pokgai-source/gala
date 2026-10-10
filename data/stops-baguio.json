@@ -1,0 +1,289 @@
+{
+  "updated": "2026-10-10",
+  "route": "manila-baguio",
+  "statusKey": {
+    "ok": "Confirmed on the checked date",
+    "check": "Listed by a trusted source but not yet confirmed open this year. Confirm before you rely on it.",
+    "closed": "Closed or can't be reached right now"
+  },
+  "stops": [
+    {
+      "id": "nlex-petron-lakeshore",
+      "name": "Petron Lakeshore",
+      "type": [
+        "gas",
+        "food",
+        "restroom"
+      ],
+      "segment": "NLEX",
+      "where": "Km 71, Mexico, Pampanga",
+      "maps": "https://www.google.com/maps/search/?api=1&query=Petron+Lakeshore+NLEX+Mexico+Pampanga",
+      "why": "Biggest food stop on NLEX: Kapampangan restaurants (sisig, bringhe), fast food, coffee, big clean restrooms and a well-lit parking lot.",
+      "featured": false,
+      "source": {
+        "name": "ABS-CBN Metro.Style",
+        "url": "https://abs-cbn.com/lifestyle/food/2025/4/12/metros-guide-to-the-best-food-stopovers-on-nlex-slex-and-tplex-1302",
+        "published": "2025-04-12"
+      },
+      "checked": "2026-10-10",
+      "status": "check"
+    },
+    {
+      "id": "sctex-seaoil-citymall",
+      "name": "SEAOIL – CityMall SCTEX",
+      "type": [
+        "gas",
+        "food",
+        "restroom"
+      ],
+      "segment": "NLEX–SCTEX junction",
+      "where": "Km 62, San Fernando, Pampanga",
+      "maps": "https://www.google.com/maps/search/?api=1&query=SEAOIL+CityMall+SCTEX+San+Fernando+Pampanga",
+      "why": "Highway food court (Jollibee, Mang Inasal, Army Navy), clean restrooms, staffed parking. Good last big stop before SCTEX.",
+      "featured": false,
+      "source": {
+        "name": "ABS-CBN Metro.Style",
+        "url": "https://abs-cbn.com/lifestyle/food/2025/4/12/metros-guide-to-the-best-food-stopovers-on-nlex-slex-and-tplex-1302",
+        "published": "2025-04-12"
+      },
+      "checked": "2026-10-10",
+      "status": "check"
+    },
+    {
+      "id": "nlex-caltex-mega",
+      "name": "Caltex Mega Station",
+      "type": [
+        "gas",
+        "food",
+        "restroom"
+      ],
+      "segment": "NLEX",
+      "where": "Km 55, San Fernando, Pampanga",
+      "maps": "https://www.google.com/maps/search/?api=1&query=Caltex+Mega+Station+NLEX+San+Fernando+Pampanga",
+      "why": "Dependable pit stop: fast food, coffee, Razon's halo-halo, restrooms with soap, visible security.",
+      "featured": false,
+      "source": {
+        "name": "ABS-CBN Metro.Style",
+        "url": "https://abs-cbn.com/lifestyle/food/2025/4/12/metros-guide-to-the-best-food-stopovers-on-nlex-slex-and-tplex-1302",
+        "published": "2025-04-12"
+      },
+      "checked": "2026-10-10",
+      "status": "check"
+    },
+    {
+      "id": "tplex-ptt-victoria",
+      "name": "PTT Victoria",
+      "type": [
+        "gas",
+        "food",
+        "restroom",
+        "pasalubong"
+      ],
+      "segment": "TPLEX",
+      "where": "Victoria, Tarlac",
+      "maps": "https://www.google.com/maps/search/?api=1&query=PTT+TPLEX+Victoria+Tarlac",
+      "why": "Quiet stop with Chowking, BonChon, coffee, clean restrooms, and a stall selling Tarlac rice cakes (pasalubong).",
+      "featured": false,
+      "source": {
+        "name": "ABS-CBN Metro.Style",
+        "url": "https://abs-cbn.com/lifestyle/food/2025/4/12/metros-guide-to-the-best-food-stopovers-on-nlex-slex-and-tplex-1302",
+        "published": "2025-04-12"
+      },
+      "checked": "2026-10-10",
+      "status": "check"
+    },
+    {
+      "id": "tplex-total-rosales",
+      "name": "Total Rosales",
+      "type": [
+        "gas",
+        "food",
+        "restroom"
+      ],
+      "segment": "TPLEX",
+      "where": "Rosales, Pangasinan",
+      "maps": "https://www.google.com/maps/search/?api=1&query=Total+TPLEX+Rosales+Pangasinan",
+      "why": "Last big stop before Rosario: Max's, Gerry's Grill, coffee, modern restrooms, spacious lot.",
+      "featured": false,
+      "source": {
+        "name": "ABS-CBN Metro.Style",
+        "url": "https://abs-cbn.com/lifestyle/food/2025/4/12/metros-guide-to-the-best-food-stopovers-on-nlex-slex-and-tplex-1302",
+        "published": "2025-04-12"
+      },
+      "checked": "2026-10-10",
+      "status": "check"
+    },
+    {
+      "id": "nlex-drive-and-dine",
+      "name": "Drive & Dine (way home)",
+      "type": [
+        "food",
+        "restroom"
+      ],
+      "segment": "NLEX southbound",
+      "where": "Km 21, Meycauayan–Valenzuela",
+      "maps": "https://www.google.com/maps/search/?api=1&query=Drive+and+Dine+NLEX+Meycauayan",
+      "why": "Southbound only, so it's for the way home. A last stretch-and-eat before Manila.",
+      "featured": false,
+      "source": {
+        "name": "ABS-CBN Metro.Style",
+        "url": "https://abs-cbn.com/lifestyle/food/2025/4/12/metros-guide-to-the-best-food-stopovers-on-nlex-slex-and-tplex-1302",
+        "published": "2025-04-12"
+      },
+      "checked": "2026-10-10",
+      "status": "check"
+    },
+    {
+      "id": "baguio-bencab-museum",
+      "name": "BenCab Museum",
+      "type": [
+        "must-see"
+      ],
+      "segment": "Baguio (Asin Road, Tuba)",
+      "where": "Km 6 Asin Road, Tuba, Benguet",
+      "maps": "https://www.google.com/maps/search/?api=1&query=BenCab+Museum+Asin+Road+Tuba+Benguet",
+      "why": "National Artist Ben Cabrera's museum, with Cordillera art and a garden and café on the hillside.",
+      "featured": false,
+      "source": {
+        "name": "BenCab Museum (official site)",
+        "url": "https://bencabmuseum.org/"
+      },
+      "checked": "2026-10-10",
+      "status": "ok",
+      "note": "Official site is up. Check opening days there before going."
+    },
+    {
+      "id": "baguio-camp-john-hay",
+      "name": "Camp John Hay",
+      "type": [
+        "must-see",
+        "food"
+      ],
+      "segment": "Baguio",
+      "where": "Loakan Road, Baguio",
+      "maps": "https://www.google.com/maps/search/?api=1&query=Camp+John+Hay+Baguio",
+      "why": "Pine forest, trails and restaurants. Has its own parking areas.",
+      "featured": false,
+      "source": {
+        "name": "Camp John Hay (official site)",
+        "url": "https://www.campjohnhay.ph/"
+      },
+      "checked": "2026-10-10",
+      "status": "ok"
+    },
+    {
+      "id": "baguio-pma",
+      "name": "Philippine Military Academy (Fort del Pilar)",
+      "type": [
+        "must-see"
+      ],
+      "segment": "Baguio (Loakan)",
+      "where": "Fort del Pilar, Loakan, Baguio",
+      "maps": "https://www.google.com/maps/search/?api=1&query=Philippine+Military+Academy+Fort+del+Pilar+Baguio",
+      "why": "Cadet grounds and museum.",
+      "featured": false,
+      "source": {
+        "name": "Baguio City Guide (relaying DPWH-CAR, Oct 9, 2026)",
+        "url": "https://baguiocityguide.com/most-cordillera-national-roads-passable-four-roadlines-remain-closed/",
+        "published": "2026-10-09"
+      },
+      "checked": "2026-10-10",
+      "status": "closed",
+      "note": "PMA Road and PMA Cut-Off Road No. 3 are not passable (sinking road) as of Oct 9, 2026."
+    },
+    {
+      "id": "baguio-burnham-park",
+      "name": "Burnham Park",
+      "type": [
+        "must-see"
+      ],
+      "segment": "Baguio (center)",
+      "where": "Jose Abad Santos Drive, Baguio",
+      "maps": "https://www.google.com/maps/search/?api=1&query=Burnham+Park+Baguio",
+      "why": "The classic: lake boating, bike rental, walking distance to Session Road.",
+      "featured": false,
+      "source": {
+        "name": "Google Maps listing",
+        "url": "https://www.google.com/maps/search/?api=1&query=Burnham+Park+Baguio"
+      },
+      "checked": "2026-10-10",
+      "status": "check"
+    },
+    {
+      "id": "baguio-mines-view",
+      "name": "Mines View Park",
+      "type": [
+        "must-see",
+        "pasalubong"
+      ],
+      "segment": "Baguio",
+      "where": "Mines View, Baguio",
+      "maps": "https://www.google.com/maps/search/?api=1&query=Mines+View+Park+Baguio",
+      "why": "View over Benguet's old mining towns, plus souvenir stalls. Traffic is heavy here on weekends.",
+      "featured": false,
+      "source": {
+        "name": "Google Maps listing",
+        "url": "https://www.google.com/maps/search/?api=1&query=Mines+View+Park+Baguio"
+      },
+      "checked": "2026-10-10",
+      "status": "check"
+    },
+    {
+      "id": "baguio-public-market",
+      "name": "Baguio City Public Market",
+      "type": [
+        "pasalubong",
+        "food"
+      ],
+      "segment": "Baguio (center)",
+      "where": "Magsaysay Avenue, Baguio",
+      "maps": "https://www.google.com/maps/search/?api=1&query=Baguio+City+Public+Market",
+      "why": "Strawberries, ube jam, peanut brittle, vegetables, coffee beans: classic pasalubong.",
+      "featured": false,
+      "source": {
+        "name": "Google Maps listing",
+        "url": "https://www.google.com/maps/search/?api=1&query=Baguio+City+Public+Market"
+      },
+      "checked": "2026-10-10",
+      "status": "check"
+    },
+    {
+      "id": "baguio-good-shepherd",
+      "name": "Good Shepherd Convent",
+      "type": [
+        "pasalubong"
+      ],
+      "segment": "Baguio (Mines View)",
+      "where": "Gibraltar Road, Mines View, Baguio",
+      "maps": "https://www.google.com/maps/search/?api=1&query=Good+Shepherd+Convent+Baguio",
+      "why": "Known for its ube jam and strawberry jam.",
+      "featured": false,
+      "source": {
+        "name": "Google Maps listing",
+        "url": "https://www.google.com/maps/search/?api=1&query=Good+Shepherd+Convent+Baguio"
+      },
+      "checked": "2026-10-10",
+      "status": "check"
+    },
+    {
+      "id": "latrinidad-strawberry-farm",
+      "name": "La Trinidad Strawberry Farm",
+      "type": [
+        "must-see",
+        "pasalubong"
+      ],
+      "segment": "La Trinidad (just north of Baguio)",
+      "where": "Km 6, La Trinidad, Benguet",
+      "maps": "https://www.google.com/maps/search/?api=1&query=La+Trinidad+Strawberry+Farm",
+      "why": "Strawberry picking (in season), strawberry taho and jams.",
+      "featured": false,
+      "source": {
+        "name": "Google Maps listing",
+        "url": "https://www.google.com/maps/search/?api=1&query=La+Trinidad+Strawberry+Farm"
+      },
+      "checked": "2026-10-10",
+      "status": "check",
+      "note": "Picking season not yet confirmed from an official source (Benguet LGU / DA)."
+    }
+  ]
+}
