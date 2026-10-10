@@ -1,0 +1,38 @@
+name: Save a version
+
+# Push a branch named versions/<version> (e.g. versions/v3.1) and this builds that exact site,
+# then makes a GitHub Release with the tag <version>, the printable PDF and the notes in docs/releases/<version>.md.
+on:
+  push:
+    branches: ["versions/**"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Build the site and PDF
+        run: node scripts/build.mjs
+      - name: Make the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          v="${GITHUB_REF_NAME#versions/}"
+          notes="docs/releases/$v.md"
+          [ -f "$notes" ] || notes=/dev/null
+          (cd _site && zip -qr "../gala-site-$v.zip" .)
+          pdfs=$(ls _site/*/*-roadbook.pdf)
+          if gh release view "$v" >/dev/null 2>&1; then
+            gh release upload "$v" $pdfs "gala-site-$v.zip" --clobber
+          else
+            gh release create "$v" --target "$GITHUB_SHA" --title "$v" --notes-file "$notes" $pdfs "gala-site-$v.zip"
+          fi
