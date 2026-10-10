@@ -84,4 +84,27 @@ for (const h of data.hotels) {
 }
 
 if (warnings.length) console.warn("Warnings:\n  " + warnings.join("\n  "));
-console.log(`Built _site/ — ${data.facts.facts.length} facts, ${Object.keys(data.routes).length} roadbook(s).`);
+console.log(`Built _site/ — ${data.facts.facts.length} facts, ${Object.keys(data.routes).length} roadbook(s), ${data.hotels.length} partner page(s).`);
+
+// QA: tri-fold PDF, screenshots and design checks (needs Playwright; CI always has it)
+if (!args.has("--no-qa")) {
+  let qa = true;
+  try { await import("playwright"); } catch { qa = false; console.log("qa skipped: playwright not installed (npm install)"); }
+  if (qa) {
+    const { makePdf } = await import("./qa/pdf.mjs");
+    const { shots } = await import("./qa/shots.mjs");
+    const { checkDesign } = await import("./qa/check-design.mjs");
+    const pages = [...Object.keys(data.routes), ...data.hotels.map((h) => `${h.route}/${h.slug}`)];
+    for (const routeId of Object.keys(data.routes)) console.log(`pdf → ${(await makePdf(out, routeId)).slice(root.length + 1)}`);
+    const designErrors = [];
+    for (const p of pages) {
+      await shots(out, p);
+      designErrors.push(...(await checkDesign(out, p)));
+    }
+    if (designErrors.length) {
+      console.error("Design errors:\n  " + designErrors.join("\n  "));
+      process.exit(1);
+    }
+    console.log(`qa: 0 design errors (${pages.length} page(s); screenshots in _site/<page>/check/)`);
+  }
+}
