@@ -1,0 +1,22 @@
+# Assets report (2026-10-10)
+
+- map baguio: traced 499 points
+- pin nlex-petron-lakeshore: no Petron station within 3000 m — kept approximate
+- pin sctex-seaoil-citymall: no SEAOIL station within 3000 m — kept approximate
+- pin nlex-caltex-mega: no Caltex station within 3000 m — kept approximate
+- pin nlex-shell-mexico-nb: no Shell station within 3000 m — kept approximate
+- pin tplex-ptt-victoria: no PTT station within 3000 m — kept approximate
+- pin tplex-total-rosales: no Total station within 3000 m — kept approximate
+- pin tplex-shell-rosario: no Shell station within 2500 m — kept approximate
+- photo cover-kennon: 6 candidates for "Kennon Road Baguio"
+- photo cover-session: 6 candidates for "Session Road Baguio"
+- photo cover-strawberries: 6 candidates for "La Trinidad strawberry"
+- photo city-hero: 6 candidates for "Baguio City view pine"
+- photo burnham-park: 6 candidates for "Burnham Park Baguio lake"
+- photo mines-view: 6 candidates for "Mines View Park Baguio"
+- photo bencab: 6 candidates for "BenCab Museum"
+- photo camp-john-hay: 6 candidates for "Camp John Hay Baguio"
+- photo public-market: 6 candidates for "Baguio City Market"
+- photo good-shepherd: 0 candidates for "Good Shepherd Convent Baguio"
+- photo strawberry-farm: 6 candidates for "La Trinidad Strawberry Farm Benguet"
+- photo pma: 6 candidates for "Philippine Military Academy Fort del Pilar"

@@ -39,7 +39,8 @@
           15.1
         ],
         "radius": 3000
-      }
+      },
+      "lnglatSource": "approximate"
     },
     {
       "id": "sctex-seaoil-citymall",
@@ -73,7 +74,8 @@
           15.075
         ],
         "radius": 3000
-      }
+      },
+      "lnglatSource": "approximate"
     },
     {
       "id": "nlex-caltex-mega",
@@ -107,7 +109,8 @@
           15.04
         ],
         "radius": 3000
-      }
+      },
+      "lnglatSource": "approximate"
     },
     {
       "id": "nlex-shell-mexico-nb",
@@ -144,7 +147,8 @@
           15.09
         ],
         "radius": 3000
-      }
+      },
+      "lnglatSource": "approximate"
     },
     {
       "id": "tplex-ptt-victoria",
@@ -178,7 +182,8 @@
           15.6
         ],
         "radius": 3000
-      }
+      },
+      "lnglatSource": "approximate"
     },
     {
       "id": "tplex-total-rosales",
@@ -211,7 +216,8 @@
           15.89
         ],
         "radius": 3000
-      }
+      },
+      "lnglatSource": "approximate"
     },
     {
       "id": "tplex-shell-rosario",
@@ -252,7 +258,8 @@
           16.23
         ],
         "radius": 2500
-      }
+      },
+      "lnglatSource": "approximate"
     },
     {
       "id": "nlex-drive-and-dine",
