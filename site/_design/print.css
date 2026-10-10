@@ -23,7 +23,8 @@ body.print { font: 400 8pt/1.35 var(--body); color: var(--ink); -webkit-print-co
 .cover .title .from { font-size: 18pt; }
 .cover .title .to { font-size: 50pt; }
 .cover .tagline { font-size: 15pt; }
-.cover .stamp { position: absolute; top: .32in; right: .4in; width: .95in; height: .95in; }
+.cover .stamp { position: absolute; top: 2.05in; right: .4in; left: auto; bottom: auto; transform: rotate(12deg); width: .95in; height: .95in; }
+.cover .plate.coding .v { font-size: 14pt; }
 .cover .polaroids { position: absolute; right: .45in; bottom: .25in; display: flex; }
 .cover .polaroid { width: 1.05in; padding: 4px 4px 2px; }
 .cover .polaroid figcaption { font-size: 7pt; }

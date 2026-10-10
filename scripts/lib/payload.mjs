@@ -35,12 +35,15 @@ export function buildPayload(data, routeId, { root, now = new Date(), theme = nu
   });
 
   const timeline = resolveTimeline(route, S, F).map((t) => (t.kind === "stop" ? { ...t, ...meta(S.get(t.id)) } : t));
-  const cityRe = new RegExp(route.city.cityMatch || "^$");
+  const c = route.city || null;
+  const cityRe = new RegExp((c && c.cityMatch) || "^$");
   const places = stopsFile.stops
     .filter((s) => cityRe.test(s.segment) && s.type.some((t) => t === "must-see" || t === "pasalubong"))
     .map(stop);
 
   const allChecked = [...data.facts.facts, ...stopsFile.stops];
+  const routeStopIds = new Set([...timeline.map((t) => t.id), ...(route.wayHome || []), ...places.map((p) => p.id)]);
+  const anyFeatured = stopsFile.stops.some((s) => s.featured && routeStopIds.has(s.id));
   return {
     builtAt: now.toISOString(),
     maxAgeDays: MAX_AGE_DAYS,
@@ -49,24 +52,26 @@ export function buildPayload(data, routeId, { root, now = new Date(), theme = nu
     route: { title: route.title, tagline: route.tagline, polaroids: route.polaroids, routeStrip: route.routeStrip },
     plates,
     roadCheck,
-    receipt: { ...route.tollsReceipt, facts: route.tollsReceipt.facts.map(fact) },
+    receipt: route.tollsReceipt ? { ...route.tollsReceipt, facts: route.tollsReceipt.facts.map(fact) } : null,
     wayNote: route.wayNote ? { text: route.wayNote.text, ...meta(F.get(route.wayNote.fact)) } : null,
     timeline,
     wayHome: (route.wayHome || []).map((id) => stop(S.get(id))),
     map: buildMap(data.routes[routeId], S, root),
-    city: {
-      coding: fact(route.city.codingFact),
-      zone: fact(route.city.zoneFact),
-      parking: route.city.parkingFacts.map(fact),
-      note: route.city.note || "",
+    city: c ? {
+      coding: c.codingFact ? fact(c.codingFact) : null,
+      zone: c.zoneFact ? fact(c.zoneFact) : null,
+      parking: (c.parkingFacts || []).map(fact),
+      note: c.note || "",
       places,
-    },
+    } : null,
     weather: route.weatherFact ? fact(route.weatherFact) : null,
     emergency: (route.emergencyFacts || []).map(fact),
     missingEmergency: (data.facts.missing || []).filter((m) => /^emergency\./.test(m.id)).map((m) => m.what),
     morningCheck: route.morningCheck || [],
+    pack: route.pack || [],
     creators: data.creators.creators || [],
     theme,
+    anyFeatured,
     pdfHref: `${routeId}-roadbook.pdf`,
   };
 }

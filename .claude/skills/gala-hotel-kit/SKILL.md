@@ -21,11 +21,12 @@ description: Use when Jed says "make a version for <hotel>" (hotel, inn, transie
    ```json
    { "name": "…", "route": "baguio",
      "theme": { "brand": "#…", "brand2": "#…", "accent": "#…", "onAccent": "#…" },
-     "logo": "img/<slug>.webp", "contact": { "type": "messenger", "url": "…" },
+     "logo": "img/<hotel-slug>.webp", "contact": { "type": "messenger", "url": "…" },
      "parking": "…", "arrival": "…", "phase": "free-testimonial",
      "source": "who or where it came from", "checked": "YYYY-MM-DD" }
    ```
    - The 4 colours come from the hotel's own brand (Facebook page, website or files from Jed).
+   - Put the logo file in `data/hotels/img/` (square, ≤40 KB WebP or SVG). The build copies it next to the page and fails if it's missing.
    - Partners change **only** these 4 colours plus the logo and name. Fonts and road-sign colours stay GALA's
      (see `gala-design`).
 3. Build: `node scripts/build.mjs` makes `_site/<route>/<hotel-slug>/` with their name in the header, their

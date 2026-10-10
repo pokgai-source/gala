@@ -78,7 +78,8 @@ h1, h2, h3, h4 { font-family: var(--display); font-weight: var(--display-w); let
 .title .from { display: block; font-size: clamp(26px, 7vw, 44px); opacity: .9; }
 .title .to { display: block; font-size: clamp(64px, 20vw, 168px); color: var(--accent); }
 .tagline { font-family: var(--hand); font-size: clamp(24px, 6vw, 32px); transform: rotate(-3deg); transform-origin: left; margin: 2px 0 0 4px; }
-.stamp { position: absolute; right: 10px; top: 46px; width: 96px; height: 96px; transform: rotate(12deg); color: var(--accent); }
+/* phones: the stamp sits bottom-left over the ridges, clear of the title and partner names */
+.stamp { position: absolute; left: 14px; bottom: 62px; width: 92px; height: 92px; transform: rotate(-10deg); color: var(--accent); }
 .polaroids { position: absolute; right: 16px; bottom: 60px; display: flex; }
 .polaroid { margin: 0; width: 98px; background: #FBFBF7; padding: 7px 7px 4px; box-shadow: 0 6px 14px rgba(0,0,0,.28); position: relative; color: #2A2A26; }
 .polaroid svg, .polaroid img { display: block; width: 100%; max-width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
@@ -87,13 +88,13 @@ h1, h2, h3, h4 { font-family: var(--display); font-weight: var(--display-w); let
 .polaroid:nth-child(2) { transform: rotate(4deg); margin-left: -22px; z-index: 1; }
 .polaroid:nth-child(3) { display: none; transform: rotate(-2deg) translateY(16px); margin-left: -22px; }
 .tape { position: absolute; width: 58px; height: 18px; background: var(--tape); top: -9px; left: 50%; transform: translateX(-50%) rotate(-4deg); }
-@media (min-width: 560px) { .polaroid { width: 118px; } .polaroid:nth-child(3) { display: block; } .stamp { width: 116px; height: 116px; } }
+@media (min-width: 560px) { .polaroid { width: 118px; } .polaroid:nth-child(3) { display: block; } .stamp { width: 116px; height: 116px; bottom: 56px; } }
 @media (min-width: 900px) {
   .hero-inner { padding-block: 34px 80px; padding-right: 47%; }
   .title .to { font-size: clamp(72px, 11vw, 136px); }
   .polaroids { bottom: 64px; right: max(24px, calc((100vw - 1180px) / 2 + 24px)); }
   .polaroid { width: 160px; }
-  .stamp { width: 130px; height: 130px; top: 30px; right: max(470px, calc((100vw - 1180px) / 2 + 470px)); }
+  .stamp { width: 130px; height: 130px; left: auto; bottom: auto; top: 118px; transform: rotate(12deg); right: max(470px, calc((100vw - 1180px) / 2 + 470px)); }
 }
 
 /* STAT PLATES */

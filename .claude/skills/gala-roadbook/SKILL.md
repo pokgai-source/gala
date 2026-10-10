@@ -15,13 +15,14 @@ about the look, follow `gala-design`.
 2. **Updating an existing route:** change facts in `data/facts.json` and stops in `data/stops-<route>.json`
    only. The page updates itself.
 3. **New route:**
-   1. Copy `data/routes/baguio.json` to `data/routes/<route>.json`. Change the title, tagline, polaroids, plates,
-      road check, route strip, tolls receipt, timeline, city section, morning-of check, and the map `bbox`,
+   1. Copy `data/routes/baguio.json` to `data/routes/<route>.json`. Change `id` to the file name first, then the title, tagline, polaroids, plates,
+      road check, route strip, tolls receipt, timeline, city section, pack list, morning-of check, and the map `bbox`,
       `waypoints` and `labels`.
    2. Add facts with ids prefixed by the route to `data/facts.json`, and stops with `km` (when there is a km post)
       and `lnglat` to `data/stops-<route>.json`.
-   3. Any fact inside route-file text goes in as a placeholder: `{factId:data.path|peso}`.
-   4. Run `node scripts/trace-route.mjs <route>` once to save the real road line
+   3. Leave out sections the place doesn't need (`tollsReceipt`, `city`, `wayNote`, `weatherFact`); the page and PDF skip them.
+   4. Any fact inside route-file text goes in as a placeholder: `{factId:data.path|peso}`.
+   5. Run `node scripts/trace-route.mjs <route>` once to save the real road line
       (`data/routes/<route>.geo.json`). If the network blocks it, CI traces it.
 4. Build: `npm install` (first time only), `npm test`, then `node scripts/build.mjs`. The build makes:
    - the phone page

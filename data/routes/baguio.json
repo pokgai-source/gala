@@ -1,51 +1,169 @@
 {
   "id": "baguio",
-  "title": { "from": "Manila to", "to": "Baguio" },
+  "title": {
+    "from": "Manila to",
+    "to": "Baguio"
+  },
   "tagline": "Tara sa next GALA!",
   "polaroids": [
-    { "art": "kennon-zigzag", "caption": "Kennon zigzag", "photo": null },
-    { "art": "strawberries", "caption": "La Trinidad strawberries", "photo": null },
-    { "art": "pines-fog", "caption": "Pines in the fog", "photo": null }
+    {
+      "art": "kennon-zigzag",
+      "caption": "Kennon zigzag",
+      "photo": null
+    },
+    {
+      "art": "strawberries",
+      "caption": "La Trinidad strawberries",
+      "photo": null
+    },
+    {
+      "art": "pines-fog",
+      "caption": "Pines in the fog",
+      "photo": null
+    }
   ],
   "plates": [
-    { "fact": "tolls.manila-baguio", "label": "Tolls, one way", "value": "{tolls.manila-baguio:data.class1|peso}", "note": "Class 1 car", "style": "total" },
-    { "fact": "route.drive-time", "label": "Drive time", "value": "~{route.drive-time:data.hoursNoTraffic} hrs", "note": "No traffic, plus the mountain road" },
-    { "fact": "rfid", "label": "RFID you need", "value": "2", "note": "Easytrip and Autosweep" },
-    { "kind": "coding-today", "fact": "baguio.coding", "label": "Baguio coding today" }
+    {
+      "fact": "tolls.manila-baguio",
+      "label": "Tolls, one way",
+      "value": "{tolls.manila-baguio:data.class1|peso}",
+      "note": "Class 1 car",
+      "style": "total"
+    },
+    {
+      "fact": "route.drive-time",
+      "label": "Drive time",
+      "value": "~{route.drive-time:data.hoursNoTraffic} hrs",
+      "note": "No traffic, plus the mountain road"
+    },
+    {
+      "fact": "rfid",
+      "label": "RFID you need",
+      "value": "2",
+      "note": "Easytrip and Autosweep"
+    },
+    {
+      "kind": "coding-today",
+      "fact": "baguio.coding",
+      "label": "Baguio coding today"
+    }
   ],
-  "roadCheck": ["kennon.status", "marcos.status", "baguio.road-closures"],
+  "roadCheck": [
+    "kennon.status",
+    "marcos.status",
+    "baguio.road-closures"
+  ],
   "routeStrip": [
-    { "place": "Balintawak", "via": "NLEX", "viaNote": "Easytrip" },
-    { "place": "SCTEX junction", "via": "SCTEX", "viaNote": "Tarlac branch" },
-    { "place": "La Paz, Tarlac", "via": "TPLEX", "viaNote": "Autosweep" },
-    { "place": "Rosario exit", "via": "Kennon or Marcos" },
-    { "place": "Baguio" }
+    {
+      "place": "Balintawak",
+      "via": "NLEX",
+      "viaNote": "Easytrip"
+    },
+    {
+      "place": "SCTEX junction",
+      "via": "SCTEX",
+      "viaNote": "Tarlac branch"
+    },
+    {
+      "place": "La Paz, Tarlac",
+      "via": "TPLEX",
+      "viaNote": "Autosweep"
+    },
+    {
+      "place": "Rosario exit",
+      "via": "Kennon or Marcos"
+    },
+    {
+      "place": "Baguio"
+    }
   ],
   "tollsReceipt": {
     "segments": [
-      { "label": "NLEX + SCTEX", "note": "Balintawak to La Paz, Easytrip", "value": "{tolls.segments.class1:data.nlexSctexBalintawakTarlac|peso}" },
-      { "label": "TPLEX", "note": "La Paz to Rosario, Autosweep", "value": "{tolls.segments.class1:data.tplexLaPazRosario|peso}" }
+      {
+        "label": "NLEX + SCTEX",
+        "note": "Balintawak to La Paz, Easytrip",
+        "value": "{tolls.segments.class1:data.nlexSctexBalintawakTarlac|peso}"
+      },
+      {
+        "label": "TPLEX",
+        "note": "La Paz to Rosario, Autosweep",
+        "value": "{tolls.segments.class1:data.tplexLaPazRosario|peso}"
+      }
     ],
     "total": "{tolls.manila-baguio:data.class1|peso}",
     "others": "Class 2 {tolls.manila-baguio:data.class2|peso}, Class 3 {tolls.manila-baguio:data.class3|peso}.",
-    "facts": ["tolls.segments.class1", "tolls.manila-baguio"]
+    "facts": [
+      "tolls.segments.class1",
+      "tolls.manila-baguio"
+    ]
   },
-  "wayNote": { "fact": "rfid", "text": "Load both RFIDs before you leave: Easytrip {rfid:data.easytripMin|peso}+ and Autosweep {rfid:data.autosweepMin|peso}+." },
+  "wayNote": {
+    "fact": "rfid",
+    "text": "Load both RFIDs before you leave: Easytrip {rfid:data.easytripMin|peso}+ and Autosweep {rfid:data.autosweepMin|peso}+."
+  },
   "timeline": [
-    { "waypoint": "start", "title": "Balintawak toll plaza", "post": "START", "body": "NLEX starts here. At the SCTEX junction follow the signs for Tarlac, not Subic.", "lnglat": [121.0, 14.657], "short": "Balintawak", "sub": "Start of NLEX. Easytrip lane." },
-    { "stopId": "nlex-caltex-mega" },
-    { "stopId": "sctex-seaoil-citymall" },
-    { "stopId": "nlex-petron-lakeshore" },
-    { "stopId": "tplex-ptt-victoria" },
-    { "stopId": "tplex-total-rosales" },
-    { "waypoint": "exit", "title": "Rosario exit, then up the mountain", "post": "EXIT", "body": "Light car and dry weather: Kennon Road. Heavy vehicle or heavy rain: Marcos Highway. Check the road notes above.", "lnglat": [120.49, 16.23], "short": "Rosario exit", "sub": "End of TPLEX. Pick Kennon or Marcos." },
-    { "waypoint": "end", "title": "Baguio", "post": "END", "body": "Welcome up. Coding, parking and where to go are in the next section.", "lnglat": [120.6, 16.41], "short": "Baguio", "sub": "You made it. Mind the coding zone." }
+    {
+      "waypoint": "start",
+      "title": "Balintawak toll plaza",
+      "post": "START",
+      "body": "NLEX starts here. At the SCTEX junction follow the signs for Tarlac, not Subic.",
+      "lnglat": [
+        121.0,
+        14.657
+      ],
+      "short": "Balintawak",
+      "sub": "Start of NLEX. Easytrip lane."
+    },
+    {
+      "stopId": "nlex-caltex-mega"
+    },
+    {
+      "stopId": "sctex-seaoil-citymall"
+    },
+    {
+      "stopId": "nlex-petron-lakeshore"
+    },
+    {
+      "stopId": "tplex-ptt-victoria"
+    },
+    {
+      "stopId": "tplex-total-rosales"
+    },
+    {
+      "waypoint": "exit",
+      "title": "Rosario exit, then up the mountain",
+      "post": "EXIT",
+      "body": "Light car and dry weather: Kennon Road. Heavy vehicle or heavy rain: Marcos Highway. Check the road notes above.",
+      "lnglat": [
+        120.49,
+        16.23
+      ],
+      "short": "Rosario exit",
+      "sub": "End of TPLEX. Pick Kennon or Marcos."
+    },
+    {
+      "waypoint": "end",
+      "title": "Baguio",
+      "post": "END",
+      "body": "Welcome up. Coding, parking and where to go are in the next section.",
+      "lnglat": [
+        120.6,
+        16.41
+      ],
+      "short": "Baguio",
+      "sub": "You made it. Mind the coding zone."
+    }
   ],
-  "wayHome": ["nlex-drive-and-dine"],
+  "wayHome": [
+    "nlex-drive-and-dine"
+  ],
   "city": {
     "codingFact": "baguio.coding",
     "zoneFact": "baguio.coding-zone",
-    "parkingFacts": ["baguio.parking", "baguio.police-app"],
+    "parkingFacts": [
+      "baguio.parking",
+      "baguio.police-app"
+    ],
     "note": "Weekends are coding-free. You can drive the perimeter roads, but don't park on them on your coding day.",
     "cityMatch": "^(Baguio|La Trinidad)"
   },
@@ -56,30 +174,279 @@
     "Rain heavy? Plan on Marcos Highway."
   ],
   "weatherFact": "weather.baguio",
-  "emergencyFacts": ["emergency.911", "emergency.nlex"],
+  "emergencyFacts": [
+    "emergency.911",
+    "emergency.nlex"
+  ],
   "map": {
-    "bbox": [119.75, 14.35, 121.45, 16.75],
+    "bbox": [
+      119.75,
+      14.35,
+      121.45,
+      16.75
+    ],
     "width": 340,
     "waypoints": [
-      [121.0, 14.657], [120.975, 14.74], [120.93, 14.8], [120.88, 14.86], [120.8, 14.93], [120.72, 15.0], [120.69, 15.04],
-      [120.66, 15.08], [120.62, 15.12], [120.59, 15.16], [120.575, 15.2], [120.55, 15.24], [120.555, 15.29], [120.59, 15.34],
-      [120.61, 15.4], [120.62, 15.45], [120.61, 15.53], [120.6, 15.6], [120.58, 15.67], [120.57, 15.74], [120.61, 15.84],
-      [120.62, 15.89], [120.58, 15.96], [120.59, 16.04], [120.54, 16.11], [120.51, 16.17], [120.49, 16.23], [120.52, 16.26],
-      [120.55, 16.29], [120.57, 16.33], [120.59, 16.37], [120.6, 16.41]
+      [
+        121.0,
+        14.657
+      ],
+      [
+        120.975,
+        14.74
+      ],
+      [
+        120.93,
+        14.8
+      ],
+      [
+        120.88,
+        14.86
+      ],
+      [
+        120.8,
+        14.93
+      ],
+      [
+        120.72,
+        15.0
+      ],
+      [
+        120.69,
+        15.04
+      ],
+      [
+        120.66,
+        15.08
+      ],
+      [
+        120.62,
+        15.12
+      ],
+      [
+        120.59,
+        15.16
+      ],
+      [
+        120.575,
+        15.2
+      ],
+      [
+        120.55,
+        15.24
+      ],
+      [
+        120.555,
+        15.29
+      ],
+      [
+        120.59,
+        15.34
+      ],
+      [
+        120.61,
+        15.4
+      ],
+      [
+        120.62,
+        15.45
+      ],
+      [
+        120.61,
+        15.53
+      ],
+      [
+        120.6,
+        15.6
+      ],
+      [
+        120.58,
+        15.67
+      ],
+      [
+        120.57,
+        15.74
+      ],
+      [
+        120.61,
+        15.84
+      ],
+      [
+        120.62,
+        15.89
+      ],
+      [
+        120.58,
+        15.96
+      ],
+      [
+        120.59,
+        16.04
+      ],
+      [
+        120.54,
+        16.11
+      ],
+      [
+        120.51,
+        16.17
+      ],
+      [
+        120.49,
+        16.23
+      ],
+      [
+        120.52,
+        16.26
+      ],
+      [
+        120.55,
+        16.29
+      ],
+      [
+        120.57,
+        16.33
+      ],
+      [
+        120.59,
+        16.37
+      ],
+      [
+        120.6,
+        16.41
+      ]
     ],
     "labels": [
-      { "text": "NLEX", "at": [120.92, 14.88], "kind": "road" },
-      { "text": "SCTEX", "at": [120.37, 15.32], "kind": "road" },
-      { "text": "TPLEX", "at": [120.66, 15.7], "kind": "road" },
-      { "text": "KENNON", "at": [120.2, 16.38], "kind": "road" },
-      { "text": "Lingayen Gulf", "at": [119.92, 16.21], "kind": "water" },
-      { "text": "Manila Bay", "at": [120.6, 14.47], "kind": "water" },
-      { "text": "Cordillera", "at": [120.73, 16.07], "kind": "water" },
-      { "text": "Baguio", "at": [120.6, 16.41], "kind": "town", "dx": 10 },
-      { "text": "Balintawak", "at": [121.0, 14.657], "kind": "town", "dx": -62 },
-      { "text": "Rosario", "at": [120.49, 16.23], "kind": "town", "dx": -48 },
-      { "text": "Tarlac", "at": [120.62, 15.45], "kind": "town", "dx": 10 }
+      {
+        "text": "NLEX",
+        "at": [
+          120.92,
+          14.88
+        ],
+        "kind": "road"
+      },
+      {
+        "text": "SCTEX",
+        "at": [
+          120.37,
+          15.32
+        ],
+        "kind": "road"
+      },
+      {
+        "text": "TPLEX",
+        "at": [
+          120.66,
+          15.7
+        ],
+        "kind": "road"
+      },
+      {
+        "text": "KENNON",
+        "at": [
+          120.2,
+          16.38
+        ],
+        "kind": "road"
+      },
+      {
+        "text": "Lingayen Gulf",
+        "at": [
+          119.92,
+          16.21
+        ],
+        "kind": "water"
+      },
+      {
+        "text": "Manila Bay",
+        "at": [
+          120.6,
+          14.47
+        ],
+        "kind": "water"
+      },
+      {
+        "text": "Cordillera",
+        "at": [
+          120.73,
+          16.07
+        ],
+        "kind": "water"
+      },
+      {
+        "text": "Baguio",
+        "at": [
+          120.6,
+          16.41
+        ],
+        "kind": "town",
+        "dx": 10
+      },
+      {
+        "text": "Balintawak",
+        "at": [
+          121.0,
+          14.657
+        ],
+        "kind": "town",
+        "dx": -62
+      },
+      {
+        "text": "Rosario",
+        "at": [
+          120.49,
+          16.23
+        ],
+        "kind": "town",
+        "dx": -48
+      },
+      {
+        "text": "Tarlac",
+        "at": [
+          120.62,
+          15.45
+        ],
+        "kind": "town",
+        "dx": 10
+      }
     ],
-    "mountains": [[120.67, 16.5], [120.74, 16.42], [120.81, 16.53], [120.69, 16.27], [120.84, 16.34], [120.89, 16.47], [120.78, 16.16], [120.92, 16.22]]
-  }
+    "mountains": [
+      [
+        120.67,
+        16.5
+      ],
+      [
+        120.74,
+        16.42
+      ],
+      [
+        120.81,
+        16.53
+      ],
+      [
+        120.69,
+        16.27
+      ],
+      [
+        120.84,
+        16.34
+      ],
+      [
+        120.89,
+        16.47
+      ],
+      [
+        120.78,
+        16.16
+      ],
+      [
+        120.92,
+        16.22
+      ]
+    ]
+  },
+  "pack": [
+    "Jacket or hoodie. Nights get cold.",
+    "Closed shoes for slopes and stairs."
+  ]
 }

@@ -16,6 +16,13 @@
       .formatToParts(new Date()).forEach(function (x) { p[x.type] = x.value; });
     return { day: p.weekday, hour: +p.hour, month: +p.month - 1 };
   }
+  // "07:00-19:00" becomes hour words for people
+  function hourText(h) { h = parseInt(h, 10); return (h % 12 || 12) + (h < 12 ? "am" : "pm"); }
+  function hoursText(hours) { var h = String(hours).split("-"); return hourText(h[0]) + " to " + hourText(h[1]); }
+  function codingDaysText(byDay) {
+    var ds = Object.keys(byDay);
+    return ds.join(",") === "Mon,Tue,Wed,Thu,Fri" ? "Weekdays" : ds.join(", ");
+  }
   function set(id, html) { var el = document.getElementById(id); if (el) el.innerHTML = html; return el; }
 
   // shared bits
@@ -25,8 +32,14 @@
     var from = src.url ? '<a href="' + esc(src.url) + '" target="_blank" rel="noopener">' + esc(src.name || "source") + "</a>" : esc(src.name || "");
     return '<p class="checked">Checked ' + esc(fmtDate(item.checked)) + (from ? ", from " + from : "") + "</p>" + staleNote(item);
   }
+  // stale is re-worked out on the phone, so a fact that ages past the limit after the build still gets flagged
+  function daysSince(iso) { return Math.floor((Date.now() - Date.parse(iso + "T00:00:00+08:00")) / 86400000); }
+  function isStale(item) {
+    var max = (window.GALA && window.GALA.data && window.GALA.data.maxAgeDays) || 45;
+    return !!(item && (item.stale || (item.checked && item.status !== "closed" && daysSince(item.checked) > max)));
+  }
   function staleNote(item) {
-    if (!item || !item.stale) return "";
+    if (!isStale(item)) return "";
     return '<p class="stale-note">Needs re-check' + (item.staleText ? ": " + esc(item.staleText) : ".") + "</p>";
   }
   function use(id, cls, label) {
@@ -97,10 +110,10 @@
     set("plates", D.plates.map(function (p) {
       if (p.kind === "coding-today") {
         var today = p.byDay[n.day];
-        var h = p.hours.split("-"), from = parseInt(h[0], 10), to = parseInt(h[1], 10) - 12;
+
         return '<div class="plate ' + (today ? "coding-on" : "coding-off") + '" data-fact="' + esc(p.factId) + '"><span class="k">' + esc(p.label) + "</span>" +
           '<span class="v">' + (today ? esc(today.join(" & ")) : "None") + "</span>" +
-          '<span class="s">' + (today ? "Plates ending in these, " + from + "am to " + to + "pm" : "It's " + esc(n.day) + ". No coding on weekends.") + "</span>" + checkedLine(p) + "</div>";
+          '<span class="s">' + (today ? "Plates ending in these, " + esc(hoursText(p.hours)) : "It's " + esc(n.day) + ". No number coding today.") + "</span>" + checkedLine(p) + "</div>";
       }
       return '<div class="plate ' + esc(p.style) + '" data-fact="' + esc(p.factId) + '"><span class="k">' + esc(p.label) + '</span><span class="v num">' + esc(p.value) + "</span>" +
         '<span class="s">' + esc(p.note) + "</span>" + checkedLine(p) + "</div>";
@@ -141,10 +154,10 @@
   }
   function renderWay(D) {
     var R = D.receipt;
-    var receipt = '<div class="receipt" data-fact="' + esc(R.facts[0].id) + '"><h3>Tolls, Class 1</h3><table class="num">' +
+    var receipt = R ? '<div class="receipt" data-fact="' + esc(R.facts[0].id) + '"><h3>Tolls, Class 1</h3><table class="num">' +
       R.segments.map(function (s) { return "<tr><td>" + esc(s.label) + '<span class="tag">' + esc(s.note) + "</span></td><td>" + esc(s.value) + "</td></tr>"; }).join("") +
       '<tr class="sum"><td>One way</td><td>' + esc(R.total) + "</td></tr></table>" +
-      '<p class="checked">' + esc(R.others) + "</p>" + uniqueSources(R.facts).map(checkedLine).join("") + "</div>";
+      (R.others ? '<p class="checked">' + esc(R.others) + "</p>" : "") + uniqueSources(R.facts).map(checkedLine).join("") + "</div>" : "";
     var note = D.wayNote ? '<p class="margin-note">' + esc(D.wayNote.text) + "</p>" : "";
     var home = D.wayHome.length ? '<div class="wayhome"><h3>On the way home</h3><ol class="timeline">' + D.wayHome.map(stopLi).join("") + "</ol></div>" : "";
     set("way",
@@ -163,7 +176,9 @@
       mapsButton(p.mapsUrl) + checkedLine(p) + "</li>";
   }
   function renderCity(D) {
-    var C = D.city, first = C.places.slice(0, 3), rest = C.places.slice(3);
+    var C = D.city;
+    if (!C) { var sec = document.getElementById("city"); if (sec && sec.closest("section")) sec.closest("section").hidden = true; return; }
+    var first = C.places.slice(0, 3), rest = C.places.slice(3);
     var digits = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0].map(function (d) { return '<button type="button" aria-pressed="false" data-digit="' + d + '">' + d + "</button>"; }).join("");
     var days = ["Today", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(function (d) { return '<button type="button" aria-pressed="' + (d === "Today") + '" data-day="' + d + '">' + d + "</button>"; }).join("");
     var T = D.theme, arriving = T && (T.parking || T.arrival)
@@ -171,19 +186,20 @@
         (T.parking ? "<p><strong>Parking:</strong> " + esc(T.parking) + "</p>" : "") + '<p class="checked">From ' + esc(T.name) + ", " + esc(fmtDate(T.checked)) + "</p></div>"
       : "";
     set("city", arriving +
-      '<div class="checker" role="group" aria-labelledby="chk-h" data-fact="' + esc(C.coding.id) + '"><h3 id="chk-h">Number coding checker</h3>' +
+      (C.coding ?       '<div class="checker" role="group" aria-labelledby="chk-h" data-fact="' + esc(C.coding.id) + '"><h3 id="chk-h">Number coding checker</h3>' +
       '<fieldset><legend>Last digit of your plate</legend><div class="digits" id="digits">' + digits + "</div></fieldset>" +
       '<fieldset><legend>Day</legend><div class="days" id="days">' + days + "</div></fieldset>" +
       '<div class="verdict" id="verdict" aria-live="polite">Tap your plate\'s last digit.</div>' +
       "<p>" + esc(C.coding.value) + "</p>" +
-      '<p class="checked">Runs on your phone only. Nothing is saved or sent.</p>' + checkedLine(C.coding) + "</div>" +
+      '<p class="checked">Runs on your phone only. Nothing is saved or sent.</p>' + checkedLine(C.coding) + "</div>" : "") +
       (C.note ? '<p class="margin-note">' + esc(C.note) + "</p>" : "") +
-      '<div data-fact="' + esc(C.zone.id) + '"><h3>' + esc(C.zone.label) + "</h3><p>" + esc(C.zone.value) + "</p>" + checkedLine(C.zone) + "</div>" +
-      "<div><h3>Must-sees and pasalubong</h3>" + '<ul class="places">' + first.map(placeLi).join("") + "</ul>" +
-      (rest.length ? '<details class="more"><summary class="btn alt">See all ' + C.places.length + ' places</summary><ul class="places">' + rest.map(placeLi).join("") + "</ul></details>" : "") + "</div>" +
+      (C.zone ? '<div data-fact="' + esc(C.zone.id) + '"><h3>' + esc(C.zone.label) + "</h3><p>" + esc(C.zone.value) + "</p>" + checkedLine(C.zone) + "</div>" : "") +
+      (C.places.length ? "<div><h3>Must-sees and pasalubong</h3>" + '<ul class="places">' + first.map(placeLi).join("") + "</ul>" +
+      (rest.length ? '<details class="more"><summary class="btn alt">See all ' + C.places.length + ' places</summary><ul class="places">' + rest.map(placeLi).join("") + "</ul></details>" : "") + "</div>" : "") +
       C.parking.map(function (f) { return '<div data-fact="' + esc(f.id) + '"><h3>' + esc(f.label) + "</h3><p>" + esc(f.value) + "</p>" + checkedLine(f) + "</div>"; }).join(""));
   }
   function initCodingChecker(D) {
+    if (!D.city || !D.city.coding) return;
     var byDay = D.city.coding.data.byDay, h = D.city.coding.data.hours.split("-"), start = parseInt(h[0], 10), end = parseInt(h[1], 10);
     var pick = { digit: null, day: "Today" }, n = now();
     var digitsEl = document.getElementById("digits"), daysEl = document.getElementById("days"), v = document.getElementById("verdict");
@@ -194,8 +210,8 @@
       var day = pick.day === "Today" ? n.day : pick.day, label = pick.day === "Today" ? "Today (" + day + ")" : day;
       var banned = (byDay[day] || []).indexOf(pick.digit) !== -1;
       if (!banned) { v.className = "verdict go"; v.textContent = label + ": plates ending in " + pick.digit + " are free to drive."; return; }
-      var msg = label + ": coding for plates ending in " + pick.digit + ". Stay out of the coding zone " + start + "am to " + (end - 12) + "pm.";
-      if (pick.day === "Today") msg += n.hour < start ? " You're clear until " + start + "am." : n.hour >= end ? " Coding is over for today." : " Coding is on right now.";
+      var msg = label + ": coding for plates ending in " + pick.digit + ". Stay out of the coding zone " + hoursText(D.city.coding.data.hours) + ".";
+      if (pick.day === "Today") msg += n.hour < start ? " You're clear until " + hourText(start) + "." : n.hour >= end ? " Coding is over for today." : " Coding is on right now.";
       v.className = "verdict stop"; v.textContent = msg;
     }
     digitsEl.addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; pick.digit = +b.dataset.digit; press(digitsEl, b); verdict(); });
@@ -207,10 +223,10 @@
     var out = "", m = now().month, W = D.weather;
     if (W) {
       var rain = W.data.rainNormalMm, low = W.data.recordLowC, months = W.data.months, max = Math.max.apply(null, rain);
-      var pack = ["Jacket or hoodie. Nights get cold."];
+      var pack = (D.pack || []).slice(0, 1);
       if (rain[m] > 300) pack.push("Umbrella and rain jacket. " + months[m] + " is a wet month.");
       if (low[m] < 10) pack.push("Extra warm layer. Lows near " + Math.round(low[m]) + "°C.");
-      pack.push("Closed shoes for slopes and stairs.");
+      pack = pack.concat((D.pack || []).slice(1));
       out += '<div data-fact="' + esc(W.id) + '"><h3>Rain by month</h3><div class="rain" aria-hidden="true">' +
         rain.map(function (mm, i) { return '<div class="' + (i === m ? "now" : "") + '" style="height:' + Math.max(3, Math.round(mm / max * 100)) + '%"></div>'; }).join("") +
         '</div><div class="rain-labels" aria-hidden="true">' + months.map(function (x, i) { return '<span class="' + (i === m ? "now" : "") + '">' + esc(x[0]) + "</span>"; }).join("") + "</div>" +
@@ -218,7 +234,7 @@
         "<div><h3>Pack for " + esc(months[m]) + '</h3><ul class="pack">' + pack.map(function (p, i) { return '<li><label><input type="checkbox" id="pk' + i + '"><span>' + esc(p) + "</span></label></li>"; }).join("") + "</ul></div>";
     }
     out += '<div class="sos"><h3>Emergency</h3>' + D.emergency.map(function (f) {
-      var tel = f.data.tel, shown = tel === "135000" ? "1-35000" : tel;
+      var tel = f.data.tel, shown = f.data.display || tel;
       return '<div class="row" data-fact="' + esc(f.id) + '"><div><strong class="num">' + esc(shown) + "</strong>" + esc(f.value) + checkedLine(f) + '</div><a class="btn" href="tel:' + esc(tel) + '">' + use("i-phone") + "Call</a></div>";
     }).join("") + (D.missingEmergency.length ? '<p class="checked">Still being checked with official sources: ' + esc(D.missingEmergency.join("; ")) + ".</p>" : "") + "</div>";
     if (D.morningCheck.length) out += '<div class="morning"><h3>Morning-of check</h3><ol>' + D.morningCheck.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ol></div>";
@@ -231,7 +247,7 @@
   function renderFooter(D) {
     set("foot", '<div class="wrap"><p class="sign-off">Ingat sa byahe!</p>' +
       "<p>Every fact shows where it came from and when we last checked it. Facts older than " + D.maxAgeDays + " days get a \"Needs re-check\" note.</p>" +
-      "<p>Places marked Featured are paid placements. Nothing here is featured yet.</p>" +
+      "<p>Places marked Featured are paid placements." + (D.anyFeatured ? "" : " Nothing here is featured yet.") + "</p>" +
       '<a class="btn" href="' + esc(D.pdfHref) + '">Download the printable roadbook (PDF)</a>' +
       (D.theme && D.theme.contact && D.theme.contact.url ? '<a class="btn" href="' + esc(D.theme.contact.url) + '" target="_blank" rel="noopener">Contact ' + esc(D.theme.name) + "</a>" : "") +
       "<p>" + (D.theme && D.theme.name ? "Made by GALA for " + esc(D.theme.name) + ". " : "Made by GALA, Guided Adventures, Local Areas. ") + "Tara sa next GALA.</p></div>");
@@ -279,7 +295,7 @@
   if (!raw) return;
   var D = JSON.parse(raw.textContent);
   window.GALA = { data: D, esc: esc, fmtDate: fmtDate, checkedLine: checkedLine, roadSign: roadSign, mapSvg: mapSvg,
-    servicesBoard: servicesBoard, kmPost: kmPost, uniqueSources: uniqueSources, now: now,
+    servicesBoard: servicesBoard, kmPost: kmPost, uniqueSources: uniqueSources, now: now, isStale: isStale, hoursText: hoursText, codingDaysText: codingDaysText,
     renderHero: renderHero, renderPlates: renderPlates, renderRoadCheck: renderRoadCheck, renderWay: renderWay,
     renderCity: renderCity, renderBeforeYouGo: renderBeforeYouGo, renderFooter: renderFooter, lightWholeRoute: lightWholeRoute };
   if (document.documentElement.dataset.mode === "print") return; // print.html drives its own layout

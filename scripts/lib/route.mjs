@@ -89,3 +89,9 @@ export function resolveTimeline(route, stopsById, factsById) {
     };
   });
 }
+
+// A copied route file must get its own id, or it would load another route's map line and mislabel errors.
+export function routeIdErrors(routes) {
+  return Object.entries(routes).filter(([file, r]) => r.id !== file)
+    .map(([file, r]) => `route file data/routes/${file}.json has id "${r.id}" (must be "${file}")`);
+}

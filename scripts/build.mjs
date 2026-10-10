@@ -3,11 +3,11 @@
 // - renders one roadbook per data/routes/<route>.json from the shared template in site/_design/
 // - copies self-hosted fonts and the data files
 // Usage: node scripts/build.mjs [--no-qa]
-import { writeFileSync, mkdirSync, rmSync, cpSync, readFileSync } from "node:fs";
-import { join, dirname } from "node:path";
+import { writeFileSync, mkdirSync, rmSync, cpSync, readFileSync, existsSync, copyFileSync } from "node:fs";
+import { join, dirname, resolve, basename } from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadData, indexFacts, daysOld, fmtDate } from "./lib/facts.mjs";
-import { validateRoute, indexStops } from "./lib/route.mjs";
+import { validateRoute, indexStops, routeIdErrors } from "./lib/route.mjs";
 import { buildPayload, MAX_AGE_DAYS } from "./lib/payload.mjs";
 import { renderPage, renderHome } from "./lib/render.mjs";
 import { copyFonts } from "./lib/fonts.mjs";
@@ -19,7 +19,8 @@ const args = new Set(process.argv.slice(2));
 const errors = [];
 const warnings = [];
 
-const data = loadData(root, { hotelsDir: process.env.GALA_HOTELS_DIR && join(root, process.env.GALA_HOTELS_DIR) });
+const hotelsDir = process.env.GALA_HOTELS_DIR ? resolve(root, process.env.GALA_HOTELS_DIR) : join(root, "data", "hotels");
+const data = loadData(root, { hotelsDir });
 
 function checkSourced(kind, item) {
   const where = `${kind} ${item.id ?? "?"}`;
@@ -44,6 +45,7 @@ for (const stops of Object.values(data.stopsByRoute)) for (const s of stops.stop
   checkSourced("stop", s);
 }
 const F = indexFacts(data.facts);
+errors.push(...routeIdErrors(data.routes));
 for (const [id, route] of Object.entries(data.routes)) {
   if (!data.stopsByRoute[id]) { errors.push(`route ${id}: no data/stops-${id}.json`); continue; }
   errors.push(...validateRoute(route, F, indexStops(data.stopsByRoute[id])));
@@ -52,6 +54,7 @@ for (const [id, route] of Object.entries(data.routes)) {
 for (const h of data.hotels) {
   if (!data.routes[h.route]) errors.push(`hotel ${h.slug}: unknown route ${h.route}`);
   errors.push(...themeErrors(h));
+  if (h.logo && !existsSync(resolve(hotelsDir, h.logo))) errors.push(`hotel ${h.slug}: logo ${h.logo} not found (put it in data/hotels/img/)`);
 }
 
 if (errors.length) {
@@ -80,10 +83,11 @@ const cards = Object.entries(data.routes).map(([id, r]) => ({ id, from: r.title.
 writeFileSync(join(out, "index.html"), renderHome({ root, cards }));
 
 for (const h of data.hotels) {
-  const theme = { ...h.theme, name: h.name, logo: h.logo || null, contact: h.contact || null,
+  mkdirSync(join(out, h.route, h.slug), { recursive: true });
+  if (h.logo) copyFileSync(resolve(hotelsDir, h.logo), join(out, h.route, h.slug, basename(h.logo)));
+  const theme = { ...h.theme, name: h.name, logo: h.logo ? basename(h.logo) : null, contact: h.contact || null,
     parking: h.parking || null, arrival: h.arrival || null, source: { name: h.source }, checked: h.checked };
   const payload = { ...buildPayload(data, h.route, { root, theme }), pdfHref: `../${h.route}-roadbook.pdf` };
-  mkdirSync(join(out, h.route, h.slug), { recursive: true });
   writeFileSync(join(out, h.route, h.slug, "index.html"), renderPage({ root, payload, fontPrefix: "../../_design/fonts/" }));
   console.log(`built ${h.route}/${h.slug} → _site/${h.route}/${h.slug}/index.html`);
 }

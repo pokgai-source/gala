@@ -37,7 +37,7 @@
     items.forEach(function (i) { var n = i.source && i.source.name; if (n && !seen[n]) { seen[n] = 1; names.push(n); } dates[i.checked] = 1; });
     var ds = Object.keys(dates).sort();
     return '<p class="checked">Checked ' + esc(G.fmtDate(ds[ds.length - 1])) + (ds.length > 1 ? " (oldest " + esc(G.fmtDate(ds[0])) + ")" : "") + ", from " + esc(names.join("; ")) + "</p>" +
-      (items.some(function (i) { return i.stale; }) ? '<p class="stale-note">Some entries need re-checking.</p>' : "");
+      (items.some(G.isStale) ? '<p class="stale-note">Some entries need re-checking.</p>' : "");
   }
   function stopRow(t) {
     return '<li class="stop">' + G.kmPost(t.post) + "<div><h4>" + esc(t.title) + (t.status === "check" ? ' <span class="ask">confirm open</span>' : "") + "</h4><p>" + esc(t.body) + "</p>" + (t.services.length ? G.servicesBoard(t.services) : "") + "</div></li>";
@@ -62,7 +62,7 @@
     }).join("") + "</div></div>" +
     '<div class="plates">' + D.plates.map(function (p) {
       if (p.kind === "coding-today") {
-        return '<div class="plate"><span class="k">' + esc(p.label.replace(/ today$/, "")) + '</span><span class="v">Weekdays</span><span class="s">7am to 7pm. Plate table inside.</span>' + G.checkedLine(p) + "</div>";
+        return '<div class="plate coding"><span class="k">' + esc(p.label.replace(/ today$/, "")) + '</span><span class="v">' + esc(G.codingDaysText(p.byDay)) + '</span><span class="s">' + esc(G.hoursText(p.hours)) + ". Plate table inside.</span>" + G.checkedLine(p) + "</div>";
       }
       return '<div class="plate ' + esc(p.style) + '"><span class="k">' + esc(p.label) + '</span><span class="v num">' + esc(p.value) + '</span><span class="s">' + esc(p.note) + "</span>" + G.checkedLine(p) + "</div>";
     }).join("") + "</div>");
@@ -80,7 +80,7 @@
   // BACK: emergency, credits, about
   set("pp-back",
     '<div class="sos"><h3>Emergency</h3>' + D.emergency.map(function (f) {
-      var shown = f.data.tel === "135000" ? "1-35000" : f.data.tel;
+      var shown = f.data.display || f.data.tel;
       return '<div class="row"><strong class="num">' + esc(shown) + "</strong><p>" + esc(f.value) + "</p>" + G.checkedLine(f) + "</div>";
     }).join("") + "</div>" +
     "<div><h3>Thanks to</h3>" + (D.creators.length ? "<ul>" + D.creators.map(function (c) { return "<li>" + esc(c.name) + ", " + esc(c.usedFor) + "</li>"; }).join("") + "</ul>" : "<p>No creators credited yet.</p>") + "</div>" +
@@ -89,24 +89,25 @@
     "<p>" + (th && th.name ? "Made by GALA for " + esc(th.name) + "." : "Made by GALA, Guided Adventures, Local Areas.") + " Tara sa next GALA.</p></div>");
 
   // 01 ON THE WAY
-  var R = D.receipt;
+  var R = D.receipt, C = D.city || { places: [], parking: [], coding: null, zone: null };
   set("pp-way", head("01", "On the way", "head-way") + '<div class="pbody">' +
     '<div class="pmap">' + G.mapSvg(D) + "</div>" +
-    '<table class="receipt num">' + R.segments.map(function (s) { return "<tr><td>" + esc(s.label) + '<span class="tag">' + esc(s.note) + "</span></td><td>" + esc(s.value) + "</td></tr>"; }).join("") +
-    '<tr class="sum"><td>One way</td><td>' + esc(R.total) + "</td></tr></table>" + G.uniqueSources(R.facts).map(G.checkedLine).join("") +
+    (R ? '<table class="receipt num">' + R.segments.map(function (s) { return "<tr><td>" + esc(s.label) + '<span class="tag">' + esc(s.note) + "</span></td><td>" + esc(s.value) + "</td></tr>"; }).join("") +
+    '<tr class="sum"><td>One way</td><td>' + esc(R.total) + "</td></tr></table>" + G.uniqueSources(R.facts).map(G.checkedLine).join("") : "") +
     '<ol class="timeline">' + D.timeline.map(stopRow).join("") + "</ol>" + sourcesLine(D.timeline.filter(function (t) { return t.kind === "stop"; }))+ "</div>");
 
   // 02 IN TOWN
-  var C = D.city, days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+  var days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+  var codingDays = C.coding ? Object.keys(C.coding.data.byDay) : [];
   set("pp-city", head("02", "In " + r.title.to, "head-city") + '<div class="pbody">' +
-    '<h3>Number coding, 7am to 7pm</h3><table class="coding"><tr>' + days.map(function (x) { return "<th>" + x + "</th>"; }).join("") + "</tr><tr>" +
-    days.map(function (x) { return "<td>" + esc((C.coding.data.byDay[x] || []).join(" & ")) + "</td>"; }).join("") + "</tr></table>" +
-    '<p class="small">Last digit of your plate. Weekends are coding-free.</p>' + G.checkedLine(C.coding) +
-    "<h3>" + esc(C.zone.label) + '</h3><p class="small">' + esc(C.zone.value) + "</p>" + G.checkedLine(C.zone) +
-    "<h3>Must-sees and pasalubong</h3><ul class=\"places\">" + C.places.map(function (p) {
+    (C.coding ? "<h3>Number coding, " + esc(G.hoursText(C.coding.data.hours)) + '</h3><table class="coding"><tr>' + codingDays.map(function (x) { return "<th>" + esc(x) + "</th>"; }).join("") + "</tr><tr>" +
+      codingDays.map(function (x) { return "<td>" + esc(C.coding.data.byDay[x].join(" & ")) + "</td>"; }).join("") + "</tr></table>" +
+      '<p class="small">Last digit of your plate. ' + esc(C.coding.value) + "</p>" + G.checkedLine(C.coding) : "") +
+    (C.zone ? "<h3>" + esc(C.zone.label) + '</h3><p class="small">' + esc(C.zone.value) + "</p>" + G.checkedLine(C.zone) : "") +
+    (C.places.length ? "<h3>Must-sees and pasalubong</h3><ul class=\"places\">" + C.places.map(function (p) {
       var sign = p.status === "closed" ? G.roadSign("stop", null, "mini") : "";
       return "<li>" + sign + "<strong>" + esc(p.title) + "</strong> " + esc(p.body) + (p.status === "closed" && p.note ? ' <em class="closed">' + esc(p.note) + "</em>" : "") + "</li>";
-    }).join("") + "</ul>" + sourcesLine(C.places) + "</div>");
+    }).join("") + "</ul>" + sourcesLine(C.places) : "") + "</div>");
 
   // 03 BEFORE YOU GO
   var W = D.weather, out = "";
@@ -117,9 +118,9 @@
     out += "<h3>Rain by month</h3><div class=\"rain\">" + rain.map(function (mm, i) { return '<div class="' + (i === month ? "now" : "") + '" style="height:' + Math.max(3, Math.round(mm / max * 100)) + '%"></div>'; }).join("") +
       '</div><div class="rain-labels">' + W.data.months.map(function (x, i) { return '<span class="' + (i === month ? "now" : "") + '">' + esc(x[0]) + "</span>"; }).join("") + "</div>" +
       '<p class="small">' + esc(W.value) + "</p>" + G.checkedLine(W) +
-      '<h3>What to pack</h3><ul class="pack"><li>Jacket or hoodie. Nights get cold.</li>' +
+      '<h3>What to pack</h3><ul class="pack">' + (D.pack || []).slice(0, 1).map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") +
       (wet.length ? "<li>Umbrella and rain jacket in " + esc(wet.join(", ")) + ".</li>" : "") +
-      (cold.length ? "<li>Extra warm layer in " + esc(cold.join(", ")) + ".</li>" : "") + "<li>Closed shoes for slopes and stairs.</li></ul>";
+      (cold.length ? "<li>Extra warm layer in " + esc(cold.join(", ")) + ".</li>" : "") + (D.pack || []).slice(1).map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ul>";
   }
   out += C.parking.map(function (f) { return "<h3>" + esc(f.label) + '</h3><p class="small">' + esc(f.value) + "</p>" + G.checkedLine(f); }).join("");
   if (D.wayHome.length) out += '<h3>On the way home</h3><ol class="timeline">' + D.wayHome.map(stopRow).join("") + "</ol>" + sourcesLine(D.wayHome);

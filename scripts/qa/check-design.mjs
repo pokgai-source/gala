@@ -45,6 +45,20 @@ export async function checkDesign(siteDir, pagePath) {
         const r = el.getBoundingClientRect();
         if (r.height > 0 && r.height < minTap) out.push(`tap target "${el.textContent.trim().slice(0, 30)}" is ${Math.round(r.height)}px tall`);
       });
+      const stamp = document.querySelector(".stamp");
+      if (stamp) {
+        const a = stamp.getBoundingClientRect();
+        document.querySelectorAll(".brandline, .title, .tagline").forEach((el) => {
+          const b = el.getBoundingClientRect();
+          // compare against the text itself, not the full-width block
+          const range = document.createRange(); range.selectNodeContents(el);
+          for (const r of range.getClientRects()) {
+            if (r.right > a.left + 6 && r.left < a.right - 6 && r.bottom > a.top + 6 && r.top < a.bottom - 6) {
+              out.push(`"${el.textContent.trim().slice(0, 30)}" runs into the fact-check stamp`); break;
+            }
+          }
+        });
+      }
       return out;
     }, BUDGET);
     for (const f of found) errors.push(`${at}: ${f}`);
