@@ -7,7 +7,7 @@ import { writeFileSync, mkdirSync, rmSync, cpSync, readFileSync, existsSync, cop
 import { join, dirname, resolve, basename } from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadData, indexFacts, daysOld, fmtDate } from "./lib/facts.mjs";
-import { validateRoute, indexStops, routeIdErrors } from "./lib/route.mjs";
+import { validateRoute, indexStops, routeIdErrors, stopErrors } from "./lib/route.mjs";
 import { buildPayload, MAX_AGE_DAYS } from "./lib/payload.mjs";
 import { renderPage, renderHome } from "./lib/render.mjs";
 import { copyFonts } from "./lib/fonts.mjs";
@@ -35,10 +35,12 @@ function checkSourced(kind, item) {
 const ids = new Set();
 for (const f of data.facts.facts) {
   if (!f.label || !f.value) errors.push(`fact ${f.id}: missing label or value`);
+  if (!f.short || f.short.length > 90) errors.push(`fact ${f.id}: needs a short line of at most 90 characters`);
   if (ids.has(f.id)) errors.push(`fact ${f.id}: duplicate id`);
   ids.add(f.id);
   checkSourced("fact", f);
 }
+for (const stops of Object.values(data.stopsByRoute)) errors.push(...stopErrors(stops));
 for (const stops of Object.values(data.stopsByRoute)) for (const s of stops.stops) {
   if (!s.maps?.startsWith("https://")) errors.push(`stop ${s.id}: missing maps link`);
   if (typeof s.featured !== "boolean") errors.push(`stop ${s.id}: featured must be true/false`);

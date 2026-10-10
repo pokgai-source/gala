@@ -34,7 +34,8 @@ export function buildPayload(data, routeId, { root, now = new Date(), theme = nu
     return { ...fact(id), sign, tons: f.data.maxTons || null, state };
   });
 
-  const timeline = resolveTimeline(route, S, F).map((t) => (t.kind === "stop" ? { ...t, ...meta(S.get(t.id)) } : t));
+  const withMeta = (t) => ({ ...t, ...meta(S.get(t.id)), ...(t.nearby ? { nearby: t.nearby.map((n) => ({ ...n, ...meta(S.get(n.id)) })) } : {}) });
+  const timeline = resolveTimeline(route, S, F).map((t) => (t.kind === "stop" ? withMeta(t) : t));
   const c = route.city || null;
   const cityRe = new RegExp((c && c.cityMatch) || "^$");
   const places = stopsFile.stops
@@ -42,7 +43,7 @@ export function buildPayload(data, routeId, { root, now = new Date(), theme = nu
     .map(stop);
 
   const allChecked = [...data.facts.facts, ...stopsFile.stops];
-  const routeStopIds = new Set([...timeline.map((t) => t.id), ...(route.wayHome || []), ...places.map((p) => p.id)]);
+  const routeStopIds = new Set([...timeline.flatMap((t) => [t.id, ...(t.nearby || []).map((n) => n.id)]), ...(route.wayHome || []), ...places.map((p) => p.id)]);
   const anyFeatured = stopsFile.stops.some((s) => s.featured && routeStopIds.has(s.id));
   return {
     builtAt: now.toISOString(),

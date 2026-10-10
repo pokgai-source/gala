@@ -21,7 +21,18 @@ function factIdsOf(route) {
 }
 
 function stopIdsOf(route) {
-  return [...(route.timeline || []).filter((t) => t.stopId).map((t) => t.stopId), ...(route.wayHome || [])];
+  return [...(route.timeline || []).filter((t) => t.stopId).map((t) => t.stopId), ...(route.wayHome || []),
+    ...(route.suggested || []).flatMap((s) => [s.stopId, ...(s.nearby || [])])];
+}
+
+// Checks on a stops file beyond the shared source/date rules.
+export function stopErrors(stopsFile) {
+  const errors = [];
+  for (const s of stopsFile.stops) {
+    if (s.ev && !(s.ev.kw === null || typeof s.ev.kw === "number")) errors.push(`stop ${s.id}: ev.kw must be a number or null`);
+    if (s.ev && !s.ev.operator) errors.push(`stop ${s.id}: ev.operator is missing`);
+  }
+  return errors;
 }
 
 function strings(node, out = []) {
@@ -69,25 +80,33 @@ export function stopItem(s) {
     source: s.source,
     short: km != null ? `Km ${km}, ${s.name}` : s.name,
     sub: `${s.segment}, ${place}`,
+    ev: s.ev || null,
+    shortText: s.short || String(s.why || "").split(/(?<=\.)\s/)[0],
   };
 }
 
 export function resolveTimeline(route, stopsById, factsById) {
-  return (route.timeline || []).map((t) => {
-    if (t.stopId) return stopItem(stopsById.get(t.stopId));
-    return {
-      kind: "waypoint",
-      id: t.waypoint,
-      title: fillPlaceholders(t.title, factsById),
-      body: fillPlaceholders(t.body || "", factsById),
-      post: { label: t.post },
-      services: [],
-      status: "ok",
-      lnglat: t.lnglat || null,
-      short: t.short || t.title,
-      sub: fillPlaceholders(t.sub || "", factsById),
-    };
+  const waypoint = (t) => ({
+    kind: "waypoint",
+    id: t.waypoint,
+    title: fillPlaceholders(t.title, factsById),
+    body: fillPlaceholders(t.body || "", factsById),
+    post: { label: t.post },
+    services: [],
+    status: "ok",
+    lnglat: t.lnglat || null,
+    short: t.short || t.title,
+    sub: fillPlaceholders(t.sub || "", factsById),
   });
+  const items = (route.timeline || []).map((t) => (t.stopId ? stopItem(stopsById.get(t.stopId)) : waypoint(t)));
+  // suggested stops go right after the start, in order, each carrying its folded "nearby" alternatives
+  const suggested = (route.suggested || []).map((g) => ({
+    ...stopItem(stopsById.get(g.stopId)), label: g.label, pick: true,
+    nearby: (g.nearby || []).map((id) => stopItem(stopsById.get(id))),
+  }));
+  const startAt = items.findIndex((i) => i.kind === "waypoint" && i.id === "start");
+  items.splice(startAt + 1, 0, ...suggested);
+  return items;
 }
 
 // A copied route file must get its own id, or it would load another route's map line and mislabel errors.
