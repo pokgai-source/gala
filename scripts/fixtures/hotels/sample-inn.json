@@ -1,4 +1,18 @@
-{ "name": "Sample Inn (test fixture)", "route": "baguio",
-  "theme": { "brand": "#1D3352", "brand2": "#2E4C74", "accent": "#F28C6B", "onAccent": "#2A0F06" },
-  "contact": { "type": "website", "url": "https://example.com" },
-  "source": "test fixture", "checked": "2026-10-10" }
+{
+ "name": "Sample Inn (test fixture)",
+ "route": "baguio",
+ "theme": {
+  "brand": "#1D3352",
+  "brand2": "#2E4C74",
+  "accent": "#F28C6B",
+  "onAccent": "#2A0F06"
+ },
+ "contact": {
+  "type": "website",
+  "url": "https://example.com"
+ },
+ "source": "test fixture",
+ "checked": "2026-10-10",
+ "parking": "Six slots inside the gate; street parking is not allowed.",
+ "arrival": "Check-in from 2pm. Look for the green gate after the chapel."
+}

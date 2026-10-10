@@ -166,7 +166,11 @@
     var C = D.city, first = C.places.slice(0, 3), rest = C.places.slice(3);
     var digits = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0].map(function (d) { return '<button type="button" aria-pressed="false" data-digit="' + d + '">' + d + "</button>"; }).join("");
     var days = ["Today", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(function (d) { return '<button type="button" aria-pressed="' + (d === "Today") + '" data-day="' + d + '">' + d + "</button>"; }).join("");
-    set("city",
+    var T = D.theme, arriving = T && (T.parking || T.arrival)
+      ? '<div class="arriving"><h3>Arriving at ' + esc(T.name) + "</h3>" + (T.arrival ? "<p>" + esc(T.arrival) + "</p>" : "") +
+        (T.parking ? "<p><strong>Parking:</strong> " + esc(T.parking) + "</p>" : "") + '<p class="checked">From ' + esc(T.name) + ", " + esc(fmtDate(T.checked)) + "</p></div>"
+      : "";
+    set("city", arriving +
       '<div class="checker" role="group" aria-labelledby="chk-h" data-fact="' + esc(C.coding.id) + '"><h3 id="chk-h">Number coding checker</h3>' +
       '<fieldset><legend>Last digit of your plate</legend><div class="digits" id="digits">' + digits + "</div></fieldset>" +
       '<fieldset><legend>Day</legend><div class="days" id="days">' + days + "</div></fieldset>" +

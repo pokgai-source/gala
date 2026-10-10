@@ -35,15 +35,24 @@ and packing, emergency numbers. Every stop has a one-tap Google Maps link. PDF c
 ## Layout
 
 ```
-data/facts.json            facts with source + checked date (schema in GALA-KICKOFF.md §5)
-data/stops-<route>.json    stops: name, type, maps link, why, featured, source, checked
-data/creators.json         vloggers we credit
-data/CHANGELOG.md          written by gala-fact-check
-site/                      static pages; site/brand.css is the one shared look
-scripts/build.mjs          copies site/ + data/ into _site/ and inlines data into pages
-.claude/skills/            gala-fact-check, gala-roadbook, gala-hotel-kit
-.github/workflows/pages.yml  builds _site/, checks links, publishes to GitHub Pages
+data/facts.json              facts with source + checked date (schema in GALA-KICKOFF.md §5)
+data/stops-<route>.json      stops: name, type, maps link, why, featured, km, lnglat, source, checked
+data/routes/<route>.json     a roadbook's layout (title, polaroids, plates, timeline, map); facts only as {id:path|filter}
+data/routes/<route>.geo.json real road line for the map (scripts/trace-route.mjs)
+data/hotels/<slug>.json      partner pages: name, logo, contact, parking, arrival, 4 theme colours
+data/creators.json           vloggers we credit
+data/CHANGELOG.md            written by gala-fact-check
+site/_design/                the one design system + templates (gala.css, print.css, roadbook.html/js, print.html, signs.svg, art.svg)
+site/index.html              home page template
+scripts/build.mjs            validates data, builds every roadbook + partner page, PDF, screenshots, design checks
+scripts/lib/                 data, route, map, payload, render, theme, fonts helpers (unit-tested)
+scripts/qa/                  pdf, screenshots, design checks (Playwright)
+docs/design/preview-v2.html  the approved look
+.claude/skills/              gala-fact-check, gala-roadbook, gala-hotel-kit, gala-design
+.github/workflows/pages.yml  tests, builds, uploads screenshots + PDF, publishes to GitHub Pages
 ```
 
-Build and preview locally: `node scripts/build.mjs` then `node scripts/serve.mjs` → http://localhost:8080/
+First time: `npm install`. Then `npm test`, `node scripts/build.mjs` (add `--no-qa` to skip PDF/screenshots),
+`node scripts/serve.mjs` → http://localhost:8080/
+Before any visual change or publish, follow the `gala-design` skill.
 Live site: https://pokgai-source.github.io/gala/

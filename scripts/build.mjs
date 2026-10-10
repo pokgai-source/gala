@@ -80,7 +80,8 @@ const cards = Object.entries(data.routes).map(([id, r]) => ({ id, from: r.title.
 writeFileSync(join(out, "index.html"), renderHome({ root, cards }));
 
 for (const h of data.hotels) {
-  const theme = { ...h.theme, name: h.name, logo: h.logo || null, contact: h.contact || null };
+  const theme = { ...h.theme, name: h.name, logo: h.logo || null, contact: h.contact || null,
+    parking: h.parking || null, arrival: h.arrival || null, source: { name: h.source }, checked: h.checked };
   const payload = { ...buildPayload(data, h.route, { root, theme }), pdfHref: `../${h.route}-roadbook.pdf` };
   mkdirSync(join(out, h.route, h.slug), { recursive: true });
   writeFileSync(join(out, h.route, h.slug, "index.html"), renderPage({ root, payload, fontPrefix: "../../_design/fonts/" }));

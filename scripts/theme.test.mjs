@@ -33,3 +33,15 @@ test("the build refuses a low-contrast partner", () => {
   assert.notEqual(r.status, 0);
   assert.match(r.stderr, /hotel low-contrast: on-accent on accent/);
 });
+
+test("a partner page shows the partner's parking and arrival notes", async () => {
+  const { loadData } = await import("./lib/facts.mjs");
+  const { buildPayload } = await import("./lib/payload.mjs");
+  const root = join(here, "..");
+  const h = fx("sample-inn");
+  const theme = { ...h.theme, name: h.name, contact: h.contact, parking: h.parking, arrival: h.arrival, source: { name: h.source }, checked: h.checked };
+  const P = buildPayload(loadData(root), "baguio", { root, theme });
+  assert.equal(P.theme.parking, "Six slots inside the gate; street parking is not allowed.");
+  const js = readFileSync(join(root, "site/_design/roadbook.js"), "utf8");
+  assert.ok(js.includes("Arriving at "), "renderer has an arrival block");
+});
