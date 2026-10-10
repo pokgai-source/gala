@@ -143,7 +143,17 @@
       "id": "good-shepherd",
       "place": "baguio-good-shepherd",
       "query": "Good Shepherd Baguio",
-      "file": "Good Shepherd Baguio City.JPG"
+      "file": "Good Shepherd Baguio City.JPG",
+      "author": "Irvin Parco Sto. Tomas",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Good_Shepherd_Baguio_City.JPG",
+      "w640": [
+        640,
+        427
+      ],
+      "checked": "2026-10-10",
+      "prepared": "Good Shepherd Baguio City.JPG"
     },
     {
       "id": "strawberry-farm",
