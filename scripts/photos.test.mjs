@@ -13,6 +13,7 @@ const P = buildPayload(data, "baguio", { root });
 test("prepared photos reach the payload with size and credit", () => {
   const b = P.photos["baguio-burnham-park"];
   assert.equal(b.src640, "img/baguio/burnham-park-640.webp");
+  assert.equal(b.src320, "img/baguio/burnham-park-320.webp");
   assert.deepEqual(b.size, [640, 480]);
   assert.equal(b.credit.license, "CC BY-SA 4.0");
   assert.ok(b.credit.sourceUrl.startsWith("https://commons.wikimedia.org/"));

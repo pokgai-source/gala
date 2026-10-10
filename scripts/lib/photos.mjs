@@ -15,7 +15,7 @@ export function photoMap(photos, route = "baguio") {
   const map = {};
   for (const p of photos?.photos || []) {
     map[p.place] = p.prepared && p.license
-      ? { id: p.id, src640: `img/${p.route || route}/${p.id}-640.webp`, src1280: `img/${p.route || route}/${p.id}-1280.webp`,
+      ? { id: p.id, src320: `img/${p.route || route}/${p.id}-320.webp`, src640: `img/${p.route || route}/${p.id}-640.webp`, src1280: `img/${p.route || route}/${p.id}-1280.webp`,
           size: p.w640 || [640, 480], caption: p.caption || null,
           credit: { author: p.author, license: p.license, licenseUrl: p.licenseUrl || null, sourceUrl: p.sourceUrl } }
       : null;

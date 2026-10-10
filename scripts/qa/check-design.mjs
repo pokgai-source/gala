@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { launch } from "./browser.mjs";
 
-export const BUDGET = { htmlKB: 150, totalKB: 300, minTap: 48, phone: 360 };
+export const BUDGET = { htmlKB: 150, totalKB: 400, minTap: 48, phone: 360 };
 
 export async function checkDesign(siteDir, pagePath) {
   const file = join(siteDir, pagePath, "index.html");
@@ -19,7 +19,7 @@ export async function checkDesign(siteDir, pagePath) {
     const fontBytes = new Map();
     page.on("requestfinished", (req) => {
       const u = req.url();
-      if (u.endsWith(".woff2")) try { fontBytes.set(u, statSync(new URL(u)).size); } catch { /* not a local file */ }
+      if (/\.(woff2|webp|jpe?g|png)$/.test(u)) try { fontBytes.set(u, statSync(new URL(u)).size); } catch { /* not a local file */ }
     });
     const jsErrors = [];
     page.on("pageerror", (e) => jsErrors.push(String(e)));
@@ -28,7 +28,7 @@ export async function checkDesign(siteDir, pagePath) {
     for (const e of jsErrors) errors.push(`${at}: script error ${e}`);
 
     const total = htmlBytes + [...fontBytes.values()].reduce((a, b) => a + b, 0);
-    if (total > BUDGET.totalKB * 1024) errors.push(`${at}: HTML + fonts is ${Math.round(total / 1024)} KB (budget ${BUDGET.totalKB} KB)`);
+    if (total > BUDGET.totalKB * 1024) errors.push(`${at}: HTML + fonts + first-screen images is ${Math.round(total / 1024)} KB (budget ${BUDGET.totalKB} KB)`);
 
     const found = await page.evaluate(({ phone, minTap }) => {
       const out = [];
@@ -44,6 +44,13 @@ export async function checkDesign(siteDir, pagePath) {
       document.querySelectorAll("main a.btn, main button, main summary.btn, footer a.btn").forEach((el) => {
         const r = el.getBoundingClientRect();
         if (r.height > 0 && r.height < minTap) out.push(`tap target "${el.textContent.trim().slice(0, 30)}" is ${Math.round(r.height)}px tall`);
+      });
+      document.querySelectorAll("img").forEach((im) => {
+        if (!im.getAttribute("width") || !im.getAttribute("height")) out.push(`image without width/height: ${im.getAttribute("src")}`);
+      });
+      document.querySelectorAll(".card img, .city-hero img").forEach((im) => {
+        const box = im.closest(".card, .city-hero");
+        if (!box.querySelector("a.credit")) out.push(`photo without a credit link: ${im.getAttribute("src")}`);
       });
       const stamp = document.querySelector(".stamp");
       if (stamp) {

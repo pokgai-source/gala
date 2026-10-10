@@ -61,3 +61,12 @@ test("screenshots are written for phone and laptop in both themes", { skip }, as
   const files = await shots(site, "baguio");
   assert.deepEqual(files.map((f) => f.split("/").pop()).sort(), ["laptop-dark.png", "laptop-light.png", "phone-dark.png", "phone-light.png"]);
 });
+
+test("an image without width and height is reported", { skip }, async () => {
+  const site = tempSite();
+  const p = join(site, "baguio", "index.html");
+  writeFileSync(p, readFileSync(p, "utf8").replace("<main", '<img src="x.webp" alt=""><main'));
+  const { checkDesign } = await import("./qa/check-design.mjs");
+  const errs = await checkDesign(site, "baguio");
+  assert.ok(errs.some((e) => e.includes("image without width/height")), errs.join("; "));
+});

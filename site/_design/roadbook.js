@@ -103,8 +103,9 @@
   }
   function img(photo, opts) {
     opts = opts || {};
-    var big = opts.big ? photo.src1280 : photo.src640, w = photo.size[0], h = photo.size[1];
-    return '<img src="' + esc(base() + big) + '" width="' + w + '" height="' + h + '" alt="' + esc(opts.alt || "") + '"' +
+    var b = base(), w = photo.size[0], h = photo.size[1];
+    var set = (photo.src320 ? b + photo.src320 + " 320w, " : "") + b + photo.src640 + " 640w" + (opts.big ? ", " + b + photo.src1280 + " 1280w" : "");
+    return '<img src="' + esc(b + photo.src640) + '" srcset="' + esc(set) + '" sizes="' + esc(opts.sizes || "(min-width: 900px) 300px, 78vw") + '" width="' + w + '" height="' + h + '" alt="' + esc(opts.alt || "") + '"' +
       (opts.eager ? ' fetchpriority="high"' : ' loading="lazy" decoding="async"') + ">";
   }
   function evLine(ev) {
@@ -121,7 +122,7 @@
       : "GALA<span>Roadbook</span>";
     var polas = (r.polaroids || []).map(function (p, i) {
       var ph = D.photos && D.photos["cover-" + (i + 1)];
-      var pic = ph ? '<span class="pic">' + img(ph, { eager: true }) + "</span>" : '<svg viewBox="0 0 100 100" aria-hidden="true"><use href="#art-' + esc(p.art) + '"/></svg>';
+      var pic = ph ? '<span class="pic">' + img(ph, { eager: true, sizes: "(min-width: 900px) 160px, 118px" }) + "</span>" : '<svg viewBox="0 0 100 100" aria-hidden="true"><use href="#art-' + esc(p.art) + '"/></svg>';
       return '<figure class="polaroid"><span class="tape"></span>' + pic + "<figcaption>" + esc((ph && ph.caption) || p.caption) + "</figcaption></figure>";
     }).join("");
     var d = fmtDate(D.latestChecked).split(" ");
@@ -234,7 +235,7 @@
       ? '<div class="arriving"><h3>Arriving at ' + esc(T.name) + "</h3>" + (T.arrival ? "<p>" + esc(T.arrival) + "</p>" : "") +
         (T.parking ? "<p><strong>Parking:</strong> " + esc(T.parking) + "</p>" : "") + '<p class="checked">From ' + esc(T.name) + ", " + esc(fmtDate(T.checked)) + "</p></div>"
       : "";
-    var hero = D.cityHero ? '<figure class="city-hero">' + img(D.cityHero, { big: true, alt: D.route.title.to }) + credit(D.cityHero) + "</figure>" : "";
+    var hero = D.cityHero ? '<figure class="city-hero">' + img(D.cityHero, { big: true, alt: D.route.title.to, sizes: "(min-width: 900px) 560px, 100vw" }) + credit(D.cityHero) + "</figure>" : "";
     var cards = C.places.length
       ? '<div class="places-wrap"><h3>Must-sees and pasalubong</h3><ul class="cards" aria-label="Must-sees, swipe sideways">' + C.places.map(placeCard).join("") + "</ul>" +
         '<p class="swipe-hint" aria-hidden="true">Swipe for more</p></div>' : "";

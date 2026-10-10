@@ -77,18 +77,19 @@ if (existsSync(photosFile)) {
       await sleep(500);
       continue;
     }
-    if (!sharp || ph.prepared === ph.file) continue;
+    const PREP = `${ph.file}|v2`; // bump to re-encode every photo
+    if (!sharp || ph.prepared === PREP) continue;
     try {
       const info = await fileInfo(ph.file, 1600);
       const buf = await download(info.thumb);
       const outDir = join(root, "site", "img", ph.route || "baguio");
       mkdirSync(outDir, { recursive: true });
-      for (const w of [640, 1280]) {
-        await sharp(buf).rotate().resize({ width: w, withoutEnlargement: true }).webp({ quality: w === 640 ? 68 : 72 }).toFile(join(outDir, `${ph.id}-${w}.webp`));
+      for (const w of [320, 640, 1280]) {
+        await sharp(buf).rotate().resize({ width: w, withoutEnlargement: true }).webp({ quality: w === 1280 ? 58 : 62, effort: 6 }).toFile(join(outDir, `${ph.id}-${w}.webp`));
       }
       const meta = await sharp(join(outDir, `${ph.id}-640.webp`)).metadata();
       Object.assign(ph, { author: info.author, license: info.license, licenseUrl: info.licenseUrl, sourceUrl: info.sourceUrl,
-        w640: [meta.width, meta.height], checked: today, prepared: ph.file });
+        w640: [meta.width, meta.height], checked: today, prepared: PREP });
       log(`photo ${ph.id}: prepared ${ph.file} (${info.license}, ${info.author})`);
     } catch (e) { log(`photo ${ph.id}: prep failed (${e.message})`); }
     await sleep(500);
