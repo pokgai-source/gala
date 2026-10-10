@@ -28,7 +28,8 @@ export function photoMap(photos, route = "baguio") {
   return map;
 }
 
-// Print copies: small JPEGs (Chromium embeds JPEG as-is in a PDF but stores WebP losslessly, which made the PDF 6 MB).
+// Print copies: small JPEGs, 260px (about 160 dpi at thumbnail size). Some Chromium versions re-encode images
+// losslessly in PDFs (CI's gave 2 MB at 400px), so the pixel count is what keeps the PDF small.
 export async function makePrintCopies(photos, siteDir, route = "baguio") {
   let sharp;
   try { sharp = (await import("sharp")).default; } catch { return { made: 0, skipped: "sharp not installed" }; }
@@ -39,7 +40,7 @@ export async function makePrintCopies(photos, siteDir, route = "baguio") {
     if (!p.prepared || !p.license) continue;
     const src = join(siteDir, "img", p.route || route, `${p.id}-640.webp`);
     if (!existsSync(src)) continue;
-    await sharp(src).resize({ width: 400, withoutEnlargement: true }).jpeg({ quality: 68, mozjpeg: true }).toFile(join(siteDir, "img", p.route || route, `${p.id}-print.jpg`));
+    await sharp(src).resize({ width: 260, withoutEnlargement: true }).jpeg({ quality: 62, mozjpeg: true }).toFile(join(siteDir, "img", p.route || route, `${p.id}-print.jpg`));
     made++;
   }
   return { made };
