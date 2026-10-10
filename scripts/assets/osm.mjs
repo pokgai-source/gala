@@ -25,7 +25,7 @@ export function nearest(elements, near) {
   return best;
 }
 
-const MIRRORS = ["https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter", "https://overpass.private.coffee/api/interpreter"];
+const MIRRORS = ["https://overpass-api.de/api/interpreter", "https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter"];
 export async function overpass(q) {
   let last;
   for (let attempt = 0; attempt < 6; attempt++) {
@@ -43,8 +43,10 @@ export async function findStation(hint) {
   return nearest(await overpass(overpassQuery(hint)), hint.near);
 }
 export async function brandStations(hint) {
-  const els = await overpass(overpassQuery({ ...hint, radius: hint.searchRadius || 8000 }));
-  return els.map((e) => ({ id: `${e.type}/${e.id}`, name: e.tags?.name || "", brand: e.tags?.brand || "", lnglat: [e.lon ?? e.center?.lon, e.lat ?? e.center?.lat] }));
+  // The tag-regex query returned nothing on Overpass, while the plain fuel query works; filter by brand here.
+  const want = new RegExp(hint.brand.replace(/[^A-Za-z0-9 ]/g, ""), "i");
+  const all = await listStations(hint.near, hint.searchRadius || 8000);
+  return all.filter((s) => want.test(s.brand) || want.test(s.name));
 }
 
 export async function traceRoute(waypoints) {
