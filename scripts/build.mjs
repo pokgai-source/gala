@@ -11,6 +11,7 @@ import { validateRoute, indexStops } from "./lib/route.mjs";
 import { buildPayload, MAX_AGE_DAYS } from "./lib/payload.mjs";
 import { renderPage } from "./lib/render.mjs";
 import { copyFonts } from "./lib/fonts.mjs";
+import { themeErrors } from "./lib/theme.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const out = join(root, "_site");
@@ -48,6 +49,11 @@ for (const [id, route] of Object.entries(data.routes)) {
   errors.push(...validateRoute(route, F, indexStops(data.stopsByRoute[id])));
 }
 
+for (const h of data.hotels) {
+  if (!data.routes[h.route]) errors.push(`hotel ${h.slug}: unknown route ${h.route}`);
+  errors.push(...themeErrors(h));
+}
+
 if (errors.length) {
   console.error("Data errors:\n  " + errors.join("\n  "));
   process.exit(1);
@@ -65,6 +71,14 @@ for (const routeId of Object.keys(data.routes)) {
   mkdirSync(join(out, routeId), { recursive: true });
   writeFileSync(join(out, routeId, "index.html"), renderPage({ root, payload, fontPrefix: "../_design/fonts/" }));
   console.log(`built ${routeId} → _site/${routeId}/index.html`);
+}
+
+for (const h of data.hotels) {
+  const theme = { ...h.theme, name: h.name, logo: h.logo || null, contact: h.contact || null };
+  const payload = { ...buildPayload(data, h.route, { root, theme }), pdfHref: `../${h.route}-roadbook.pdf` };
+  mkdirSync(join(out, h.route, h.slug), { recursive: true });
+  writeFileSync(join(out, h.route, h.slug, "index.html"), renderPage({ root, payload, fontPrefix: "../../_design/fonts/" }));
+  console.log(`built ${h.route}/${h.slug} → _site/${h.route}/${h.slug}/index.html`);
 }
 
 if (warnings.length) console.warn("Warnings:\n  " + warnings.join("\n  "));

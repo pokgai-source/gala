@@ -229,6 +229,7 @@
       "<p>Every fact shows where it came from and when we last checked it. Facts older than " + D.maxAgeDays + " days get a \"Needs re-check\" note.</p>" +
       "<p>Places marked Featured are paid placements. Nothing here is featured yet.</p>" +
       '<a class="btn" href="' + esc(D.pdfHref) + '">Download the printable roadbook (PDF)</a>' +
+      (D.theme && D.theme.contact && D.theme.contact.url ? '<a class="btn" href="' + esc(D.theme.contact.url) + '" target="_blank" rel="noopener">Contact ' + esc(D.theme.name) + "</a>" : "") +
       "<p>" + (D.theme && D.theme.name ? "Made by GALA for " + esc(D.theme.name) + ". " : "Made by GALA, Guided Adventures, Local Areas. ") + "Tara sa next GALA.</p></div>");
   }
 

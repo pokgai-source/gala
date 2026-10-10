@@ -79,7 +79,7 @@ h1, h2, h3, h4 { font-family: var(--display); font-weight: var(--display-w); let
 .title .to { display: block; font-size: clamp(64px, 20vw, 168px); color: var(--accent); }
 .tagline { font-family: var(--hand); font-size: clamp(24px, 6vw, 32px); transform: rotate(-3deg); transform-origin: left; margin: 2px 0 0 4px; }
 .stamp { position: absolute; right: 10px; top: 46px; width: 96px; height: 96px; transform: rotate(12deg); color: var(--accent); }
-.polaroids { position: absolute; right: 16px; bottom: 48px; display: flex; }
+.polaroids { position: absolute; right: 16px; bottom: 60px; display: flex; }
 .polaroid { margin: 0; width: 98px; background: #FBFBF7; padding: 7px 7px 4px; box-shadow: 0 6px 14px rgba(0,0,0,.28); position: relative; color: #2A2A26; }
 .polaroid svg, .polaroid img { display: block; width: 100%; max-width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
 .polaroid figcaption { font-family: var(--hand); font-size: 15px; line-height: 1.15; padding-top: 4px; text-align: center; }
