@@ -42,7 +42,7 @@
         "side": "right"
       },
       "lnglatSource": "OpenStreetMap way/100440132",
-      "osmFor": "{\"brand\":\"Petron\",\"near\":[120.635,15.1],\"radius\":3000,\"side\":\"right\"}",
+      "osmFor": "{\"osm\":{\"brand\":\"Petron\",\"near\":[120.67016,15.09418],\"radius\":3000,\"side\":\"right\"},\"line\":\"e8c466ef0f47\"}",
       "short": "Biggest food stop on NLEX: Kapampangan food, coffee, big clean restrooms."
     },
     {
@@ -283,7 +283,7 @@
         "maxOff": 800
       },
       "lnglatSource": "OpenStreetMap way/834827907",
-      "osmFor": "{\"brand\":\"Shell\",\"near\":[120.49,16.23],\"radius\":2500,\"maxOff\":800}",
+      "osmFor": "{\"osm\":{\"brand\":\"Shell\",\"near\":[120.49,16.23],\"radius\":2500,\"maxOff\":800},\"line\":\"e8c466ef0f47\"}",
       "short": "Last stop before the mountain: café, snacks and a fast EV charger."
     },
     {

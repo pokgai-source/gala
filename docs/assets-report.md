@@ -1,22 +1,14 @@
 # Assets report (2026-10-10)
 
 - map baguio: road line up to date
-- pin sctex-seaoil-citymall: no SEAOIL station beside the road (18 SEAOIL within 15000 m) — kept approximate
+- pin nlex-petron-lakeshore: way/100440132 "Petron", 0 km from the hint
+- pin sctex-seaoil-citymall: no SEAOIL station beside the road within 1500 m of the hint (18 SEAOIL within 15000 m) — kept approximate
 -   closest to the road: way/1086043263 "Seaoil" 308 m left; way/232299151 "Seaoil" 881 m right; way/995897487 "Seaoil" 1926 m left; way/1109714620 "Seaoil" 2239 m left
-- pin nlex-caltex-mega: no Caltex station beside the road (13 Caltex within 15000 m) — kept approximate
+- pin nlex-caltex-mega: no Caltex station beside the road within 1500 m of the hint (13 Caltex within 15000 m) — kept approximate
 -   closest to the road: way/39088825 "Caltex" 345 m left; way/38661928 "Caltex" 2138 m left; way/898255143 "Caltex" 2271 m right; way/113103856 "Caltex" 2303 m left
-- pin tplex-ptt-victoria: no PTT station beside the road (2 PTT within 15000 m) — kept approximate
+- pin nlex-shell-mexico-nb: lookup failed (Overpass 500 at https://overpass.kumi.systems/api/interpreter)
+- pin tplex-ptt-victoria: no PTT station beside the road within 1500 m of the hint (2 PTT within 15000 m) — kept approximate
 -   closest to the road: way/1072749540 "PTT Station" 7194 m left; way/1011644250 "PTT" 12306 m left
-- pin tplex-total-rosales: no Total station beside the road (2 Total within 15000 m) — kept approximate
+- pin tplex-total-rosales: no Total station beside the road within 1500 m of the hint (2 Total within 15000 m) — kept approximate
 -   closest to the road: way/728196469 "Total" 2162 m left; relation/16026770 "Total" 3816 m right
-- photo cover-kennon: prepared Kennon Road, Baguio City.jpg (CC BY-SA 4.0, Lawrence Ruiz)
-- photo cover-session: prepared Magsaysay Ave x Session Road, Baguio City, Feb 2025.jpg (CC BY-SA 4.0, Ralff Nestor Nacor)
-- photo cover-strawberries: prepared Strawberry Picking La Trinidad 2018.jpg (Public domain, Joey Razon for the Philippine News Agency)
-- photo city-hero: prepared Baguio skyline - view from Diplomat Hotel (Baguio, Benguet)(2018-11-27).jpg (CC BY-SA 4.0, patrickroque01)
-- photo burnham-park: prepared Burnham Park Lake (Baguio City; 12-04-2022).jpg (CC BY-SA 4.0, Patrickroque01)
-- photo mines-view: prepared Enjoy the cool breeze while looking on the beautiful view at Mines View Park, Baguio Philippines.jpg (CC BY-SA 4.0, Avrilsc95)
-- photo bencab: prepared Views from BenCab Museum, Tuba, Benguet (1).jpg (CC BY-SA 4.0, Ralff Nestor Nacor)
-- photo camp-john-hay: prepared Statue of Liberty, Camp John Hay, Baguio, Jul 2025.jpg (CC BY-SA 4.0, Ralff Nestor Nacor)
-- photo good-shepherd: prepared Good Shepherd Baguio City.JPG (CC BY-SA 4.0, Irvin Parco Sto. Tomas)
-- photo strawberry-farm: prepared Strawberry Farm (3), La Trinidad, Benguet, March 2023.jpg (CC BY-SA 4.0, Ralff Nestor Nacor)
-- photo pma: prepared Fort Del Pilar, PMA, Baguio, Jul 2025 (1).jpg (CC BY-SA 4.0, Ralff Nestor Nacor)
+- pin tplex-shell-rosario: way/834827907 "Shell", 0.55 km from the hint
