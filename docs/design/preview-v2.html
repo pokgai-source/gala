@@ -1,0 +1,617 @@
+<title>GALA Baguio Roadbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@700;800&family=Barlow:wght@400;600;700&family=Caveat+Brush&family=Kalam:wght@400;700&family=Libre+Franklin:wght@400;600;800&family=Overpass:wght@400;600;800;900&family=Permanent+Marker&family=Reenie+Beanie&family=Young+Serif&display=swap">
+<style>
+/* Layout: phone-first stack — hero band, stat plates, road check, then "On the way" with a sticky route map that follows the stops, then "In Baguio" and "Before you go". Wide screens: map beside the stops, last two sections side by side. */
+:root {
+  /* brand tokens: a partner (hotel, café) overrides only these four */
+  --brand: #15382A;        /* Cordillera pine */
+  --brand-2: #24543F;
+  --accent: #F2B01E;       /* jeepney yellow */
+  --on-accent: #1B1606;
+  --on-brand: #F3F6F1;
+  /* paper and ink */
+  --paper: #E9EDE7;        /* fog */
+  --sheet: #F8F9F5;
+  --ink: #17211B;
+  --muted: #4C5A52;
+  --line: #C9D2C9;
+  --sea: #D5E2E4;
+  --land: #F3F4EE;
+  --tape: rgba(222, 205, 160, .82);
+  /* road-sign colours: fixed, never rebranded */
+  --sign-blue: #1C58A6;
+  --sign-green: #136B3E;
+  --sign-red: #C42127;
+  --sign-yellow: #F7C51E;
+  --pencil: #3E5C76;
+  --berry: #B8343A;
+  --go: #1E7446;
+  --berry-bg: #F6E1DF;
+  --go-bg: #DDF0E3;
+  /* type: switched by the font sets below */
+  --display: "Overpass", "Arial Narrow", system-ui, sans-serif;
+  --body: "Overpass", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --hand: "Kalam", "Comic Sans MS", cursive;
+  --display-w: 900; --display-track: -.025em; --hand-size: 1;
+  --r-sm: 6px; --r-md: 14px; --tap: 52px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0F1914; --sheet: #16231C; --ink: #E6ECE6; --muted: #A9B8AE; --line: #2D3E34;
+    --sea: #10232A; --land: #1B2A22; --tape: rgba(190, 170, 120, .55); --pencil: #9CC0DE;
+    --berry: #F2878A; --go: #7ED3A0; --berry-bg: #3A1A1B; --go-bg: #153222;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0F1914; --sheet: #16231C; --ink: #E6ECE6; --muted: #A9B8AE; --line: #2D3E34;
+  --sea: #10232A; --land: #1B2A22; --tape: rgba(190, 170, 120, .55); --pencil: #9CC0DE;
+  --berry: #F2878A; --go: #7ED3A0; --berry-bg: #3A1A1B; --go-bg: #153222;
+  color-scheme: dark;
+}
+/* sample partner themes (fictional, for the preview) */
+:root[data-brand="inn"]  { --brand: #1D3352; --brand-2: #2E4C74; --accent: #F28C6B; --on-accent: #2A0F06; }
+:root[data-brand="cafe"] { --brand: #3F261A; --brand-2: #64412F; --accent: #E5B56B; --on-accent: #2A1A06; }
+/* font sets */
+:root[data-font="signage"] { --display: "Barlow Condensed", "Arial Narrow", sans-serif; --body: "Barlow", system-ui, sans-serif; --hand: "Permanent Marker", cursive; --display-w: 800; --display-track: -.01em; --hand-size: .92; }
+:root[data-font="poster"]  { --display: "Abril Fatface", Georgia, serif; --body: "Libre Franklin", system-ui, sans-serif; --hand: "Caveat Brush", cursive; --display-w: 400; --display-track: 0; --hand-size: 1.08; }
+:root[data-font="field"]   { --display: "Young Serif", Georgia, serif; --body: "Atkinson Hyperlegible", system-ui, sans-serif; --hand: "Reenie Beanie", cursive; --display-w: 400; --display-track: -.01em; --hand-size: 1.35; }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 17px/1.55 var(--body); padding-bottom: 92px; }
+a { color: var(--pencil); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 16px; }
+h1, h2, h3, h4 { font-family: var(--display); font-weight: var(--display-w); letter-spacing: var(--display-track); text-wrap: balance; margin: 0; }
+.num { font-variant-numeric: tabular-nums; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.hand { font-family: var(--hand); }
+
+/* HERO */
+.hero { position: relative; background: var(--brand); color: var(--on-brand); overflow: hidden; }
+.hero .ridges { position: absolute; inset: auto 0 0 0; width: 100%; height: 62%; display: block; }
+.ridge-a { fill: color-mix(in srgb, var(--brand-2) 80%, white 8%); opacity: .6; }
+.ridge-b { fill: var(--brand-2); }
+.ridge-c { fill: color-mix(in srgb, var(--brand) 82%, black); }
+.hero-inner { position: relative; padding-block: 22px 176px; display: grid; gap: 12px; }
+.brandline { margin: 0; font-family: var(--display); font-weight: var(--display-w); font-size: 18px; letter-spacing: .06em; }
+.brandline span { font-family: var(--body); font-weight: 400; letter-spacing: 0; opacity: .85; font-size: 15px; margin-left: 6px; }
+.title { line-height: .86; }
+.title .from { display: block; font-size: clamp(26px, 7vw, 44px); opacity: .9; }
+.title .to { display: block; font-size: clamp(72px, 22vw, 168px); color: var(--accent); }
+.tagline { font-family: var(--hand); font-size: calc(clamp(24px, 6vw, 32px) * var(--hand-size)); transform: rotate(-3deg); transform-origin: left; margin: 2px 0 0 4px; }
+.stamp { position: absolute; right: 10px; top: 46px; width: 96px; height: 96px; transform: rotate(12deg); color: var(--accent); }
+.polaroids { position: absolute; right: 16px; bottom: 40px; display: flex; }
+.polaroid { margin: 0; width: 98px; background: #FBFBF7; padding: 7px 7px 4px; box-shadow: 0 6px 14px rgba(0,0,0,.28); position: relative; color: #2A2A26; }
+.polaroid svg { display: block; width: 100%; height: auto; aspect-ratio: 1; }
+.polaroid figcaption { font-family: var(--hand); font-size: calc(15px * var(--hand-size)); line-height: 1.15; padding-top: 4px; text-align: center; }
+.polaroid:nth-child(1) { transform: rotate(-7deg) translateY(10px); }
+.polaroid:nth-child(2) { transform: rotate(4deg); margin-left: -22px; z-index: 1; }
+.polaroid:nth-child(3) { display: none; transform: rotate(-2deg) translateY(16px); margin-left: -22px; }
+.tape { position: absolute; width: 58px; height: 18px; background: var(--tape); top: -9px; left: 50%; transform: translateX(-50%) rotate(-4deg); }
+@media (min-width: 560px) { .polaroid { width: 118px; } .polaroid:nth-child(3) { display: block; } .stamp { width: 116px; height: 116px; } }
+@media (min-width: 900px) {
+  .hero-inner { padding-block: 34px 80px; padding-right: 47%; }
+  .title .to { font-size: clamp(72px, 11vw, 136px); }
+  .polaroids { bottom: 64px; right: max(24px, calc((100vw - 1180px) / 2 + 24px)); }
+  .polaroid { width: 160px; }
+  .stamp { width: 130px; height: 130px; top: 26px; right: max(24px, calc((100vw - 1180px) / 2 + 24px)); }
+}
+
+/* STAT PLATES */
+.plates { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: -26px; position: relative; }
+@media (min-width: 760px) { .plates { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.plate { background: var(--sheet); border: 2px solid var(--ink); border-radius: var(--r-sm); padding: 10px 12px 9px; display: grid; gap: 2px; min-width: 0; }
+.plate .k { font-size: 14px; color: var(--muted); font-weight: 600; }
+.plate .v { font-family: var(--display); font-weight: var(--display-w); font-size: clamp(30px, 8vw, 40px); line-height: 1.05; }
+.plate .s { font-size: 13px; color: var(--muted); }
+.plate.total { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.plate.total .k, .plate.total .s { color: var(--on-accent); opacity: .85; }
+.plate.coding-on { background: var(--berry-bg); border-color: var(--berry); }
+.plate.coding-off .v { color: var(--go); }
+
+/* ROAD CHECK, with real road-sign shapes */
+.notice { position: relative; background: var(--sheet); margin-top: 22px; padding: 22px 16px 14px; border-radius: 3px; box-shadow: 0 1px 0 var(--line), 0 10px 24px -18px rgba(0,0,0,.5); }
+.notice .tape { left: 26px; transform: rotate(-6deg); }
+.notice .tape.r { left: auto; right: 26px; transform: rotate(5deg); }
+.notice h2 { font-family: var(--hand); font-weight: 400; font-size: calc(28px * var(--hand-size)); line-height: 1.1; letter-spacing: 0; }
+.roads { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 16px; }
+@media (min-width: 900px) { .roads { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.roads li { display: grid; grid-template-columns: 54px minmax(0, 1fr); gap: 2px 12px; align-items: start; }
+.roads .sign { grid-row: span 3; width: 54px; height: 54px; }
+.roads strong { font-family: var(--display); font-weight: var(--display-w); font-size: 20px; line-height: 1.15; }
+.roads .state { font-weight: 800; font-size: 15px; }
+.roads p { margin: 0; }
+.checked { font-size: 14px; color: var(--muted); margin: 6px 0 0; }
+.checked a { color: var(--muted); }
+
+/* SECTION HEADS */
+.sec { margin-top: 30px; }
+.sec-head { position: relative; background: var(--brand-2); color: var(--on-brand); height: 120px; overflow: hidden; border-radius: 3px 3px 0 0; }
+.sec-head svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.sec-head .ghost { position: absolute; right: 10px; top: -14px; font-family: var(--display); font-weight: var(--display-w); font-size: 96px; line-height: 1; color: transparent; -webkit-text-stroke: 2px color-mix(in srgb, var(--on-brand) 55%, transparent); }
+.sec-head h2 { position: absolute; left: 16px; bottom: 12px; font-size: 34px; line-height: 1; }
+.sec-head .tape { left: 40px; top: -6px; }
+.sec-body { background: var(--sheet); padding: 18px 16px 22px; border-radius: 0 0 3px 3px; box-shadow: 0 1px 0 var(--line), 0 14px 30px -24px rgba(0,0,0,.55); }
+.art-a { fill: color-mix(in srgb, var(--brand) 70%, black 10%); }
+.art-sun { fill: var(--accent); }
+.art-road { stroke: var(--accent); }
+
+/* ON THE WAY: sticky map + stops */
+.way { display: grid; gap: 0 28px; }
+@media (min-width: 900px) { .way { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
+.mapbox { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 3; background: var(--sheet); padding-block: 8px 10px; margin-inline: -16px; padding-inline: 16px; border-bottom: 1px solid var(--line); align-self: start; }
+@media (min-width: 900px) { .mapbox { top: 16px; margin-inline: 0; padding-inline: 0; border-bottom: 0; } }
+.map { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 12px; align-items: center; }
+@media (min-width: 900px) { .map { grid-template-columns: 1fr; } }
+.map svg { width: 100%; height: auto; max-height: 38vh; display: block; border-radius: 10px; background: var(--sea); }
+@media (min-width: 900px) { .map svg { max-height: 74vh; } }
+.m-land { fill: var(--land); stroke: color-mix(in srgb, var(--ink) 35%, transparent); stroke-width: .8; }
+.m-ridge { fill: color-mix(in srgb, var(--brand-2) 45%, var(--land)); }
+.m-route { fill: none; stroke: color-mix(in srgb, var(--ink) 30%, transparent); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 2 5; }
+.m-lit { fill: none; stroke: var(--accent); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; transition: stroke-dashoffset .6s cubic-bezier(.2,.7,.2,1); }
+.m-lit-edge { fill: none; stroke: var(--ink); stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; opacity: .85; transition: stroke-dashoffset .6s cubic-bezier(.2,.7,.2,1); }
+.m-town { font: 700 11px var(--body); fill: var(--ink); }
+.m-water { font: italic 400 10px var(--body); fill: color-mix(in srgb, var(--ink) 55%, transparent); }
+.m-road { font: 800 10px var(--body); fill: var(--brand-2); letter-spacing: .04em; }
+.m-dot { fill: var(--sheet); stroke: var(--ink); stroke-width: 2; }
+.m-pin { transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.m-pin circle { fill: var(--accent); stroke: var(--ink); stroke-width: 2.5; }
+@media (prefers-reduced-motion: reduce) { .m-lit, .m-lit-edge, .m-pin { transition: none; } }
+.now { display: grid; gap: 2px; }
+.now .lbl { font-family: var(--hand); font-size: calc(18px * var(--hand-size)); color: var(--pencil); line-height: 1; }
+.now strong { font-family: var(--display); font-weight: var(--display-w); font-size: clamp(20px, 5.5vw, 28px); line-height: 1.05; }
+.now span.sub { font-size: 14px; color: var(--muted); }
+.mapnote { font-size: 12px; color: var(--muted); margin: 6px 0 0; }
+@media (max-width: 899px) { .mapnote { display: none; } }
+
+.steps { display: grid; gap: 18px; padding-top: 18px; min-width: 0; }
+.steps h3 { font-size: 22px; }
+.receipt { border: 2px dashed var(--line); border-radius: var(--r-sm); padding: 12px 14px; }
+.receipt table { width: 100%; border-collapse: collapse; margin-top: 4px; }
+.receipt td { padding: 6px 0; vertical-align: top; }
+.receipt td:last-child { text-align: right; font-weight: 800; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.receipt .tag { display: block; font-size: 13px; color: var(--muted); font-weight: 600; }
+.receipt tr.sum td { border-top: 2px solid var(--ink); padding-top: 9px; font-family: var(--display); font-weight: var(--display-w); font-size: 22px; }
+.receipt tr.sum td:last-child { background: var(--accent); color: var(--on-accent); padding-inline: 8px; border-radius: 4px; }
+.margin-note { font-family: var(--hand); font-size: calc(20px * var(--hand-size)); line-height: 1.25; color: var(--berry); transform: rotate(-1.5deg); margin: 0; }
+
+.timeline { list-style: none; margin: 0; padding: 0; position: relative; display: grid; gap: 22px; }
+.timeline::before { content: ""; position: absolute; left: 25px; top: 10px; bottom: 10px; border-left: 3px dotted var(--muted); }
+.stop { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 12px; position: relative; scroll-margin-top: 40vh; }
+.kmpost { align-self: start; width: 52px; min-height: 48px; background: var(--sheet); border: 2px solid var(--ink); border-radius: 13px 13px 3px 3px; display: grid; place-items: center; text-align: center; font-family: var(--display); font-weight: var(--display-w); line-height: 1; padding: 6px 2px; position: relative; z-index: 1; transition: background .3s, color .3s; }
+.kmpost small { display: block; font: 800 11px var(--body); color: var(--muted); }
+.kmpost .n { font-size: 20px; }
+.kmpost.road { font-size: 12px; font-family: var(--body); font-weight: 800; }
+.stop.is-now .kmpost { background: var(--accent); color: var(--on-accent); }
+.stop.is-now .kmpost small { color: var(--on-accent); }
+.stop h4 { font-size: 21px; line-height: 1.15; }
+.stop p { margin: 4px 0 0; }
+/* the blue expressway services board */
+.board { display: inline-flex; align-items: center; gap: 6px; background: var(--sign-blue); border: 2px solid #fff; outline: 2px solid var(--sign-blue); border-radius: 5px; padding: 4px 6px; margin-top: 8px; }
+.board svg { width: 26px; height: 26px; display: block; }
+.board span { color: #fff; font: 800 12px/1 var(--body); padding-right: 2px; }
+.callahead { display: inline-block; font-family: var(--hand); font-size: calc(18px * var(--hand-size)); color: var(--pencil); margin: 6px 0 0 4px; position: relative; transform: rotate(-1.5deg); }
+.callahead svg { position: absolute; left: -4px; right: -4px; bottom: -6px; width: calc(100% + 8px); height: 8px; }
+.btn { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: var(--tap); padding: 0 18px; border-radius: 10px; background: var(--brand); color: var(--on-brand); font: 800 17px/1 var(--body); text-decoration: none; border: 0; margin-top: 10px; }
+.btn svg { width: 20px; height: 20px; flex: none; }
+.btn.alt { background: transparent; color: var(--ink); border: 2px solid var(--ink); }
+
+/* IN BAGUIO / BEFORE YOU GO */
+.duo { display: grid; gap: 30px; }
+@media (min-width: 900px) { .duo { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; } .duo .sec { margin-top: 30px; } }
+.duo .sec-body { display: grid; gap: 18px; }
+.duo h3 { font-size: 21px; }
+.checker { border: 2px solid var(--ink); border-radius: var(--r-md); padding: 14px; display: grid; gap: 10px; }
+.checker fieldset { border: 0; margin: 0; padding: 0; }
+.checker legend { font-weight: 800; margin-bottom: 6px; }
+.digits { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.days { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.checker button { min-height: var(--tap); border-radius: 10px; border: 2px solid var(--line); background: var(--paper); color: var(--ink); font: 800 22px/1 var(--display); cursor: pointer; }
+.days button { font: 800 16px/1 var(--body); }
+.checker button[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.verdict { border-radius: 10px; padding: 14px; font-weight: 800; font-size: 19px; line-height: 1.3; background: var(--paper); }
+.verdict.go { background: var(--go-bg); color: var(--go); }
+.verdict.stop { background: var(--berry-bg); color: var(--berry); }
+.sees { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.sees li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; border-bottom: 1px solid var(--line); padding-bottom: 14px; }
+.sees li:last-child { border-bottom: 0; padding-bottom: 0; }
+.sees strong { font-family: var(--display); font-weight: var(--display-w); font-size: 19px; }
+.sees p { margin: 0; grid-column: 1; }
+.sees .sign { width: 34px; height: 34px; grid-row: span 2; grid-column: 2; }
+.rain { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 4px; align-items: end; height: 120px; }
+.rain div { background: var(--pencil); opacity: .4; border-radius: 3px 3px 0 0; min-height: 3px; }
+.rain div.now { background: var(--accent); opacity: 1; }
+.rain-labels { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 4px; font-size: 12px; text-align: center; color: var(--muted); margin-top: 4px; }
+.rain-labels .now { color: var(--ink); font-weight: 900; }
+.pack { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.pack label { display: flex; gap: 10px; align-items: flex-start; min-height: 32px; cursor: pointer; }
+.pack input { width: 22px; height: 22px; accent-color: var(--brand); margin: 2px 0 0; flex: none; }
+.sos { display: grid; gap: 10px; }
+.sos .row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; border: 2px solid var(--ink); border-radius: var(--r-md); padding: 10px 12px; }
+.sos .row strong { font-family: var(--display); font-weight: var(--display-w); font-size: 26px; display: block; line-height: 1.1; }
+.sos .row .btn { margin: 0; min-width: 96px; background: var(--sign-red); color: #fff; }
+.morning { background: color-mix(in srgb, var(--accent) 22%, var(--sheet)); border-radius: var(--r-md); padding: 14px; }
+.morning h3 { font-family: var(--hand); font-weight: 400; letter-spacing: 0; font-size: calc(26px * var(--hand-size)); }
+.morning ol { margin: 8px 0 0; padding-left: 22px; display: grid; gap: 6px; }
+
+footer { margin-top: 34px; background: var(--brand); color: var(--on-brand); }
+footer .wrap { padding-block: 26px 36px; display: grid; gap: 10px; }
+footer .sign-off { font-family: var(--hand); font-size: calc(30px * var(--hand-size)); color: var(--accent); margin: 0; transform: rotate(-2deg); transform-origin: left; }
+footer p { margin: 0; font-size: 15px; opacity: .92; }
+
+/* PREVIEW CONTROLS (not part of the roadbook) */
+.controls { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: color-mix(in srgb, var(--sheet) 94%, transparent); backdrop-filter: blur(8px); border-top: 2px solid var(--ink); padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px)); }
+.controls .in { max-width: 1180px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; }
+.controls .grp { display: flex; gap: 4px; align-items: center; overflow-x: auto; max-width: 100%; }
+.controls .grp > span { font-size: 13px; font-weight: 800; margin-right: 4px; white-space: nowrap; }
+.controls button { font: 700 13px/1 var(--body); padding: 8px 10px; min-height: 34px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--sheet); color: var(--ink); cursor: pointer; white-space: nowrap; }
+.controls button[aria-pressed="true"] { background: var(--ink); color: var(--sheet); border-color: var(--ink); }
+.controls small { font-size: 12px; color: var(--muted); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero .road-draw { stroke-dasharray: 900; stroke-dashoffset: 900; animation: draw 2.4s .3s ease-out forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+}
+</style>
+
+<!-- shared sign symbols -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-gas" viewBox="0 0 26 26"><rect x="5" y="5" width="10" height="17" rx="1.5" fill="#fff"/><rect x="7" y="7.5" width="6" height="4.5" fill="#1C58A6"/><path d="M15 9h3l2 3v7a1.6 1.6 0 0 1-3.2 0v-4H15" fill="none" stroke="#fff" stroke-width="2"/><rect x="4" y="21" width="12" height="2" fill="#fff"/></symbol>
+  <symbol id="i-food" viewBox="0 0 26 26"><path d="M8 4v7a2 2 0 0 0 2 2v9M10 4v6M12 4v7a2 2 0 0 1-2 2" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round"/><path d="M18 4c-2.4 1.4-3 5-3 8h3v10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-wc" viewBox="0 0 26 26"><circle cx="8" cy="5.5" r="2.2" fill="#fff"/><rect x="5.5" y="9" width="5" height="7" rx="1" fill="#fff"/><rect x="6" y="15" width="1.8" height="7" fill="#fff"/><rect x="8.3" y="15" width="1.8" height="7" fill="#fff"/><rect x="12.4" y="3" width="1.2" height="20" fill="#fff"/><circle cx="18.5" cy="5.5" r="2.2" fill="#fff"/><path d="M18.5 8.6l-3.6 9h7.2z" fill="#fff"/><rect x="16.6" y="17" width="1.6" height="5" fill="#fff"/><rect x="18.9" y="17" width="1.6" height="5" fill="#fff"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 26 26"><path d="M6 9h14l-1.2 13H7.2z" fill="#fff"/><path d="M9.5 10V7.5a3.5 3.5 0 0 1 7 0V10" fill="none" stroke="#fff" stroke-width="2"/></symbol>
+  <!-- status signs -->
+  <symbol id="s-warn" viewBox="0 0 54 54"><rect x="9" y="9" width="36" height="36" rx="4" transform="rotate(45 27 27)" fill="#F7C51E" stroke="#111" stroke-width="2.5"/><text x="27" y="32.5" text-anchor="middle" font-family="Overpass, Arial, sans-serif" font-weight="900" font-size="15" fill="#111">5t</text></symbol>
+  <symbol id="s-go" viewBox="0 0 54 54"><rect x="4" y="9" width="46" height="36" rx="5" fill="#136B3E" stroke="#fff" stroke-width="2"/><rect x="2.5" y="7.5" width="49" height="39" rx="6.5" fill="none" stroke="#136B3E" stroke-width="1.5"/><path d="M27 16v22M19 24l8-8 8 8" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="s-stop" viewBox="0 0 54 54"><circle cx="27" cy="27" r="23" fill="#C42127" stroke="#fff" stroke-width="2.5"/><circle cx="27" cy="27" r="25" fill="none" stroke="#C42127" stroke-width="1.5"/><rect x="13" y="23" width="28" height="8" rx="1" fill="#fff"/></symbol>
+  <symbol id="s-ask" viewBox="0 0 54 54"><rect x="9" y="9" width="36" height="36" rx="4" transform="rotate(45 27 27)" fill="#F7C51E" stroke="#111" stroke-width="2.5"/><text x="27" y="34" text-anchor="middle" font-family="Overpass, Arial, sans-serif" font-weight="900" font-size="20" fill="#111">?</text></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="12" cy="10" r="2.6" fill="none" stroke="currentColor" stroke-width="2.4"/></symbol>
+  <symbol id="u-line" viewBox="0 0 100 8" preserveAspectRatio="none"><path d="M2 5 C 20 2, 40 7, 60 4 S 90 3, 98 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+</svg>
+
+<header class="hero">
+  <svg class="ridges" viewBox="0 0 1200 400" preserveAspectRatio="none" aria-hidden="true">
+    <path class="ridge-a" d="M0 210 L120 150 L230 200 L360 110 L470 180 L600 90 L720 170 L840 120 L960 190 L1080 130 L1200 170 L1200 400 L0 400Z"/>
+    <path class="ridge-b" d="M0 270 L140 200 L260 250 L390 180 L520 240 L660 170 L790 235 L930 185 L1060 245 L1200 205 L1200 400 L0 400Z"/>
+    <path class="road-draw art-road" d="M40 400 L230 372 L120 356 L330 338 L220 322 L430 306" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="14 10"/>
+    <path class="ridge-c" d="M0 330 L160 280 L300 320 L460 260 L620 315 L780 270 L940 320 L1080 280 L1200 300 L1200 400 L0 400Z"/>
+  </svg>
+  <div class="wrap hero-inner">
+    <p class="brandline" id="brandline">GALA<span>Roadbook</span></p>
+    <h1 class="title"><span class="from">Manila to</span><span class="to">Baguio</span></h1>
+    <p class="tagline">Tara sa next GALA!</p>
+  </div>
+  <svg class="stamp" viewBox="0 0 120 120" role="img" aria-label="Facts checked 10 October 2026">
+    <defs><path id="ring" d="M60 60 m-44 0 a44 44 0 1 1 88 0 a44 44 0 1 1 -88 0"/></defs>
+    <circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" stroke-width="3"/>
+    <circle cx="60" cy="60" r="34" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <text font-family="Overpass, sans-serif" font-weight="900" font-size="12.5" letter-spacing="2.4" fill="currentColor"><textPath href="#ring">FACTS CHECKED ★ GALA VERIFIED ★</textPath></text>
+    <text x="60" y="56" text-anchor="middle" font-family="Overpass, sans-serif" font-weight="900" font-size="20" fill="currentColor">10 OCT</text>
+    <text x="60" y="75" text-anchor="middle" font-family="Overpass, sans-serif" font-weight="800" font-size="14" fill="currentColor">2026</text>
+  </svg>
+  <div class="polaroids" aria-hidden="true">
+    <figure class="polaroid"><span class="tape"></span>
+      <svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#BFD9E6"/><circle cx="76" cy="24" r="10" fill="#F2B01E"/><path d="M0 70 L30 38 L52 60 L74 30 L100 62 L100 100 L0 100Z" fill="#3F7A5E"/><path d="M0 100 L0 82 L40 60 L100 84 L100 100Z" fill="#24543F"/><path d="M14 100 L46 84 L28 76 L60 64 L44 58 L70 48" fill="none" stroke="#F8F9F5" stroke-width="3" stroke-dasharray="5 4"/></svg>
+      <figcaption>Kennon zigzag</figcaption></figure>
+    <figure class="polaroid"><span class="tape"></span>
+      <svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#E7EFD9"/><g fill="#C7303A"><path d="M30 40 q-14 0 -12 16 q4 18 12 22 q8 -4 12 -22 q2 -16 -12 -16z"/><path d="M64 34 q-15 0 -13 17 q4 20 13 24 q9 -4 13 -24 q2 -17 -13 -17z"/><path d="M48 62 q-12 0 -10 13 q3 15 10 18 q7 -3 10 -18 q2 -13 -10 -13z"/></g><g fill="#2E7A45"><path d="M22 40 l8 -8 l8 8z M56 34 l8 -9 l8 9z M41 62 l7 -7 l7 7z"/></g><g fill="#F6E58A"><circle cx="27" cy="52" r="1.3"/><circle cx="33" cy="60" r="1.3"/><circle cx="61" cy="47" r="1.3"/><circle cx="68" cy="56" r="1.3"/><circle cx="46" cy="74" r="1.3"/></g></svg>
+      <figcaption>La Trinidad strawberries</figcaption></figure>
+    <figure class="polaroid"><span class="tape"></span>
+      <svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#D4DED8"/><rect y="46" width="100" height="10" fill="#EEF2EE" opacity=".8"/><g fill="#1F4A38"><path d="M20 90 l12 -60 l12 60z"/><path d="M48 92 l14 -72 l14 72z"/><path d="M76 90 l10 -48 l10 48z"/><path d="M2 92 l9 -40 l9 40z"/></g><rect y="66" width="100" height="8" fill="#EEF2EE" opacity=".7"/><rect y="90" width="100" height="10" fill="#5B4632"/></svg>
+      <figcaption>Pines in the fog</figcaption></figure>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="plates" aria-label="Trip at a glance">
+    <div class="plate total"><span class="k">Tolls, one way</span><span class="v num">₱981</span><span class="s">Class 1 car, Feb 2026 rates</span></div>
+    <div class="plate"><span class="k">Drive time</span><span class="v num">~3 hrs</span><span class="s">No traffic, plus the mountain road</span></div>
+    <div class="plate"><span class="k">RFID you need</span><span class="v num">2</span><span class="s">Easytrip and Autosweep</span></div>
+    <div class="plate" id="coding-plate"><span class="k">Baguio coding today</span><span class="v" id="coding-today">…</span><span class="s" id="coding-sub">7am to 7pm, weekdays</span></div>
+  </section>
+
+  <section class="notice" aria-labelledby="roads-h">
+    <span class="tape"></span><span class="tape r"></span>
+    <h2 id="roads-h">Road check before you go up</h2>
+    <ul class="roads">
+      <li><svg class="sign" role="img" aria-label="Warning sign"><use href="#s-warn"/></svg><strong>Kennon Road</strong><span class="state">Open to light vehicles, max 5 tons</span>
+        <p>Camp 2 Acrow Bridge is closed, so you take a one-lane detour. Two more one-lane spots at Camp 6. Closed to non-residents in heavy rain.</p></li>
+      <li><svg class="sign" role="img" aria-label="Go sign"><use href="#s-go"/></svg><strong>Marcos Highway</strong><span class="state">Passable</span>
+        <p>Take this if you drive a heavy vehicle or it's raining hard.</p></li>
+      <li><svg class="sign" role="img" aria-label="No entry sign"><use href="#s-stop"/></svg><strong>Closed around Baguio</strong><span class="state">Not passable</span>
+        <p>PMA Road, PMA Cut-Off Road No. 3, Baguio–Itogon Road at Goldfield, Benguet–Nueva Vizcaya Road at Beckel.</p></li>
+    </ul>
+    <p class="checked">Checked 10 Oct 2026, from the DPWH-Cordillera advisory of 9 Oct via Baguio City Guide</p>
+  </section>
+
+  <!-- 01 ON THE WAY -->
+  <section class="sec" aria-labelledby="p1">
+    <div class="sec-head">
+      <svg viewBox="0 0 800 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path class="art-a" d="M0 120 L0 92 L800 58 L800 120Z"/><path class="art-road" d="M0 108 L800 74" stroke-width="4" stroke-dasharray="16 12" fill="none"/><circle class="art-sun" cx="640" cy="34" r="16"/></svg>
+      <span class="tape"></span><span class="ghost">01</span><h2 id="p1">On the way</h2>
+    </div>
+    <div class="sec-body way">
+      <div class="mapbox">
+        <div class="map">
+          <svg viewBox="0 0 340 498" role="img" aria-label="Schematic map of the route from Balintawak to Baguio">
+            <path class="m-land" d="M509.7 -343.3L513.3 -337.7L514.8 -329.3L514.0 -320.2L511.2 -311.4L507.6 -304.7L502.5 -298.1L499.6 -294.9L492.4 -290.4L486.0 -284.4L484.5 -283.0L483.8 -280.2L483.8 -277.8L484.5 -276.0L485.2 -274.3L485.2 -272.5L485.2 -265.5L486.7 -258.5L486.7 -256.0L478.0 -217.5L478.0 -215.4L478.8 -210.8L478.8 -209.1L477.3 -206.3L477.3 -204.9L478.0 -203.5L480.9 -200.3L480.9 -198.6L481.6 -180.4L482.4 -175.1L488.8 -159.7L489.6 -154.4L491.0 -150.6L494.6 -145.7L498.2 -140.4L497.5 -135.2L498.9 -133.1L498.9 -129.5L500.4 -126.7L502.5 -125.3L503.2 -125.7L504.0 -126.4L505.4 -126.7L507.6 -126.7L511.2 -123.2L512.6 -122.5L515.5 -122.5L520.5 -124.6L523.4 -125.3L526.3 -123.9L527.7 -117.6L530.6 -115.5L529.9 -120.1L532.8 -118.0L537.1 -112.4L538.5 -107.1L534.9 -109.9L532.8 -110.6L532.0 -108.9L532.0 -106.1L534.2 -100.1L534.9 -97.7L534.2 -94.5L532.0 -88.2L532.0 -85.4L533.5 -82.2L538.5 -78.4L540.0 -75.6L540.7 -76.6L542.1 -77.3L542.8 -78.4L546.4 -77.3L547.9 -79.4L550.0 -80.8L553.6 -78.4L555.8 -74.5L555.8 -70.7L554.4 -66.8L551.5 -63.3L550.8 -61.6L550.0 -59.1L549.3 -56.7L547.9 -55.6L546.4 -54.6L544.3 -49.7L542.1 -33.5L542.8 -30.0L540.0 -23.7L534.2 -9.4L524.8 7.5L522.7 13.4L519.1 22.2L517.6 24.6L514.8 27.8L509.7 38.3L507.6 42.1L500.4 47.7L498.9 49.8L497.5 50.9L496.8 53.0L496.8 54.8L496.0 59.0L496.0 60.0L492.4 62.5L491.0 65.3L491.0 67.7L493.2 73.7L494.6 70.9L495.3 69.5L496.0 69.5L495.3 76.5L488.1 89.8L489.6 95.0L493.2 91.9L496.0 89.4L496.0 92.2L491.0 101.0L491.0 102.1L491.0 105.2L491.0 106.6L489.6 107.0L486.7 107.7L485.2 108.0L480.2 115.0L473.0 120.6L466.5 127.3L465.8 127.6L465.1 128.0L464.4 129.4L464.4 130.8L464.4 132.5L464.4 133.9L464.4 135.0L462.2 139.5L453.6 144.8L449.2 149.0L448.5 147.6L452.1 142.0L454.3 138.1L455.0 133.9L456.4 131.5L466.5 124.8L467.2 121.7L468.7 116.8L470.1 112.6L476.6 108.7L478.0 104.9L477.3 101.4L471.6 101.0L467.2 102.8L465.8 105.6L465.1 109.1L464.4 112.9L463.6 116.1L460.0 118.2L452.1 120.6L440.6 126.6L437.7 127.6L430.5 128.7L423.3 130.8L421.2 132.5L419.0 135.0L416.1 136.7L409.6 138.5L407.5 139.5L405.3 140.6L403.9 139.9L402.4 139.2L400.3 139.5L386.6 151.1L385.9 153.6L378.7 162.0L368.6 167.2L365.7 169.7L363.6 173.2L362.1 177.4L360.7 186.1L360.7 191.0L364.3 198.4L365.0 202.6L367.2 204.4L371.5 204.7L376.5 206.1L378.7 210.3L377.2 213.1L368.6 223.3L372.2 224.0L373.6 224.7L375.8 226.1L367.9 230.3L365.0 233.1L363.6 236.6L362.1 240.5L360.0 243.6L349.2 252.7L347.7 255.2L345.6 268.5L344.8 272.3L342.7 275.5L335.5 285.7L331.9 284.6L329.7 283.5L328.3 284.6L326.1 289.9L326.1 299.3L328.3 307.7L332.6 315.1L338.4 319.6L343.4 322.4L346.3 325.2L347.7 329.1L351.3 350.1L352.8 352.6L355.6 354.7L362.1 365.2L363.6 368.7L364.3 374.3L366.4 379.9L369.3 384.8L372.9 389.4L372.2 390.1L370.0 391.8L368.6 392.2L377.2 402.3L378.7 404.4L380.1 406.2L392.4 416.0L395.2 419.1L395.2 421.2L391.6 421.9L384.4 422.3L380.1 423.4L375.8 424.8L372.9 427.6L371.5 430.7L371.5 439.8L372.2 443.7L379.4 468.6L380.1 475.9L382.3 484.0L383.7 487.5L386.6 490.6L395.2 498.7L396.7 502.5L397.4 505.3L396.7 512.3L397.4 514.1L401.0 517.6L401.7 519.4L401.7 522.9L400.3 526.0L398.8 528.5L396.7 530.2L396.7 531.6L398.8 533.7L406.0 544.6L419.7 554.4L433.4 568.8L437.0 571.6L467.2 583.5L496.0 590.1L496.8 584.5L494.6 580.7L486.7 573.0L490.3 571.9L509.0 576.8L509.7 576.5L509.7 573.7L509.0 570.2L509.7 569.1L512.6 568.4L512.6 567.4L508.3 566.0L500.4 556.5L496.8 554.4L491.7 552.3L487.4 547.7L483.8 541.8L482.4 535.8L484.5 537.2L485.2 538.3L485.2 540.0L486.7 540.0L486.7 535.5L488.8 532.3L496.0 528.8L498.9 529.9L499.6 526.4L499.6 521.5L500.4 518.7L502.5 519.4L503.2 523.6L502.5 528.5L501.8 531.6L503.2 533.4L504.0 535.8L504.0 538.6L504.7 541.4L504.0 542.1L504.7 543.2L506.1 544.6L506.8 544.6L507.6 543.5L508.3 542.5L509.0 541.4L509.7 543.9L509.7 546.3L509.7 551.6L514.0 549.8L516.9 547.0L519.1 543.5L519.8 538.6L519.1 537.2L516.2 533.0L515.5 531.6L516.2 529.2L517.6 527.4L519.1 527.8L519.8 530.2L521.2 530.2L521.2 528.1L521.2 526.7L520.5 525.3L519.8 524.6L523.4 524.6L525.6 523.2L525.6 520.8L523.4 518.0L523.4 516.2L526.3 509.9L527.7 507.4L529.2 510.2L530.6 509.2L532.8 506.4L533.5 503.2L536.4 504.6L539.2 503.2L541.4 500.8L544.3 498.7L546.4 498.7L548.6 499.7L553.6 503.2L552.9 502.2L550.8 498.7L555.8 498.3L565.2 502.2L570.2 503.2L569.5 506.0L570.9 508.1L573.1 508.5L574.5 506.0L575.2 509.2L576.7 511.3L578.8 511.6L580.3 508.8L585.3 509.5L588.2 510.2L584.6 505.0L584.6 500.1L586.0 498.0L589.6 500.4L591.1 498.7L592.5 502.2L594.7 505.0L596.8 505.7L600.4 501.8L601.2 502.9L602.6 503.9L604.0 504.6L606.9 505.0L606.9 505.3L606.9 506.4L607.6 507.4L610.5 510.9L612.0 511.6L614.8 511.6L620.6 512.7L624.9 515.5L630.7 523.2L630.7 524.3L630.7 525.7L630.7 526.7L631.4 527.4L634.3 527.4L635.0 527.8L636.4 528.8L640.8 535.8L642.9 537.6L650.8 546.0L652.3 548.8L654.4 547.4L656.6 548.1L658.8 550.2L659.5 553.0L658.8 556.1L657.3 558.6L655.9 561.8L656.6 566.0L660.9 570.2L666.0 573.0L666.7 576.1L666.0 585.6L667.4 591.2L667.4 592.6L666.7 594.7L665.2 595.0L663.8 595.7L662.4 597.1L660.9 599.2L659.5 607.7L659.5 609.8L660.2 617.1L663.1 621.3L667.4 624.1L671.7 628.3L673.2 628.3L677.5 626.2L682.5 625.9L692.6 626.9L694.8 626.6L701.2 623.8L703.4 622.7L710.6 614.3L711.3 611.9L712.0 610.5L712.8 609.1L712.8 608.0L711.3 605.2L709.2 597.5L706.3 592.9L706.3 590.1L712.8 585.2L713.5 584.2L714.9 583.1L716.4 580.3L717.1 577.2L717.1 574.4L714.9 576.5L712.8 582.8L710.6 584.2L707.7 584.2L706.3 583.8L696.9 578.2L694.8 575.8L693.3 572.3L695.5 570.5L699.1 569.1L700.5 567.7L697.6 566.0L702.0 564.2L702.7 561.8L700.5 556.5L702.0 555.4L706.3 556.8L712.8 560.0L712.8 558.6L712.0 558.2L709.9 555.8L715.6 556.1L717.1 555.8L717.1 554.4L715.6 550.5L716.4 549.8L719.2 551.2L720.7 554.0L722.1 561.8L719.2 562.5L718.5 564.9L719.2 567.4L720.7 568.1L724.3 564.6L725.7 563.5L727.9 562.8L727.2 564.2L725.0 568.4L727.2 567.7L727.9 567.4L729.3 568.4L728.6 572.3L732.2 577.9L730.8 581.4L732.2 583.1L732.9 585.2L733.6 587.7L733.6 590.1L735.1 590.1L735.8 587.3L737.2 585.2L738.7 582.8L738.7 578.6L743.0 579.6L745.9 581.0L747.3 583.1L748.8 587.0L757.4 586.3L772.5 591.9L786.2 594.7L792.7 584.2L797.0 591.9L802.8 598.9L810.7 604.1L825.1 610.5L825.8 611.2L825.8 611.9L826.5 612.6L829.4 613.3L833.7 613.3L836.6 614.0L837.3 615.4L840.2 621.3L843.8 624.5L844.5 626.9L843.1 629.7L839.5 626.9L838.8 625.9L837.3 624.1L836.6 624.1L835.9 624.8L835.2 626.9L832.3 625.5L828.7 624.5L822.2 624.1L820.0 625.9L817.2 629.7L813.6 633.6L809.2 635.3L805.6 634.6L798.4 630.8L787.6 629.0L783.3 629.0L781.2 630.4L779.7 632.2L775.4 630.8L771.1 628.0L767.5 626.9L763.9 628.0L761.7 630.8L756.0 647.9L755.2 652.5L756.7 652.8L758.1 653.6L757.4 654.6L756.7 655.7L756.7 656.7L756.7 658.8L757.4 661.3L758.8 662.0L760.3 661.3L762.4 659.5L768.9 668.3L769.6 669.3L771.1 671.1L783.3 677.4L786.2 680.5L791.2 689.6L792.0 690.3L794.8 692.1L794.8 693.1L794.8 695.2L795.6 697.0L796.3 703.0L798.4 707.5L802.0 711.0L805.6 712.4L809.2 714.2L811.4 718.7L814.3 727.8L815.0 724.0L817.2 725.0L819.3 727.8L821.5 730.6L807.8 729.9L803.5 731.7L802.0 736.9L801.3 740.4L800.6 743.2L799.9 746.1L800.6 749.2L804.2 755.2L803.5 757.6L799.2 759.0L799.2 760.4L799.9 762.2L799.9 763.2L799.2 765.0L803.5 767.1L804.9 767.4L807.8 767.4L809.2 766.7L812.8 763.9L813.6 763.2L821.5 753.4L822.2 751.7L822.9 749.9L824.4 748.5L826.5 747.8L828.7 748.5L830.8 751.3L833.0 752.0L835.2 752.0L836.6 752.7L837.3 753.8L837.3 755.5L838.8 755.9L846.0 757.6L848.1 759.0L851.7 761.5L854.6 764.3L855.3 766.7L864.0 774.8L866.1 776.2L868.3 774.1L872.6 765.7L873.3 762.5L875.5 761.8L879.8 762.9L884.8 765.0L887.0 766.4L887.7 769.9L887.0 773.7L885.6 776.2L882.7 774.8L880.5 777.9L879.1 780.4L877.6 786.0L874.0 793.7L873.3 795.5L874.0 798.6L876.9 803.5L878.4 816.5L878.4 820.3L876.2 845.2L874.8 848.4L869.0 852.2L867.6 855.0L868.3 858.5L869.0 860.6L869.0 862.4L866.1 864.5L867.6 865.9L869.0 870.1L866.8 870.8L863.2 873.2L861.1 874.3L858.2 874.3L851.7 874.3L846.7 872.2L841.6 867.6L836.6 858.5L836.6 856.4L835.9 856.1L834.4 856.8L833.0 857.1L830.1 853.6L825.8 851.9L824.4 848.7L822.9 844.5L818.6 837.1L818.6 832.9L819.3 828.7L820.0 824.5L818.6 819.3L815.7 817.2L812.8 815.8L808.5 813.0L813.6 813.0L817.9 811.6L820.8 808.8L822.9 804.6L825.1 805.6L828.0 809.1L829.4 810.2L831.6 810.9L832.3 810.9L833.7 810.5L835.9 810.2L838.0 809.5L838.8 808.1L838.8 806.0L839.5 803.9L841.6 803.2L843.8 803.5L846.0 804.2L847.4 804.6L850.3 803.2L853.9 800.0L856.0 796.5L856.8 792.7L855.3 787.4L851.0 786.0L841.6 787.7L838.0 787.0L832.3 783.9L828.7 783.2L826.5 784.9L825.1 789.1L823.6 793.4L822.9 796.2L817.9 801.4L814.3 803.5L810.0 804.9L807.8 806.0L807.1 806.3L805.6 805.6L803.5 803.9L802.8 803.2L801.3 804.2L799.2 807.7L797.7 808.8L797.0 809.1L796.3 810.2L794.8 810.2L794.1 807.4L792.7 804.6L794.8 803.9L796.3 802.5L796.3 801.1L794.1 800.4L789.1 800.7L788.4 801.1L789.1 802.5L789.8 804.2L789.8 806.3L785.5 802.1L787.6 797.9L790.5 793.4L789.8 792.3L788.4 793.0L786.2 793.4L784.0 793.7L782.6 795.5L782.6 797.2L781.2 799.0L779.7 800.7L779.7 801.8L779.0 801.8L776.8 801.8L773.2 801.1L771.1 800.4L769.6 799.7L763.9 793.0L761.7 790.9L758.1 788.8L756.0 788.1L754.5 787.7L752.4 787.0L750.9 785.3L747.3 781.1L743.7 779.0L740.1 772.0L738.0 770.6L733.6 769.9L730.0 769.2L727.2 768.8L722.1 770.6L716.4 774.1L712.0 775.5L709.9 774.1L709.2 770.6L707.7 766.7L707.0 763.2L708.4 760.4L705.6 753.1L711.3 736.9L709.9 729.2L707.0 725.4L699.8 720.1L696.2 716.3L695.5 714.5L694.8 711.4L693.3 709.3L688.3 703.7L689.7 698.0L687.6 691.0L684.0 685.1L678.9 682.3L673.9 680.9L663.1 673.9L657.3 672.5L653.7 672.1L649.4 670.0L646.5 669.7L644.4 668.6L639.3 664.1L627.1 655.0L624.2 653.9L622.0 652.5L615.6 644.8L612.7 642.3L622.8 633.9L612.7 622.7L607.6 618.5L601.9 615.4L601.9 616.8L600.4 615.4L601.9 614.0L604.0 614.0L603.3 612.2L600.4 610.1L597.6 608.4L589.6 606.6L588.2 605.5L586.0 607.7L583.2 608.0L580.3 606.6L578.8 604.1L578.8 603.1L580.3 602.0L581.0 601.0L580.3 599.2L574.5 592.9L572.4 591.5L569.5 590.5L566.6 590.1L565.9 588.7L565.9 585.9L564.4 584.2L562.3 585.6L560.8 583.5L558.7 580.3L558.0 579.3L557.2 578.6L552.9 584.2L542.1 583.5L537.1 581.7L533.5 578.6L532.8 581.4L534.2 584.5L537.1 587.3L539.2 588.4L540.0 590.1L550.0 604.1L552.2 608.0L551.5 610.5L550.8 613.6L550.8 617.8L552.2 625.5L547.9 624.5L547.2 628.3L548.6 637.8L549.3 642.7L552.9 647.2L560.1 654.6L574.5 663.4L577.4 666.5L576.7 670.0L571.6 667.9L563.7 661.3L564.4 664.4L569.5 672.8L578.8 683.3L581.0 686.8L582.4 691.0L584.6 699.5L585.3 707.2L585.3 715.6L586.0 718.0L586.8 719.4L587.5 720.8L588.2 722.2L588.2 726.4L588.2 728.9L588.2 730.6L586.8 731.3L585.3 732.0L583.2 732.7L582.4 734.1L580.3 736.6L576.0 739.0L570.9 741.1L567.3 741.8L564.4 739.7L550.8 728.5L551.5 724.3L553.6 717.0L553.6 713.8L550.0 701.9L530.6 675.3L529.9 673.9L529.9 671.1L529.2 669.7L524.8 665.8L524.1 664.1L518.4 661.6L516.9 658.8L514.0 655.3L501.8 655.3L501.8 652.5L498.2 651.1L491.7 650.7L488.8 649.0L488.1 647.2L487.4 643.7L486.0 641.6L484.5 639.9L473.7 622.0L468.7 616.1L462.2 611.2L460.8 615.4L457.9 614.3L454.3 611.5L451.4 609.8L447.8 610.1L447.1 609.8L439.9 602.7L437.7 601.3L434.8 600.6L432.7 600.3L430.5 599.6L426.2 596.1L424.0 594.3L421.9 593.3L415.4 591.5L412.5 588.4L410.4 584.5L407.5 581.4L405.3 581.4L398.1 578.6L395.2 577.2L393.8 580.0L390.2 582.1L389.5 584.9L388.0 585.9L378.7 588.4L377.2 589.4L374.4 592.6L372.9 592.9L369.3 591.9L367.9 591.9L365.7 594.0L360.0 595.7L356.4 598.5L354.9 599.2L353.5 599.6L349.9 599.9L349.2 599.9L347.0 601.3L341.2 608.0L336.9 612.9L338.4 627.3L336.9 632.5L339.1 632.5L340.5 632.9L342.7 633.9L336.9 640.6L336.2 641.6L327.6 639.9L324.7 639.5L321.1 641.6L309.6 650.4L306.0 654.6L302.4 653.6L299.5 651.8L298.8 651.1L293.7 648.6L290.8 648.3L287.2 647.9L285.8 647.6L283.6 646.5L281.5 645.5L278.6 645.1L272.1 646.9L269.2 647.9L266.4 649.7L264.2 649.0L259.2 647.9L257.7 646.9L257.0 644.8L257.7 643.7L258.4 642.7L259.2 640.2L259.9 635.3L260.6 631.8L260.6 628.3L257.7 620.6L257.0 619.9L253.4 617.1L250.5 616.1L248.4 615.4L246.2 616.1L230.4 634.3L228.9 635.3L227.5 634.3L226.8 631.8L226.0 629.4L226.8 628.3L228.9 627.3L229.6 624.8L230.4 622.4L231.1 621.3L234.0 621.0L235.4 619.9L236.1 618.2L236.1 615.4L232.5 612.2L231.8 611.2L231.8 608.7L232.5 604.5L233.2 602.0L233.2 598.5L232.5 595.0L231.1 592.2L228.9 590.1L225.3 588.7L207.3 586.6L199.4 584.5L195.1 584.2L190.8 585.6L189.3 588.4L190.0 592.2L192.9 596.4L194.4 600.6L190.8 601.3L182.1 599.9L180.7 602.7L181.4 606.6L182.8 610.8L184.3 615.0L182.8 617.1L180.0 615.4L175.6 609.8L174.2 602.4L173.5 584.9L170.6 577.2L173.5 576.5L175.6 574.4L177.1 572.3L176.4 571.2L174.2 570.2L173.5 567.0L174.2 554.7L174.2 549.1L171.3 544.6L166.3 543.2L166.3 541.4L169.2 540.0L169.2 537.9L167.7 536.2L164.8 534.4L166.3 534.4L167.7 534.1L170.6 533.0L170.6 531.6L167.7 529.2L169.2 525.3L172.8 521.5L174.2 518.0L175.6 514.8L178.5 513.0L186.4 511.6L189.3 510.6L192.9 508.8L195.1 506.4L195.8 503.9L197.2 502.9L202.3 500.8L203.7 499.7L208.0 492.7L225.3 475.6L227.5 474.5L229.6 474.5L234.0 474.9L235.4 474.2L239.0 470.3L244.0 466.4L246.2 463.6L246.9 459.8L246.2 454.9L241.9 447.9L239.7 443.3L238.3 434.9L237.6 432.1L231.1 424.1L230.4 421.6L228.9 420.2L219.6 416.3L218.8 415.3L218.8 413.9L218.1 412.8L216.0 412.1L196.5 411.4L184.3 409.3L182.8 409.0L181.4 408.6L178.5 407.2L176.4 405.5L175.6 403.0L175.6 396.0L175.6 392.5L174.2 389.4L174.2 396.4L174.2 398.1L173.5 398.8L171.3 400.9L170.6 399.5L169.9 399.2L168.4 400.9L171.3 386.9L170.6 383.8L167.0 383.4L165.6 387.3L164.8 396.7L160.5 394.3L159.1 397.1L159.1 399.2L159.1 407.2L157.6 420.5L157.6 424.8L165.6 433.9L166.3 436.0L165.6 438.4L164.8 441.6L168.4 456.3L169.9 465.7L167.7 473.8L162.7 479.1L155.5 480.5L153.3 479.8L151.9 479.1L150.4 478.7L148.3 479.1L147.6 479.8L147.6 481.2L146.1 482.6L143.2 483.3L142.5 482.6L141.8 481.2L141.1 479.4L131.7 477.0L130.3 475.9L126.7 471.0L125.2 465.0L126.0 452.8L125.2 445.8L123.8 441.9L115.2 436.3L113.0 437.7L110.8 437.7L109.4 436.7L108.7 434.9L107.2 434.9L100.8 425.8L98.6 419.1L102.2 416.3L104.4 415.6L102.9 413.9L98.6 411.4L99.3 409.3L100.8 407.2L102.9 405.5L104.4 403.7L105.8 404.1L106.5 403.4L108.0 401.6L108.7 399.2L105.1 398.8L103.6 398.5L102.9 397.4L102.9 395.0L102.2 393.9L100.8 393.6L97.9 393.9L95.7 392.2L94.3 389.4L92.1 388.0L89.2 390.8L90.0 395.7L89.2 403.0L87.8 409.7L84.9 413.5L82.0 413.5L78.4 412.8L75.6 411.4L74.1 410.0L73.4 407.6L68.4 405.8L66.2 403.7L67.6 403.0L68.4 402.3L69.1 400.9L69.8 399.2L69.1 399.9L66.2 400.9L61.2 385.2L59.7 377.5L61.2 358.5L60.4 350.1L54.0 320.3L51.8 318.6L50.4 317.5L50.4 315.4L51.1 311.9L51.1 307.4L50.4 305.6L46.0 299.3L42.4 292.3L41.0 289.2L29.5 277.9L27.3 274.1L28.0 272.3L30.9 270.6L31.6 269.2L31.6 267.4L31.6 266.0L30.2 262.9L33.8 265.3L38.1 264.3L41.7 261.1L42.4 256.6L42.4 254.8L41.7 253.4L40.3 252.0L39.6 251.7L38.8 250.6L38.1 248.2L37.4 245.7L36.0 244.3L35.2 245.0L34.5 247.1L30.9 239.4L30.2 236.6L30.9 234.1L33.8 228.9L34.5 226.1L33.8 219.8L30.2 217.0L26.6 214.2L23.7 208.9L28.0 207.9L28.8 204.7L27.3 196.0L28.0 192.5L29.5 189.3L29.5 186.1L28.8 181.9L25.9 173.2L23.7 169.0L20.8 166.2L15.8 164.8L12.2 167.6L10.0 170.7L7.2 170.4L6.4 171.1L4.3 173.2L1.4 167.2L1.4 143.4L2.1 139.9L5.0 131.1L5.7 126.9L5.0 125.2L2.1 122.0L1.4 119.9L1.4 113.3L1.4 110.8L5.0 97.5L6.4 88.7L7.9 84.5L10.0 81.4L12.2 79.3L13.6 79.3L15.8 79.6L16.5 79.3L20.1 77.2L20.8 76.5L23.7 75.8L28.0 75.1L33.1 76.5L35.2 80.0L35.2 84.2L30.2 103.5L33.1 105.2L41.7 107.7L43.9 108.7L45.3 110.5L51.1 116.4L53.2 117.8L57.6 117.8L59.7 118.2L62.6 119.6L66.2 123.4L67.6 123.1L68.4 123.8L69.8 137.1L71.2 141.3L74.1 144.1L77.7 146.2L87.1 148.7L91.4 149.0L95.7 148.0L99.3 145.5L101.5 144.8L108.7 144.1L111.6 146.2L110.1 152.2L112.3 150.1L114.4 145.5L116.6 143.4L118.0 144.1L120.2 144.8L122.4 144.1L123.8 142.0L122.4 140.6L119.5 140.9L116.6 142.0L115.2 142.0L115.9 139.2L123.1 133.2L124.5 130.1L126.0 127.6L129.6 123.8L130.3 121.3L130.3 112.9L129.6 108.0L127.4 103.5L120.9 95.0L120.9 99.2L119.5 97.5L118.8 96.4L117.3 95.0L112.3 61.1L110.1 53.0L111.6 42.5L109.4 37.6L106.5 32.7L105.1 28.8L107.2 26.7L107.2 27.8L108.0 28.1L109.4 28.1L111.6 28.1L111.6 26.7L110.1 24.3L110.8 19.7L111.6 15.2L115.2 7.8L114.4 3.2L113.0 -1.3L112.3 -5.9L113.0 -10.4L113.0 -12.2L113.7 -14.3L115.2 -16.7L116.6 -18.1L118.0 -19.2L120.2 -20.9L135.3 -44.1L136.8 -48.3L137.5 -53.5L133.2 -89.3L133.2 -90.0L131.0 -93.1L130.3 -94.9L130.3 -98.0L132.4 -106.8L131.7 -118.7L132.4 -120.1L136.0 -123.9L137.5 -126.4L138.2 -128.1L138.9 -130.2L138.9 -132.4L136.8 -139.7L130.3 -155.1L130.3 -159.7L121.6 -161.8L118.0 -163.5L116.6 -167.4L120.9 -192.6L122.4 -194.4L126.7 -195.1L130.3 -196.5L132.4 -199.6L133.2 -203.5L133.2 -206.3L131.7 -209.4L129.6 -211.9L128.1 -214.0L129.6 -217.1L134.6 -222.7L135.3 -225.9L136.0 -230.5L135.3 -239.2L135.3 -242.0L140.4 -248.7L144.7 -257.8L145.4 -260.2L145.4 -263.7L145.4 -268.3L144.7 -272.9L143.2 -275.3L144.0 -278.1L155.5 -301.6L154.8 -301.2L154.0 -302.3L153.3 -303.3L153.3 -304.4L154.0 -305.1L154.8 -305.4L156.2 -305.8L156.2 -306.5L156.9 -309.3L163.4 -320.2L165.6 -326.8L167.0 -334.9L167.0 -343.6L164.8 -351.3L162.7 -356.9L162.0 -360.4L164.1 -363.6L168.4 -367.8L172.0 -371.0L175.6 -371.7L184.3 -369.9L187.9 -370.3L197.2 -373.4L200.8 -374.1L204.4 -375.9L205.2 -380.1L205.2 -384.6L205.9 -388.5L208.8 -391.3L212.4 -393.0L216.7 -393.4L220.3 -392.0L223.2 -388.1L228.2 -379.7L231.8 -376.9L235.4 -376.9L239.7 -378.0L242.6 -380.1L244.0 -381.8L245.5 -383.6L253.4 -387.4L256.3 -388.5L258.4 -388.5L262.8 -388.1L264.9 -388.5L266.4 -389.5L269.2 -391.6L271.4 -392.7L273.6 -392.0L275.0 -390.9L277.2 -390.2L282.2 -389.9L284.4 -389.2L285.8 -387.4L286.5 -385.7L288.0 -384.3L298.0 -379.4L303.1 -374.5L322.5 -364.3L325.4 -362.2L328.3 -360.4L334.8 -358.3L349.9 -348.5L351.3 -347.8L354.2 -347.5L354.9 -347.1L356.4 -345.7L357.8 -344.0L359.2 -342.2L368.6 -339.1L372.9 -333.8L375.8 -328.2L380.1 -324.4L380.1 -325.8L377.2 -328.9L377.2 -333.1L378.7 -335.9L382.3 -335.2L384.4 -333.1L420.4 -319.1L429.1 -317.4L433.4 -317.4L444.9 -318.8L447.1 -319.8L457.9 -325.8L465.8 -338.0L468.0 -340.1L472.3 -340.8L473.7 -342.9L474.4 -349.9L479.5 -364.7L480.9 -367.1L489.6 -367.8L493.9 -367.8L496.8 -366.4L498.9 -363.3L499.6 -354.8L500.4 -351.3L501.8 -349.2L507.6 -344.3L509.7 -343.3ZM354.9 839.6L355.6 842.1L356.4 845.2L357.1 848.7L359.2 851.9L359.2 853.6L359.2 858.9L358.5 859.2L357.8 859.2L356.4 859.9L348.4 871.5L346.3 873.9L341.2 877.1L339.8 877.4L338.4 877.1L337.6 877.4L336.9 879.2L337.6 882.7L337.6 884.1L338.4 885.5L336.9 887.3L336.2 885.5L335.5 886.9L334.8 888.0L335.5 889.4L336.2 891.5L332.6 893.6L332.6 899.5L334.8 905.8L338.4 909.7L338.4 911.1L330.4 909.0L326.8 909.0L326.1 912.8L327.6 914.2L327.6 916.0L327.6 917.7L326.1 919.8L328.3 920.5L329.0 921.9L329.0 923.3L329.0 925.4L323.2 921.6L321.1 918.4L318.2 919.8L313.2 924.0L311.0 924.7L308.1 926.1L304.5 929.6L299.5 940.2L298.8 941.2L295.9 941.2L291.6 936.7L288.7 935.6L276.4 935.6L272.8 933.5L270.0 928.6L268.5 922.6L270.0 917.0L271.4 920.5L272.8 922.3L275.7 922.6L278.6 921.2L277.2 920.5L275.7 920.5L274.3 921.2L272.8 917.7L272.8 917.0L269.2 913.9L267.8 914.2L267.8 918.4L264.2 916.7L259.9 913.2L256.3 909.3L254.1 904.8L249.1 899.9L247.6 899.2L246.2 897.8L237.6 883.0L235.4 881.6L233.2 879.2L234.0 874.3L236.1 865.9L235.4 861.7L234.7 857.5L232.5 854.0L227.5 847.7L223.9 840.3L221.0 837.1L216.7 835.4L212.4 835.4L209.5 834.3L208.8 829.4L208.0 827.0L207.3 823.1L207.3 821.0L206.6 818.6L203.0 813.0L203.0 811.2L204.4 809.8L205.2 808.8L205.9 807.4L205.9 805.6L205.2 795.5L203.7 789.1L201.6 777.6L198.0 771.3L189.3 759.0L182.8 745.7L178.5 740.1L169.2 736.9L165.6 732.0L162.0 730.6L154.8 731.3L153.3 730.3L155.5 726.4L149.7 721.5L146.1 715.6L143.2 708.9L141.8 694.2L140.4 691.0L138.2 689.6L136.8 689.6L133.2 690.3L131.7 691.0L130.3 692.1L128.8 693.1L128.8 694.2L127.4 695.2L123.8 698.7L120.9 699.1L118.0 698.0L115.9 695.9L113.7 692.8L111.6 689.3L111.6 685.8L112.3 681.2L114.4 677.0L117.3 673.2L121.6 670.7L126.0 669.0L130.3 668.6L144.7 672.1L156.2 672.5L159.1 672.1L161.2 671.4L163.4 671.8L167.0 673.9L169.2 674.6L172.8 675.3L180.7 674.9L185.0 676.0L187.9 678.1L191.5 676.3L193.6 677.4L197.2 680.9L200.8 681.2L203.7 680.5L210.2 678.1L227.5 673.9L233.2 671.1L235.4 673.5L237.6 672.8L239.0 671.8L239.7 667.9L242.6 669.0L244.0 668.6L245.5 667.9L245.5 669.0L246.9 669.7L246.2 671.4L244.8 672.8L243.3 673.5L241.2 673.9L242.6 675.6L244.8 678.1L246.9 680.2L249.1 680.9L250.5 682.6L255.6 690.7L258.4 692.4L271.4 691.7L275.0 694.2L274.3 700.9L275.7 700.9L275.7 699.5L276.4 696.3L277.2 695.2L277.9 693.8L277.9 693.5L280.0 692.4L281.5 691.4L284.4 690.7L286.5 689.3L288.0 686.5L289.4 686.5L293.7 694.2L316.8 713.8L325.4 727.1L328.3 729.2L332.6 729.9L336.2 731.7L338.4 734.8L338.4 739.0L338.4 741.1L336.9 743.6L336.2 745.7L336.9 747.8L339.8 749.2L342.0 749.2L344.1 748.2L346.3 747.8L350.6 748.2L355.6 748.9L359.2 751.0L360.7 755.2L360.0 759.4L357.1 762.2L350.6 766.7L347.7 770.6L346.3 775.1L346.3 780.0L348.4 792.7L348.4 796.2L346.3 804.6L347.0 807.4L345.6 807.4L347.0 813.3L347.0 826.3L349.2 830.8L354.2 837.9L354.9 839.6ZM470.1 691.7L470.8 693.5L474.4 695.9L475.9 698.0L473.7 704.0L462.2 716.3L457.9 722.2L460.0 726.4L457.9 730.3L451.4 735.5L448.5 736.2L445.6 733.8L442.8 731.0L440.6 729.2L438.4 728.2L432.0 722.2L429.8 721.5L426.9 721.5L424.8 720.8L423.3 719.1L419.7 713.8L413.2 707.2L412.5 705.1L413.2 700.2L413.2 698.7L412.5 695.6L412.5 684.7L413.2 681.6L414.7 679.8L420.4 670.0L420.4 667.9L421.2 662.3L421.9 660.9L424.8 660.2L427.6 663.0L432.0 669.7L432.7 668.3L434.8 666.5L436.3 665.1L439.2 668.3L443.5 669.3L447.8 667.9L449.2 663.7L452.1 665.5L454.3 667.6L455.0 669.7L453.6 672.5L456.4 671.4L459.3 672.5L460.0 674.6L457.9 676.7L458.6 677.4L460.8 678.8L462.2 679.5L465.1 677.4L469.4 678.4L473.0 681.6L474.4 685.1L473.7 686.1L472.3 686.5L470.1 686.5L470.1 688.2L470.1 691.7ZM102.2 630.4L103.6 631.5L105.1 631.5L106.5 632.5L107.2 634.6L103.6 637.4L102.9 638.5L101.5 636.7L100.0 634.3L98.6 632.2L96.4 631.1L93.6 630.4L92.8 629.0L92.1 627.3L90.7 625.5L88.5 624.1L86.4 623.1L84.2 622.7L82.0 622.7L80.6 622.0L78.4 618.9L72.0 616.8L68.4 613.3L66.9 608.4L66.2 603.4L66.2 601.0L66.9 599.6L68.4 598.5L70.5 598.5L73.4 599.6L78.4 602.0L82.8 604.8L83.5 607.0L86.4 606.2L90.7 607.0L94.3 609.1L97.9 611.2L104.4 622.0L103.6 624.5L101.5 625.9L100.8 628.0L102.2 630.4ZM470.8 549.5L480.2 555.4L484.5 559.6L486.7 564.2L485.2 569.1L481.6 569.1L477.3 566.7L470.1 560.3L456.4 551.6L448.5 544.2L446.4 543.2L442.8 541.1L439.2 536.2L436.3 530.9L434.8 527.4L435.6 524.6L437.0 522.9L439.2 522.5L441.3 522.9L442.8 523.6L443.5 524.6L444.9 527.1L470.8 549.5ZM496.8 405.1L499.6 407.2L501.1 411.4L501.1 416.0L498.2 417.7L498.2 416.7L482.4 405.1L477.3 404.1L474.4 403.0L473.0 401.6L472.3 399.2L470.8 396.7L470.8 395.7L474.4 396.7L475.2 395.7L477.3 393.9L478.0 396.4L479.5 397.8L481.6 397.4L483.8 396.7L491.0 396.7L489.6 397.8L488.8 399.5L488.1 401.6L489.6 403.7L491.0 405.5L493.2 405.5L496.8 405.1ZM451.4 361.0L455.7 361.3L459.3 363.1L461.5 366.6L460.8 370.8L456.4 365.5L454.3 364.5L451.4 365.2L449.2 367.3L448.5 369.4L449.2 370.8L451.4 369.4L452.8 374.6L452.8 377.1L450.7 378.5L444.2 382.7L443.5 383.4L444.2 384.5L444.2 391.8L444.9 393.9L445.6 396.7L449.2 396.0L451.4 399.5L452.8 404.8L455.0 417.7L455.0 420.5L450.7 430.7L447.1 434.2L442.0 436.7L437.7 437.7L433.4 436.0L432.0 431.4L432.0 425.8L433.4 420.9L437.0 420.2L437.0 411.8L434.1 402.3L429.8 398.1L426.9 397.1L425.5 394.6L426.2 387.3L425.5 385.2L421.2 378.2L419.7 376.4L416.1 375.3L414.7 375.3L414.0 374.3L415.4 360.6L416.8 355.7L419.0 353.6L424.8 357.5L429.1 358.2L430.5 354.3L432.0 352.6L435.6 352.2L444.2 353.3L447.1 355.4L448.5 354.3L450.7 355.0L452.1 357.5L451.4 361.0ZM267.8 667.9L264.2 666.9L258.4 661.6L258.4 660.2L260.6 660.2L261.3 660.9L263.5 660.6L265.6 659.5L267.1 659.9L268.5 661.6L268.5 666.5L267.8 667.9ZM532.0 419.8L533.5 421.2L534.2 424.4L529.9 428.3L524.8 429.3L520.5 429.7L514.0 429.0L513.3 425.5L518.4 422.7L522.7 421.2L526.3 419.5L529.2 418.8L532.0 419.8ZM51.1 100.0L51.8 102.8L52.5 105.6L51.1 107.3L48.9 108.0L46.0 105.9L45.3 104.2L41.0 101.0L37.4 95.7L35.2 94.3L34.5 92.6L35.2 90.5L38.8 87.3L41.0 86.6L42.4 86.3L42.4 85.2L43.2 84.2L44.6 82.8L46.8 83.1L48.2 84.2L48.9 85.6L49.6 87.0L51.1 90.8L51.1 100.0Z"/>
+            <path class="m-ridge" d="M186 52l9-16 9 16z M200 70l11-20 11 20z M214 46l8-14 8 14z M190 98l9-16 9 16z M222 84l10-18 10 18z M236 58l8-14 8 14z M206 122l8-14 8 14z M240 110l9-16 9 16z"/><text class="m-water" x="196" y="142">Cordillera</text>
+            <text class="m-water" x="34" y="112">Lingayen Gulf</text>
+            <text class="m-water" x="168" y="470">Manila Bay</text>
+            <path class="m-route" d="M250.0 434.3L245.0 417.1L236.0 404.6L226.0 392.2L210.0 377.6L194.0 363.1L188.0 354.8L182.0 346.5L174.0 338.2L168.0 329.9L165.0 321.6L160.0 313.3L161.0 303.0L168.0 292.6L172.0 280.1L174.0 269.8L172.0 253.2L170.0 238.6L166.0 224.1L164.0 209.6L172.0 188.8L174.0 178.4L166.0 163.9L168.0 147.3L158.0 132.8L152.0 120.3L148.0 107.9L154.0 101.7L160.0 95.5L164.0 87.2L168.0 78.8L170.0 70.5"/>
+            <path class="m-lit-edge" id="lit-edge" d="M250.0 434.3L245.0 417.1L236.0 404.6L226.0 392.2L210.0 377.6L194.0 363.1L188.0 354.8L182.0 346.5L174.0 338.2L168.0 329.9L165.0 321.6L160.0 313.3L161.0 303.0L168.0 292.6L172.0 280.1L174.0 269.8L172.0 253.2L170.0 238.6L166.0 224.1L164.0 209.6L172.0 188.8L174.0 178.4L166.0 163.9L168.0 147.3L158.0 132.8L152.0 120.3L148.0 107.9L154.0 101.7L160.0 95.5L164.0 87.2L168.0 78.8L170.0 70.5"/>
+            <path class="m-lit" id="lit" d="M250.0 434.3L245.0 417.1L236.0 404.6L226.0 392.2L210.0 377.6L194.0 363.1L188.0 354.8L182.0 346.5L174.0 338.2L168.0 329.9L165.0 321.6L160.0 313.3L161.0 303.0L168.0 292.6L172.0 280.1L174.0 269.8L172.0 253.2L170.0 238.6L166.0 224.1L164.0 209.6L172.0 188.8L174.0 178.4L166.0 163.9L168.0 147.3L158.0 132.8L152.0 120.3L148.0 107.9L154.0 101.7L160.0 95.5L164.0 87.2L168.0 78.8L170.0 70.5"/>
+            <text class="m-road" x="226" y="392">NLEX</text>
+            <text class="m-road" x="104" y="290">SCTEX</text>
+            <text class="m-road" x="184" y="210">TPLEX</text>
+            <text class="m-road" x="94" y="84">KENNON</text>
+            <g id="dots"></g>
+            <text class="m-town" x="170" y="70.5" dx="10" dy="4">Baguio</text>
+            <text class="m-town" x="250" y="434.3" dx="-62" dy="4">Balintawak</text>
+            <text class="m-town" x="148" y="107.9" dx="-48" dy="4">Rosario</text>
+            <text class="m-town" x="174" y="269.8" dx="10" dy="4">Tarlac</text>
+            <g class="m-pin" id="pin"><circle r="8"/></g>
+          </svg>
+          <div class="now" aria-live="polite">
+            <span class="lbl">you're reading</span>
+            <strong id="now-name">Balintawak</strong>
+            <span class="sub" id="now-sub">Start of NLEX</span>
+          </div>
+        </div>
+        <p class="mapnote">Schematic map. Use the Google Maps buttons to navigate.</p>
+      </div>
+
+      <div class="steps">
+        <div class="receipt">
+          <h3>Tolls, Class 1</h3>
+          <table class="num">
+            <tr><td>NLEX + SCTEX<span class="tag">Balintawak to La Paz, Easytrip</span></td><td>₱670</td></tr>
+            <tr><td>TPLEX<span class="tag">La Paz to Rosario, Autosweep</span></td><td>₱311</td></tr>
+            <tr class="sum"><td>One way</td><td>₱981</td></tr>
+          </table>
+          <p class="checked">Class 2 ₱2,337, Class 3 ₱2,941. Checked 10 Oct 2026, from the TRB-approved matrix via Expressway.ph</p>
+        </div>
+        <p class="margin-note">Load both RFIDs before you leave. A low balance means a barrier delay and a citation.</p>
+
+        <h3>Stops, in driving order</h3>
+        <ol class="timeline">
+          <li class="stop" data-stop="start" data-name="Balintawak" data-sub="Start of NLEX. Easytrip lane."><span class="kmpost road">START</span>
+            <div><h4>Balintawak toll plaza</h4><p>NLEX starts here. Follow signs for Tarlac at the SCTEX junction, not Subic.</p></div></li>
+          <li class="stop" data-stop="caltex" data-name="Km 55, Caltex Mega Station" data-sub="NLEX, San Fernando"><span class="kmpost"><span><small>KM</small><span class="n">55</span></span></span>
+            <div><h4>Caltex Mega Station</h4><p>Fast food, coffee, Razon's halo-halo, restrooms with soap.</p>
+              <span class="board" role="img" aria-label="Services: gas, food, restroom"><svg><use href="#i-gas"/></svg><svg><use href="#i-food"/></svg><svg><use href="#i-wc"/></svg></span><br>
+              <span class="callahead">confirm it's open first<svg aria-hidden="true"><use href="#u-line"/></svg></span>
+              <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Caltex+Mega+Station+NLEX+San+Fernando+Pampanga" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg>Open in Google Maps</a></div></li>
+          <li class="stop" data-stop="seaoil" data-name="Km 62, SEAOIL CityMall" data-sub="NLEX, San Fernando"><span class="kmpost"><span><small>KM</small><span class="n">62</span></span></span>
+            <div><h4>SEAOIL CityMall SCTEX</h4><p>Food court, clean restrooms, staffed parking.</p>
+              <span class="board" role="img" aria-label="Services: gas, food, restroom"><svg><use href="#i-gas"/></svg><svg><use href="#i-food"/></svg><svg><use href="#i-wc"/></svg></span><br>
+              <span class="callahead">confirm it's open first<svg aria-hidden="true"><use href="#u-line"/></svg></span>
+              <a class="btn" href="https://www.google.com/maps/search/?api=1&query=SEAOIL+CityMall+SCTEX" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg>Open in Google Maps</a></div></li>
+          <li class="stop" data-stop="petron" data-name="Km 71, Petron Lakeshore" data-sub="NLEX, Mexico, Pampanga"><span class="kmpost"><span><small>KM</small><span class="n">71</span></span></span>
+            <div><h4>Petron Lakeshore</h4><p>Biggest food stop on NLEX: Kapampangan sisig and bringhe, big clean restrooms.</p>
+              <span class="board" role="img" aria-label="Services: gas, food, restroom"><svg><use href="#i-gas"/></svg><svg><use href="#i-food"/></svg><svg><use href="#i-wc"/></svg></span><br>
+              <span class="callahead">confirm it's open first<svg aria-hidden="true"><use href="#u-line"/></svg></span>
+              <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Petron+Lakeshore+Mexico+Pampanga" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg>Open in Google Maps</a></div></li>
+          <li class="stop" data-stop="ptt" data-name="PTT Victoria" data-sub="TPLEX, Victoria, Tarlac"><span class="kmpost road">TPLEX</span>
+            <div><h4>PTT Victoria</h4><p>Quiet stop with Chowking, BonChon and Tarlac rice cakes for pasalubong.</p>
+              <span class="board" role="img" aria-label="Services: gas, food, pasalubong"><svg><use href="#i-gas"/></svg><svg><use href="#i-food"/></svg><svg><use href="#i-bag"/></svg></span><br>
+              <span class="callahead">confirm it's open first<svg aria-hidden="true"><use href="#u-line"/></svg></span>
+              <a class="btn" href="https://www.google.com/maps/search/?api=1&query=PTT+Victoria+TPLEX" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg>Open in Google Maps</a></div></li>
+          <li class="stop" data-stop="total" data-name="Total Rosales" data-sub="TPLEX, Rosales, Pangasinan"><span class="kmpost road">TPLEX</span>
+            <div><h4>Total Rosales</h4><p>Last big stop before Rosario: Max's, Gerry's Grill, coffee, modern restrooms.</p>
+              <span class="board" role="img" aria-label="Services: gas, food, restroom"><svg><use href="#i-gas"/></svg><svg><use href="#i-food"/></svg><svg><use href="#i-wc"/></svg></span><br>
+              <span class="callahead">confirm it's open first<svg aria-hidden="true"><use href="#u-line"/></svg></span>
+              <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Total+Rosales+TPLEX" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg>Open in Google Maps</a></div></li>
+          <li class="stop" data-stop="rosario" data-name="Rosario exit" data-sub="End of TPLEX. Pick Kennon or Marcos."><span class="kmpost road">EXIT</span>
+            <div><h4>Rosario exit, then up the mountain</h4><p>Light car and dry weather: Kennon Road. Heavy vehicle or heavy rain: Marcos Highway. Check the road notes above.</p></div></li>
+          <li class="stop" data-stop="baguio" data-name="Baguio" data-sub="You made it. Mind the coding zone."><span class="kmpost road">END</span>
+            <div><h4>Baguio</h4><p>Welcome up. Turn the page for coding, parking and where to go.</p></div></li>
+        </ol>
+        <p class="checked">Stops checked 10 Oct 2026, from ABS-CBN Metro.Style (12 Apr 2025)</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="duo">
+    <!-- 02 IN BAGUIO -->
+    <section class="sec" aria-labelledby="p2">
+      <div class="sec-head">
+        <svg viewBox="0 0 400 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g class="art-a"><path d="M30 120 l18 -80 l18 80z M70 120 l14 -60 l14 60z M300 120 l20 -96 l20 96z M345 120 l14 -64 l14 64z"/></g><g class="art-sun"><rect x="202" y="50" width="12" height="12"/><rect x="226" y="50" width="12" height="12"/><rect x="250" y="50" width="12" height="12"/><rect x="202" y="72" width="12" height="12"/><rect x="226" y="72" width="12" height="12"/></g></svg>
+        <span class="tape"></span><span class="ghost">02</span><h2 id="p2">In Baguio</h2>
+      </div>
+      <div class="sec-body">
+        <div class="checker" role="group" aria-labelledby="chk-h">
+          <h3 id="chk-h">Number coding checker</h3>
+          <fieldset><legend>Last digit of your plate</legend><div class="digits" id="digits"></div></fieldset>
+          <fieldset><legend>Day</legend><div class="days" id="days"></div></fieldset>
+          <div class="verdict" id="verdict" aria-live="polite">Tap your plate's last digit.</div>
+          <p class="checked">Runs on your phone only. Nothing is saved or sent. Rule checked 10 Oct 2026, from GMA Regional TV</p>
+        </div>
+        <p class="margin-note">Weekends are coding-free. You can drive the perimeter roads, but don't park on them on your coding day.</p>
+        <h3>Must-sees</h3>
+        <ul class="sees">
+          <li><strong>BenCab Museum</strong><p>National Artist Ben Cabrera's museum, with Cordillera art and a hillside café. Check opening days first.</p></li>
+          <li><strong>Burnham Park</strong><svg class="sign" role="img" aria-label="Not yet confirmed"><use href="#s-ask"/></svg><p>Lake boating and bike rental, a short walk to Session Road.</p></li>
+          <li><strong>Philippine Military Academy</strong><svg class="sign" role="img" aria-label="Road closed"><use href="#s-stop"/></svg><p>PMA Road is not passable (sinking road) as of 9 Oct 2026.</p></li>
+        </ul>
+        <a class="btn alt" href="#p2">See all 8 places and pasalubong</a>
+      </div>
+    </section>
+
+    <!-- 03 BEFORE YOU GO -->
+    <section class="sec" aria-labelledby="p3">
+      <div class="sec-head">
+        <svg viewBox="0 0 400 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="#F8F9F5" opacity=".8"><ellipse cx="90" cy="36" rx="46" ry="14"/><ellipse cx="130" cy="28" rx="30" ry="14"/><ellipse cx="300" cy="50" rx="54" ry="15"/></g><g stroke="#F8F9F5" stroke-width="2.4" opacity=".6"><path d="M80 56 l-6 14 M100 58 l-6 14 M120 56 l-6 14 M290 72 l-6 14 M312 74 l-6 14"/></g><path class="art-a" d="M0 120 L0 98 L120 86 L240 102 L400 88 L400 120Z"/></svg>
+        <span class="tape"></span><span class="ghost">03</span><h2 id="p3">Before you go</h2>
+      </div>
+      <div class="sec-body">
+        <div>
+          <h3>Rain by month</h3>
+          <div class="rain" id="rain" aria-hidden="true"></div>
+          <div class="rain-labels" id="rain-labels" aria-hidden="true"></div>
+          <p id="rain-line">…</p>
+          <p class="checked">PAGASA rainfall normals for Baguio. Checked 10 Oct 2026</p>
+        </div>
+        <div>
+          <h3>Pack for <span id="pack-month">this month</span></h3>
+          <ul class="pack" id="pack"></ul>
+        </div>
+        <div class="sos">
+          <h3>Emergency</h3>
+          <div class="row"><div><strong class="num">911</strong>National emergency hotline</div><a class="btn" href="tel:911">Call</a></div>
+          <div class="row"><div><strong class="num">1-35000</strong>NLEX breakdowns and accidents. Give your km and direction.</div><a class="btn" href="tel:135000">Call</a></div>
+        </div>
+        <div class="morning">
+          <h3>Morning-of check</h3>
+          <ol>
+            <li>Read the DPWH-Cordillera road advisory.</li>
+            <li>Top up Easytrip (₱670+) and Autosweep (₱311+).</li>
+            <li>Check your plate against today's coding.</li>
+            <li>Rain heavy? Plan on Marcos Highway.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="sign-off">Ingat sa byahe!</p>
+    <p>Every fact shows where it came from and when we last checked it. Facts older than 45 days get a "Needs re-check" flag.</p>
+    <p id="madeby">Made by GALA, Guided Adventures, Local Areas. Tara sa next GALA.</p>
+  </div>
+</footer>
+
+<div class="controls" role="region" aria-label="Preview controls">
+  <div class="in">
+    <div class="grp" id="font-grp"><span>Fonts</span>
+      <button type="button" data-font="expressway" aria-pressed="true">Expressway</button>
+      <button type="button" data-font="signage" aria-pressed="false">Signage</button>
+      <button type="button" data-font="poster" aria-pressed="false">Travel poster</button>
+      <button type="button" data-font="field" aria-pressed="false">Field notes</button>
+    </div>
+    <div class="grp" id="brand-grp"><span>Colours</span>
+      <button type="button" data-brand="gala" aria-pressed="true">GALA</button>
+      <button type="button" data-brand="inn" aria-pressed="false">Sample inn</button>
+      <button type="button" data-brand="cafe" aria-pressed="false">Sample café</button>
+    </div>
+    <small>Preview only. Sample partners are made up.</small>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var TZ = "Asia/Manila", root = document.documentElement;
+  var byDay = { Mon: [1, 2], Tue: [3, 4], Wed: [5, 6], Thu: [7, 8], Fri: [9, 0] };
+  var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  var rain = [15.2, 23.4, 46.0, 104.1, 341.1, 475.8, 781.9, 905.0, 570.9, 454.3, 97.4, 26.2];
+  var low = [6.3, 6.7, 7.4, 10.0, 12.0, 13.3, 12.5, 12.8, 12.6, 11.3, 9.2, 7.6];
+  var STOPS = {"start":[250,434.3],"caltex":[188,354.8],"seaoil":[183,347.6],"petron":[177,342.4],"ptt":[170,238.6],"total":[174,178.4],"rosario":[148,107.9],"baguio":[170,70.5]};
+
+  function now() {
+    var p = {};
+    new Intl.DateTimeFormat("en-US", { timeZone: TZ, weekday: "short", hour: "numeric", hourCycle: "h23", month: "numeric" })
+      .formatToParts(new Date()).forEach(function (x) { p[x.type] = x.value; });
+    return { day: p.weekday, hour: +p.hour, month: +p.month - 1 };
+  }
+  var n = now();
+
+  // coding plate
+  var plate = document.getElementById("coding-plate"), today = byDay[n.day];
+  if (!today) { document.getElementById("coding-today").textContent = "None"; document.getElementById("coding-sub").textContent = "It's " + n.day + ". No coding on weekends."; plate.classList.add("coding-off"); }
+  else { document.getElementById("coding-today").textContent = today.join(" & "); document.getElementById("coding-sub").textContent = "Plates ending in these, 7am to 7pm"; plate.classList.add("coding-on"); }
+
+  // checker
+  var pick = { digit: null, day: "Today" };
+  var digitsEl = document.getElementById("digits"), daysEl = document.getElementById("days");
+  function press(group, btn) { Array.prototype.forEach.call(group.querySelectorAll("button"), function (x) { x.setAttribute("aria-pressed", x === btn ? "true" : "false"); }); }
+  [1,2,3,4,5,6,7,8,9,0].forEach(function (d) {
+    var b = document.createElement("button"); b.type = "button"; b.textContent = d; b.setAttribute("aria-pressed", "false");
+    b.onclick = function () { pick.digit = d; press(digitsEl, b); verdict(); }; digitsEl.appendChild(b);
+  });
+  ["Today","Mon","Tue","Wed","Thu","Fri","Sat","Sun"].forEach(function (d) {
+    var b = document.createElement("button"); b.type = "button"; b.textContent = d; b.setAttribute("aria-pressed", d === "Today" ? "true" : "false");
+    b.onclick = function () { pick.day = d; press(daysEl, b); verdict(); }; daysEl.appendChild(b);
+  });
+  function verdict() {
+    var v = document.getElementById("verdict");
+    if (pick.digit === null) { v.className = "verdict"; v.textContent = "Tap your plate's last digit."; return; }
+    var day = pick.day === "Today" ? n.day : pick.day, label = pick.day === "Today" ? "Today (" + day + ")" : day;
+    var banned = (byDay[day] || []).indexOf(pick.digit) !== -1;
+    if (!banned) { v.className = "verdict go"; v.textContent = label + ": plates ending in " + pick.digit + " are free to drive."; return; }
+    var msg = label + ": coding for plates ending in " + pick.digit + ". Stay out of the coding zone 7am to 7pm.";
+    if (pick.day === "Today") msg += n.hour < 7 ? " You're clear until 7am." : n.hour >= 19 ? " Coding is over for today." : " Coding is on right now.";
+    v.className = "verdict stop"; v.textContent = msg;
+  }
+
+  // rain + pack
+  var max = Math.max.apply(null, rain), m = n.month;
+  document.getElementById("rain").innerHTML = rain.map(function (mm, i) { return '<div class="' + (i === m ? "now" : "") + '" style="height:' + Math.max(3, Math.round(mm / max * 100)) + '%"></div>'; }).join("");
+  document.getElementById("rain-labels").innerHTML = months.map(function (x, i) { return '<span class="' + (i === m ? "now" : "") + '">' + x[0] + "</span>"; }).join("");
+  document.getElementById("rain-line").textContent = months[m] + " averages " + Math.round(rain[m]) + " mm of rain. Record low " + low[m] + "°C.";
+  document.getElementById("pack-month").textContent = months[m];
+  var pack = ["Jacket or hoodie. Nights get cold."];
+  if (rain[m] > 300) pack.push("Umbrella and rain jacket. " + months[m] + " is a wet month.");
+  if (low[m] < 10) pack.push("Extra warm layer. Lows near " + Math.round(low[m]) + "°C.");
+  pack.push("Closed shoes for slopes and stairs.");
+  document.getElementById("pack").innerHTML = pack.map(function (p, i) { return '<li><label><input type="checkbox" id="pk' + i + '"><span>' + p + "</span></label></li>"; }).join("");
+
+  // map that follows the stops
+  var lit = document.getElementById("lit"), edge = document.getElementById("lit-edge"), pin = document.getElementById("pin");
+  var L = lit.getTotalLength();
+  [lit, edge].forEach(function (p) { p.style.strokeDasharray = L + " " + L; p.style.strokeDashoffset = L; });
+  function lengthAt(pt) { // nearest point on the route
+    var best = 0, bd = Infinity;
+    for (var s = 0; s <= L; s += 2) { var q = lit.getPointAtLength(s), d = (q.x - pt[0]) * (q.x - pt[0]) + (q.y - pt[1]) * (q.y - pt[1]); if (d < bd) { bd = d; best = s; } }
+    return best;
+  }
+  var dots = document.getElementById("dots"), at = {};
+  Object.keys(STOPS).forEach(function (k) {
+    at[k] = lengthAt(STOPS[k]);
+    var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    c.setAttribute("class", "m-dot"); c.setAttribute("r", k === "start" || k === "baguio" ? 5 : 3.5);
+    c.setAttribute("cx", STOPS[k][0]); c.setAttribute("cy", STOPS[k][1]); dots.appendChild(c);
+  });
+  var stops = Array.prototype.slice.call(document.querySelectorAll(".stop")), current = null;
+  function show(el) {
+    if (el === current) return; current = el;
+    stops.forEach(function (s) { s.classList.toggle("is-now", s === el); });
+    var k = el.dataset.stop, len = at[k], p = STOPS[k];
+    [lit, edge].forEach(function (x) { x.style.strokeDashoffset = Math.max(0, L - len); });
+    pin.style.transform = "translate(" + p[0] + "px," + p[1] + "px)";
+    document.getElementById("now-name").textContent = el.dataset.name;
+    document.getElementById("now-sub").textContent = el.dataset.sub;
+  }
+  show(stops[0]);
+  function onScroll() {
+    var line = window.innerHeight * 0.55, pickEl = stops[0];
+    stops.forEach(function (s) { if (s.getBoundingClientRect().top < line) pickEl = s; });
+    show(pickEl);
+  }
+  window.addEventListener("scroll", function () { window.requestAnimationFrame(onScroll); }, { passive: true });
+  onScroll();
+
+  // preview controls
+  function wire(grpId, attr) {
+    var g = document.getElementById(grpId);
+    g.addEventListener("click", function (e) {
+      var b = e.target.closest("button"); if (!b) return;
+      press(g, b);
+      var v = b.dataset[attr];
+      if (v === "expressway" || v === "gala") root.removeAttribute("data-" + attr); else root.setAttribute("data-" + attr, v);
+      if (attr === "brand") {
+        document.getElementById("brandline").innerHTML = v === "inn" ? "Pine Hill Inn<span>Your road to us, made by GALA</span>" : v === "cafe" ? "Highland Café<span>Roadbook, made by GALA</span>" : "GALA<span>Roadbook</span>";
+      }
+    });
+  }
+  wire("font-grp", "font"); wire("brand-grp", "brand");
+})();
+</script>
