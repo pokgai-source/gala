@@ -40,16 +40,20 @@ data/stops-<route>.json      stops: name, type, maps link, why, featured, km, ln
 data/routes/<route>.json     a roadbook's layout (title, polaroids, plates, timeline, map); facts only as {id:path|filter}
 data/routes/<route>.geo.json real road line for the map (scripts/trace-route.mjs)
 data/hotels/<slug>.json      partner pages: name, logo, contact, parking, arrival, 4 theme colours
+data/photos.json             free-licence photos per place (Wikimedia Commons), with author + licence
+site/img/<route>/            WebP photos made by the Assets workflow
 data/creators.json           vloggers we credit
 data/CHANGELOG.md            written by gala-fact-check
 site/_design/                the one design system + templates (gala.css, print.css, roadbook.html/js, print.html, signs.svg, art.svg)
 site/index.html              home page template
 scripts/build.mjs            validates data, builds every roadbook + partner page, PDF, screenshots, design checks
 scripts/lib/                 data, route, map, payload, render, theme, fonts helpers (unit-tested)
-scripts/qa/                  pdf, screenshots, design checks (Playwright)
+scripts/qa/                  pdf, laptop fold images, screenshots, design checks (Playwright)
+scripts/assets/              OSM route trace, station pins, Commons photo search/prep (runs in GitHub Actions)
 docs/design/preview-v2.html  the approved look
 .claude/skills/              gala-fact-check, gala-roadbook, gala-hotel-kit, gala-design
 .github/workflows/pages.yml  tests, builds, uploads screenshots + PDF, publishes to GitHub Pages
+.github/workflows/assets.yml needs-internet jobs (map line, pins, photos); commits results back
 ```
 
 First time: `npm install`. Then `npm test`, `node scripts/build.mjs` (add `--no-qa` to skip PDF/screenshots),
