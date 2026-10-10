@@ -47,3 +47,14 @@ export async function traceRoute(waypoints) {
   return { type: "LineString", source: "OSRM / OpenStreetMap contributors", hash: waypointHash(waypoints),
     traced: new Date().toISOString().slice(0, 10), coordinates: coords };
 }
+
+// Every fuel station near a point, for the report when a brand lookup finds nothing.
+export async function listStations(near, radius) {
+  const [lng, lat] = near;
+  const q = `[out:json][timeout:25];nwr["amenity"="fuel"](around:${radius},${lat},${lng});out center tags;`;
+  const res = await fetch("https://overpass-api.de/api/interpreter", { method: "POST",
+    headers: { "User-Agent": UA, "Content-Type": "application/x-www-form-urlencoded" }, body: "data=" + encodeURIComponent(q) });
+  if (!res.ok) throw new Error(`Overpass ${res.status}`);
+  return ((await res.json()).elements || []).map((e) => ({ id: `${e.type}/${e.id}`, name: e.tags?.name || "", brand: e.tags?.brand || "",
+    lnglat: [e.lon ?? e.center?.lon, e.lat ?? e.center?.lat] }));
+}

@@ -6,7 +6,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { traceRoute, waypointHash, findStation } from "./osm.mjs";
+import { traceRoute, waypointHash, findStation, listStations } from "./osm.mjs";
 import { searchCandidates, fileInfo, download } from "./commons.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
@@ -40,7 +40,14 @@ for (const f of readdirSync(join(root, "data")).filter((f) => /^stops-.+\.json$/
         s.lnglatSource = `OpenStreetMap ${hit.type}/${hit.id}`;
         s.osmFor = JSON.stringify(s.osm);
         log(`pin ${s.id}: ${s.lnglatSource}, ${km(hit.lnglat, s.osm.near)} km from the hint`);
-      } else { s.lnglatSource = "approximate"; log(`pin ${s.id}: no ${s.osm.brand} station within ${s.osm.radius} m — kept approximate`); }
+      } else {
+        s.lnglatSource = "approximate";
+        log(`pin ${s.id}: no ${s.osm.brand} station within ${s.osm.radius} m — kept approximate`);
+        try {
+          const all = await listStations(s.osm.near, s.osm.radius * 2);
+          log(`  fuel stations within ${s.osm.radius * 2} m: ${all.length ? all.map((x) => `${x.id} "${x.name}" brand="${x.brand}" ${km(x.lnglat, s.osm.near)} km`).join("; ") : "none"}`);
+        } catch (e) { log(`  station list failed (${e.message})`); }
+      }
     } catch (e) { log(`pin ${s.id}: lookup failed (${e.message})`); }
     await sleep(1500);
   }

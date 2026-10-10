@@ -6,65 +6,75 @@
       "id": "cover-kennon",
       "place": "cover-1",
       "query": "Kennon Road Baguio",
-      "caption": "Kennon zigzag"
+      "caption": "Kennon zigzag",
+      "file": "Kennon Road, Baguio City.jpg"
     },
     {
       "id": "cover-session",
       "place": "cover-2",
       "query": "Session Road Baguio",
-      "caption": "Session Road"
+      "caption": "Session Road",
+      "file": "Magsaysay Ave x Session Road, Baguio City, Feb 2025.jpg"
     },
     {
       "id": "cover-strawberries",
       "place": "cover-3",
       "query": "La Trinidad strawberry",
-      "caption": "La Trinidad strawberries"
+      "caption": "La Trinidad strawberries",
+      "file": "Strawberry Picking La Trinidad 2018.jpg"
     },
     {
       "id": "city-hero",
       "place": "city-hero",
       "query": "Baguio City view pine",
-      "caption": "Baguio"
+      "caption": "Baguio",
+      "file": "Baguio skyline - view from Diplomat Hotel (Baguio, Benguet)(2018-11-27).jpg"
     },
     {
       "id": "burnham-park",
       "place": "baguio-burnham-park",
-      "query": "Burnham Park Baguio lake"
+      "query": "Burnham Park Baguio lake",
+      "file": "Burnham Park Lake (Baguio City; 12-04-2022).jpg"
     },
     {
       "id": "mines-view",
       "place": "baguio-mines-view",
-      "query": "Mines View Park Baguio"
+      "query": "Mines View Park Baguio",
+      "file": "Enjoy the cool breeze while looking on the beautiful view at Mines View Park, Baguio Philippines.jpg"
     },
     {
       "id": "bencab",
       "place": "baguio-bencab-museum",
-      "query": "BenCab Museum"
+      "query": "BenCab Museum",
+      "file": "Views from BenCab Museum, Tuba, Benguet (1).jpg"
     },
     {
       "id": "camp-john-hay",
       "place": "baguio-camp-john-hay",
-      "query": "Camp John Hay Baguio"
+      "query": "Camp John Hay Baguio",
+      "file": "Statue of Liberty, Camp John Hay, Baguio, Jul 2025.jpg"
     },
     {
       "id": "public-market",
       "place": "baguio-public-market",
-      "query": "Baguio City Market"
+      "query": "Baguio City Public Market vegetables stall"
     },
     {
       "id": "good-shepherd",
       "place": "baguio-good-shepherd",
-      "query": "Good Shepherd Convent Baguio"
+      "query": "Good Shepherd Baguio"
     },
     {
       "id": "strawberry-farm",
       "place": "latrinidad-strawberry-farm",
-      "query": "La Trinidad Strawberry Farm Benguet"
+      "query": "La Trinidad Strawberry Farm Benguet",
+      "file": "Strawberry Farm (3), La Trinidad, Benguet, March 2023.jpg"
     },
     {
       "id": "pma",
       "place": "baguio-pma",
-      "query": "Philippine Military Academy Fort del Pilar"
+      "query": "Philippine Military Academy Fort del Pilar",
+      "file": "Fort Del Pilar, PMA, Baguio, Jul 2025 (1).jpg"
     }
   ]
 }
