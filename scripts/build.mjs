@@ -12,6 +12,7 @@ import { buildPayload, MAX_AGE_DAYS } from "./lib/payload.mjs";
 import { renderPage, renderHome } from "./lib/render.mjs";
 import { copyFonts } from "./lib/fonts.mjs";
 import { themeErrors } from "./lib/theme.mjs";
+import { photoErrors } from "./lib/photos.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const out = join(root, "_site");
@@ -48,6 +49,7 @@ for (const stops of Object.values(data.stopsByRoute)) for (const s of stops.stop
 }
 const F = indexFacts(data.facts);
 errors.push(...routeIdErrors(data.routes));
+errors.push(...photoErrors(data.photos));
 for (const [id, route] of Object.entries(data.routes)) {
   if (!data.stopsByRoute[id]) { errors.push(`route ${id}: no data/stops-${id}.json`); continue; }
   errors.push(...validateRoute(route, F, indexStops(data.stopsByRoute[id])));
@@ -89,7 +91,7 @@ for (const h of data.hotels) {
   if (h.logo) copyFileSync(resolve(hotelsDir, h.logo), join(out, h.route, h.slug, basename(h.logo)));
   const theme = { ...h.theme, name: h.name, logo: h.logo ? basename(h.logo) : null, contact: h.contact || null,
     parking: h.parking || null, arrival: h.arrival || null, source: { name: h.source }, checked: h.checked };
-  const payload = { ...buildPayload(data, h.route, { root, theme }), pdfHref: `../${h.route}-roadbook.pdf` };
+  const payload = { ...buildPayload(data, h.route, { root, theme }), pdfHref: `../${h.route}-roadbook.pdf`, assetBase: "../../" };
   writeFileSync(join(out, h.route, h.slug, "index.html"), renderPage({ root, payload, fontPrefix: "../../_design/fonts/" }));
   console.log(`built ${h.route}/${h.slug} → _site/${h.route}/${h.slug}/index.html`);
 }

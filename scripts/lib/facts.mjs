@@ -25,7 +25,9 @@ export function loadData(root, { hotelsDir } = {}) {
   const hotels = existsSync(hDir)
     ? readdirSync(hDir).filter((f) => f.endsWith(".json")).map((f) => ({ slug: f.slice(0, -5), ...readJson(join(hDir, f)) }))
     : [];
-  return { facts, creators, stopsByRoute, routes, hotels };
+  const photosFile = join(dataDir, "photos.json");
+  const photos = existsSync(photosFile) ? readJson(photosFile) : { photos: [] };
+  return { facts, creators, stopsByRoute, routes, hotels, photos };
 }
 
 export function indexFacts(facts) {

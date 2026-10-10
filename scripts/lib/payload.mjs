@@ -2,8 +2,15 @@
 import { indexFacts, fillPlaceholders, latestChecked, isStale } from "./facts.mjs";
 import { indexStops, resolveTimeline, stopItem, signFor } from "./route.mjs";
 import { buildMap } from "./map.mjs";
+import { photoMap } from "./photos.mjs";
 
 export const MAX_AGE_DAYS = 45;
+
+// The map pins only what the timeline shows: start, the suggested stops, exit and end.
+function onlyTimelineStops(map, timeline) {
+  const keep = new Set(timeline.map((t) => t.id));
+  return { ...map, stops: Object.fromEntries(Object.entries(map.stops).filter(([id]) => keep.has(id))) };
+}
 
 function deepFill(node, F) {
   if (typeof node === "string") return fillPlaceholders(node, F);
@@ -20,7 +27,8 @@ export function buildPayload(data, routeId, { root, now = new Date(), theme = nu
   const stale = (item) => item.status === "stale" || (item.status !== "closed" && isStale(item.checked, now, MAX_AGE_DAYS));
   const meta = (item) => ({ checked: item.checked, source: item.source, stale: stale(item), staleText: stale(item) ? item.note || null : null });
   const fact = (id) => { const f = F.get(id); return { id, label: f.label, value: f.value, data: f.data || {}, ...meta(f) }; };
-  const stop = (s) => ({ ...stopItem(s), ...meta(s) });
+  const photos = photoMap(data.photos, routeId);
+  const stop = (s) => ({ ...stopItem(s), ...meta(s), photo: photos[s.id] || null });
 
   const plates = route.plates.map((p) => {
     const f = F.get(p.fact);
@@ -57,7 +65,7 @@ export function buildPayload(data, routeId, { root, now = new Date(), theme = nu
     wayNote: route.wayNote ? { text: route.wayNote.text, ...meta(F.get(route.wayNote.fact)) } : null,
     timeline,
     wayHome: (route.wayHome || []).map((id) => stop(S.get(id))),
-    map: buildMap(data.routes[routeId], S, root),
+    map: onlyTimelineStops(buildMap(data.routes[routeId], S, root), timeline),
     city: c ? {
       coding: c.codingFact ? fact(c.codingFact) : null,
       zone: c.zoneFact ? fact(c.zoneFact) : null,
@@ -73,6 +81,9 @@ export function buildPayload(data, routeId, { root, now = new Date(), theme = nu
     creators: data.creators.creators || [],
     theme,
     anyFeatured,
+    photos,
+    cityHero: photos[route.cityHero || "city-hero"] || null,
     pdfHref: `${routeId}-roadbook.pdf`,
+    assetBase: "../",
   };
 }
