@@ -42,3 +42,9 @@ test("loadData finds facts, Baguio stops and creators", () => {
   assert.ok(data.stopsByRoute.baguio.stops.length > 5);
   assert.ok(Array.isArray(data.creators.creators));
 });
+test("every fact has a one-line short of at most 90 characters", () => {
+  for (const f of data.facts.facts) {
+    assert.ok(typeof f.short === "string" && f.short.length > 0, `${f.id} has no short`);
+    assert.ok(f.short.length <= 90, `${f.id} short is ${f.short.length} chars`);
+  }
+});

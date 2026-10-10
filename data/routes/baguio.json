@@ -115,21 +115,6 @@
       "sub": "Start of NLEX. Easytrip lane."
     },
     {
-      "stopId": "nlex-caltex-mega"
-    },
-    {
-      "stopId": "sctex-seaoil-citymall"
-    },
-    {
-      "stopId": "nlex-petron-lakeshore"
-    },
-    {
-      "stopId": "tplex-ptt-victoria"
-    },
-    {
-      "stopId": "tplex-total-rosales"
-    },
-    {
       "waypoint": "exit",
       "title": "Rosario exit, then up the mountain",
       "post": "EXIT",
@@ -443,10 +428,41 @@
         120.92,
         16.22
       ]
-    ]
+    ],
+    "trace": {
+      "from": [
+        121.0005,
+        14.6577
+      ],
+      "to": [
+        120.5966,
+        16.4023
+      ],
+      "via": []
+    }
   },
   "pack": [
     "Jacket or hoodie. Nights get cold.",
     "Closed shoes for slopes and stairs."
-  ]
+  ],
+  "suggested": [
+    {
+      "stopId": "nlex-petron-lakeshore",
+      "label": "Breakfast stop",
+      "nearby": [
+        "nlex-caltex-mega",
+        "sctex-seaoil-citymall",
+        "nlex-shell-mexico-nb"
+      ]
+    },
+    {
+      "stopId": "tplex-shell-rosario",
+      "label": "Last stop before the climb",
+      "nearby": [
+        "tplex-total-rosales",
+        "tplex-ptt-victoria"
+      ]
+    }
+  ],
+  "cityHero": "city-hero"
 }

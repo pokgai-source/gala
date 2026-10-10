@@ -61,8 +61,8 @@ Road signs must always look like real road signs.
 - **Hero:** pine band, ridges, a zigzag road that draws in once, "Manila to" plus a huge destination, and the
   handwritten tagline.
 - **Fact-check stamp:** shows the newest `checked` date in the data. It is real, never decoration.
-- **Taped polaroids:** SVG art until Jed has photos. To use a photo, set `polaroids[].photo` in the route file
-  (1:1 crop, ≤60 KB WebP in `site/img/`).
+- **Taped polaroids:** real photos (`cover-1/2/3` in `data/photos.json`). If a photo isn't ready, the SVG art
+  shows instead. Jed's own photos can replace any of them.
 - **Stat plates:** only figures backed by facts. The money total uses the accent fill.
 - **Road check:** status shown as real sign shapes, decided by `signFor()` from fact data.
   - Yellow diamond with the ton limit: open with limits.
@@ -75,6 +75,48 @@ Road signs must always look like real road signs.
 - **Scroll-following map:** Natural Earth coastline, route line lit up to the stop being read, and a pin.
 - **Section heads:** band art, washi tape, outlined 01/02/03. The numbers are allowed because the sections are a
   real trip sequence.
+
+## Photos
+
+- **Source:** every photo comes from Wikimedia Commons under CC0, public domain, CC BY 2.0–4.0 or CC BY-SA
+  2.0–4.0. Jed's own photos also count.
+- **Listing:** they are listed in `data/photos.json` with `place`, which is a stop id, `cover-1`/`2`/`3` or
+  `city-hero`.
+- **Adding a photo:**
+  1. Add an entry with a `query` and no `file`.
+  2. Push. The **Assets** workflow saves candidates to `docs/photo-candidates/<id>/`.
+  3. Look at them and pick one: the real place, sharp, no person as the subject.
+  4. Set `file` and push again. The workflow makes 320/640/1280 WebP files in `site/img/<route>/` and fills the
+     author and licence.
+- **Credits:** a credit line ("Photo: author, licence", linked) shows under every photo, except polaroids, which
+  are too small. Every photo is also in the "Photo credits" list on the page and the PDF back panel. The build
+  fails on a used photo with no author or licence.
+- **Size on the page:** every `<img>` has width and height. Only the cover photos load eagerly; the rest are
+  lazy. Budget: HTML + fonts + first-screen images ≤ 400 KB.
+- **Must-sees:** swipe cards with a tall photo and the name plus one line on the photo. Tap for details and Maps.
+  The row scrolls inside itself, never the page.
+
+## Less text
+
+- Every fact has a `short` line (≤90 characters; the build enforces it).
+- Pages show the short line plus a visible "Checked <date>". The full text and the source sit behind "More".
+- Stops show their first sentence. The rest shows on tap.
+
+## Motion
+
+- **CSS scroll-driven animations only** (`animation-timeline`), no JS library. Browsers without support show a
+  static page.
+- **What moves:**
+  - the cover (title, polaroids, stamp)
+  - the city photo zoom
+  - each section's flip-pad entrance
+  - the laptop tri-fold unfold
+- **Rules:**
+  - Every animated element's first frame is readable. Nothing waits at opacity 0.
+  - Use `scale`/`translate`/`rotate` so motion adds to existing tilts.
+  - `prefers-reduced-motion: reduce` turns everything off. A test checks both states.
+- **Laptop tri-fold:** at ≥1080px a "Your printable roadbook" block shows PDF page 2's panels
+  (`fold-1/2/3.webp`, cut by the build), unfolding as you scroll. Phones never show it.
 
 ## Do / Don't
 
@@ -114,5 +156,7 @@ palettes**; they gave a generic gradient look for GALA.
 2. `node scripts/build.mjs` must end with `qa: 0 design errors`.
 3. Look at all four screenshots in `_site/<route>/check/` (phone and laptop, light and dark) next to
    `docs/design/preview-v2.html`.
-4. Open `_site/<route>/<route>-roadbook.pdf`. Both pages must have nothing cut off at panel edges.
-5. For a partner, the contrast gate passes. If it fails, offer Jed the nearest passing shade as an MCQ.
+4. Open `_site/<route>/<route>-roadbook.pdf`. Both pages must have nothing cut off at panel edges, and the cover
+   and 02 photos must show.
+5. Scroll the page on a phone or laptop once to see the motion. With reduce motion on, it must be still.
+6. For a partner, the contrast gate passes. If it fails, offer Jed the nearest passing shade as an MCQ.

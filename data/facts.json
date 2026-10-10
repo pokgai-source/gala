@@ -41,7 +41,8 @@
         "published": "2026-02-01"
       },
       "checked": "2026-10-10",
-      "status": "ok"
+      "status": "ok",
+      "short": "NLEX, then SCTEX (Tarlac branch), then TPLEX to Rosario. Up by Kennon or Marcos."
     },
     {
       "id": "route.drive-time",
@@ -57,7 +58,8 @@
       },
       "checked": "2026-10-10",
       "status": "ok",
-      "note": "Official estimate from 2020, not a measured 2026 time. Replace with Jed's own drive log when he does the route."
+      "note": "Official estimate from 2020, not a measured 2026 time. Replace with Jed's own drive log when he does the route.",
+      "short": "About 3 hours without traffic, plus the mountain road."
     },
     {
       "id": "tolls.manila-baguio",
@@ -76,7 +78,8 @@
       },
       "checked": "2026-10-10",
       "status": "ok",
-      "note": "TRB's own matrix pages (trb.gov.ph) are behind a bot check and could not be opened. No TRB-approved hike found for Feb–Oct 2026."
+      "note": "TRB's own matrix pages (trb.gov.ph) are behind a bot check and could not be opened. No TRB-approved hike found for Feb–Oct 2026.",
+      "short": "₱981 one way for a car (Class 1)."
     },
     {
       "id": "tolls.segments.class1",
@@ -100,7 +103,8 @@
         }
       ],
       "checked": "2026-10-10",
-      "status": "changed"
+      "status": "changed",
+      "short": "NLEX + SCTEX ₱670 on Easytrip, TPLEX ₱311 on Autosweep."
     },
     {
       "id": "rfid",
@@ -117,7 +121,8 @@
       },
       "checked": "2026-10-10",
       "status": "changed",
-      "note": "One RFID (Easytrip + Autosweep in one account) launched Oct 2025 and is optional."
+      "note": "One RFID (Easytrip + Autosweep in one account) launched Oct 2025 and is optional.",
+      "short": "Load both Easytrip and Autosweep before you leave."
     },
     {
       "id": "kennon.status",
@@ -146,7 +151,8 @@
       ],
       "checked": "2026-10-10",
       "status": "changed",
-      "note": "Changes fast. Check DPWH-Cordillera's Facebook advisory the morning you drive."
+      "note": "Changes fast. Check DPWH-Cordillera's Facebook advisory the morning you drive.",
+      "short": "Light vehicles only, max 5 t. One-lane detours at Camp 2 and Camp 6."
     },
     {
       "id": "marcos.status",
@@ -168,7 +174,8 @@
         }
       ],
       "checked": "2026-10-10",
-      "status": "ok"
+      "status": "ok",
+      "short": "Passable. The way up for heavy vehicles and heavy rain."
     },
     {
       "id": "baguio.road-closures",
@@ -189,7 +196,8 @@
       },
       "checked": "2026-10-10",
       "status": "ok",
-      "note": "PMA Road closure affects the PMA (Fort del Pilar) must-see."
+      "note": "PMA Road closure affects the PMA (Fort del Pilar) must-see.",
+      "short": "Closed: PMA roads, Baguio–Itogon at Goldfield, Benguet–Nueva Vizcaya at Beckel."
     },
     {
       "id": "baguio.coding",
@@ -239,7 +247,8 @@
       ],
       "checked": "2026-10-10",
       "status": "ok",
-      "note": "2026 suspensions found: Apr 8–24 (fuel price surge), Aug 4, Aug 10, Sep 3 (weather). Fine ₱500, and the license is confiscated until paid."
+      "note": "2026 suspensions found: Apr 8–24 (fuel price surge), Aug 4, Aug 10, Sep 3 (weather). Fine ₱500, and the license is confiscated until paid.",
+      "short": "Weekdays 7am to 7pm, by the last digit of your plate. Tourists included."
     },
     {
       "id": "baguio.coding-zone",
@@ -265,7 +274,8 @@
       },
       "checked": "2026-10-10",
       "status": "ok",
-      "note": "Official city site (baguio.gov.ph) was under maintenance on 2026-10-10. Re-check against the ordinance text when it is back."
+      "note": "Official city site (baguio.gov.ph) was under maintenance on 2026-10-10. Re-check against the ordinance text when it is back.",
+      "short": "Covers the city center. Perimeter roads are free to drive, but not to park on."
     },
     {
       "id": "baguio.parking",
@@ -279,7 +289,8 @@
       },
       "checked": "2026-10-10",
       "status": "stale",
-      "note": "Only source is from 2022, and no 2026 parking rules or rates were found. Needs a current official source or Jed's own visit."
+      "note": "Only source is from 2022, and no 2026 parking rules or rates were found. Needs a current official source or Jed's own visit.",
+      "short": "Street parking is a main cause of traffic. The city has studied weekend park-and-ride."
     },
     {
       "id": "baguio.visitors",
@@ -296,7 +307,8 @@
       },
       "checked": "2026-10-10",
       "status": "changed",
-      "note": "Dropped the 2023 count and the 50k–60k per week figure (from 2022) as outdated."
+      "note": "Dropped the 2023 count and the 50k–60k per week figure (from 2022) as outdated.",
+      "short": "1.59M tourists visited the Cordillera in 2025; 73% went to Baguio."
     },
     {
       "id": "baguio.police-app",
@@ -309,7 +321,8 @@
       },
       "checked": "2026-10-10",
       "status": "stale",
-      "note": "On 2026-10-10 the App Store page returned 'not found' (blank page in a browser). The app may have been pulled or renamed."
+      "note": "On 2026-10-10 the App Store page returned 'not found' (blank page in a browser). The app may have been pulled or renamed.",
+      "short": "City police app with live traffic, parking slots and hotlines."
     },
     {
       "id": "weather.baguio",
@@ -385,7 +398,8 @@
       ],
       "checked": "2026-10-10",
       "status": "ok",
-      "note": "PAGASA shows average monthly temperatures only as graphs, so record highs and lows are used instead."
+      "note": "PAGASA shows average monthly temperatures only as graphs, so record highs and lows are used instead.",
+      "short": "Dry Dec to Apr, very wet Jun to Sep. Nights get cold all year."
     },
     {
       "id": "emergency.911",
@@ -400,7 +414,8 @@
         "published": "2026-09-18"
       },
       "checked": "2026-10-10",
-      "status": "ok"
+      "status": "ok",
+      "short": "Dial 911 for any emergency."
     },
     {
       "id": "emergency.nlex",
@@ -415,7 +430,8 @@
         "url": "https://www.nlex.com.ph/"
       },
       "checked": "2026-10-10",
-      "status": "ok"
+      "status": "ok",
+      "short": "NLEX breakdowns and accidents. Give your km and direction."
     }
   ],
   "missing": [

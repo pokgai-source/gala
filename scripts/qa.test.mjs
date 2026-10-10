@@ -61,3 +61,33 @@ test("screenshots are written for phone and laptop in both themes", { skip }, as
   const files = await shots(site, "baguio");
   assert.deepEqual(files.map((f) => f.split("/").pop()).sort(), ["laptop-dark.png", "laptop-light.png", "phone-dark.png", "phone-light.png"]);
 });
+
+test("an image without width and height is reported", { skip }, async () => {
+  const site = tempSite();
+  const p = join(site, "baguio", "index.html");
+  writeFileSync(p, readFileSync(p, "utf8").replace("<main", '<img src="x.webp" alt=""><main'));
+  const { checkDesign } = await import("./qa/check-design.mjs");
+  const errs = await checkDesign(site, "baguio");
+  assert.ok(errs.some((e) => e.includes("image without width/height")), errs.join("; "));
+});
+
+test("motion: animations run normally and are fully off under reduced motion", { skip }, async () => {
+  const b = spawnSync(process.execPath, [join(root, "scripts/build.mjs"), "--no-qa"], { encoding: "utf8" });
+  assert.equal(b.status, 0, b.stderr);
+  const { launch } = await import("./qa/browser.mjs");
+  const { pathToFileURL } = await import("node:url");
+  const br = await launch();
+  try {
+    const sel = [".sec", ".hero .title", ".polaroid", ".stamp", ".city-hero img"];
+    const names = async (reducedMotion) => {
+      const p = await br.newPage({ viewport: { width: 390, height: 900 }, reducedMotion });
+      await p.goto(pathToFileURL(join(root, "_site/baguio/index.html")).href, { waitUntil: "load" });
+      const r = await p.evaluate((sel) => sel.map((s) => { const el = document.querySelector(s); return el ? getComputedStyle(el).animationName : "missing"; }), sel);
+      await p.close();
+      return r;
+    };
+    const on = await names("no-preference"), off = await names("reduce");
+    assert.ok(on.every((n) => n !== "none" && n !== "missing"), `motion on: ${on}`);
+    assert.ok(off.every((n) => n === "none"), `reduced motion: ${off}`);
+  } finally { await br.close(); }
+});

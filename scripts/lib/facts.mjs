@@ -25,7 +25,9 @@ export function loadData(root, { hotelsDir } = {}) {
   const hotels = existsSync(hDir)
     ? readdirSync(hDir).filter((f) => f.endsWith(".json")).map((f) => ({ slug: f.slice(0, -5), ...readJson(join(hDir, f)) }))
     : [];
-  return { facts, creators, stopsByRoute, routes, hotels };
+  const photosFile = join(dataDir, "photos.json");
+  const photos = existsSync(photosFile) ? readJson(photosFile) : { photos: [] };
+  return { facts, creators, stopsByRoute, routes, hotels, photos };
 }
 
 export function indexFacts(facts) {
@@ -75,4 +77,22 @@ export function isStale(checked, now = new Date(), maxAgeDays = 45) {
 export function fmtDate(iso) {
   const [y, m, d] = iso.split("-").map(Number);
   return `${d} ${MONTHS[m - 1]} ${y}`;
+}
+
+// The short line is what people see; flag any number in it that the fact's value and data no longer contain.
+// Rounding is fine ("1.59M" for 1,586,890; "73%" for 72.92%).
+export function shortDriftWarnings(facts) {
+  const out = [];
+  const nums = (t) => (String(t).replace(/(\d),(?=\d{3})/g, "$1").match(/\d+(?:\.\d+)?/g) || []).map(Number);
+  for (const f of facts.facts || []) {
+    if (!f.short) continue;
+    const hay = [...nums(f.value), ...nums(JSON.stringify(f.data || {}))];
+    const shown = String(f.short).replace(/(\d),(?=\d{3})/g, "$1").matchAll(/(\d+(?:\.(\d+))?)\s*([MK])?/g);
+    for (const m of shown) {
+      const mult = m[3] === "M" ? 1e6 : m[3] === "K" ? 1e3 : 1, n = Number(m[1]) * mult;
+      const tol = 0.5 * 10 ** -(m[2] ? m[2].length : 0) * mult;
+      if (!hay.some((h) => Math.abs(h - n) <= tol)) { out.push(`fact ${f.id}: short line has ${m[1]}, which is not in the value or data — rewrite "short"`); break; }
+    }
+  }
+  return out;
 }

@@ -29,9 +29,21 @@
       "status": "check",
       "km": 71,
       "lnglat": [
-        120.635,
-        15.1
-      ]
+        120.67016,
+        15.09418
+      ],
+      "osm": {
+        "brand": "Petron",
+        "near": [
+          120.67016,
+          15.09418
+        ],
+        "radius": 3000,
+        "side": "right"
+      },
+      "lnglatSource": "OpenStreetMap way/100440132",
+      "osmFor": "{\"osm\":{\"brand\":\"Petron\",\"near\":[120.67016,15.09418],\"radius\":3000,\"side\":\"right\"},\"line\":\"e8c466ef0f47\"}",
+      "short": "Biggest food stop on NLEX: Kapampangan food, coffee, big clean restrooms."
     },
     {
       "id": "sctex-seaoil-citymall",
@@ -57,7 +69,20 @@
       "lnglat": [
         120.665,
         15.075
-      ]
+      ],
+      "osm": {
+        "brand": "SEAOIL",
+        "near": [
+          120.665,
+          15.075
+        ],
+        "radius": 3000,
+        "side": "right",
+        "maxOff": 400,
+        "searchRadius": 15000
+      },
+      "lnglatSource": "approximate",
+      "short": "Highway food court, clean restrooms, staffed parking."
     },
     {
       "id": "nlex-caltex-mega",
@@ -83,7 +108,60 @@
       "lnglat": [
         120.69,
         15.04
-      ]
+      ],
+      "osm": {
+        "brand": "Caltex",
+        "near": [
+          120.69,
+          15.04
+        ],
+        "radius": 3000,
+        "side": "right",
+        "searchRadius": 15000,
+        "maxOff": 400
+      },
+      "lnglatSource": "approximate",
+      "short": "Fast food, coffee, Razon's halo-halo, restrooms with soap."
+    },
+    {
+      "id": "nlex-shell-mexico-nb",
+      "name": "Shell Mexico NLEX northbound",
+      "type": [
+        "gas"
+      ],
+      "segment": "NLEX",
+      "where": "Mexico, Pampanga (northbound)",
+      "maps": "https://www.google.com/maps/search/?api=1&query=Shell+NLEX+Mexico+Pampanga+northbound",
+      "why": "Shell station with DC fast EV chargers (ACMobility, Evro network).",
+      "featured": false,
+      "ev": {
+        "operator": "ACMobility (Evro)",
+        "kw": null,
+        "plugs": [],
+        "note": "DC fast chargers; power not published."
+      },
+      "source": {
+        "name": "Top Gear Philippines",
+        "url": "https://www.topgear.com.ph/news/industry-news/acmobility-shell-mexico-pampanga-charging-hub-a6941-20260723",
+        "published": "2026-07-23"
+      },
+      "checked": "2026-10-10",
+      "status": "check",
+      "lnglat": [
+        120.68506,
+        15.0429
+      ],
+      "osm": {
+        "brand": "Shell",
+        "near": [
+          120.655,
+          15.09
+        ],
+        "radius": 3000,
+        "side": "right"
+      },
+      "lnglatSource": "approximate",
+      "short": "Shell with DC fast EV chargers."
     },
     {
       "id": "tplex-ptt-victoria",
@@ -109,7 +187,20 @@
       "lnglat": [
         120.6,
         15.6
-      ]
+      ],
+      "osm": {
+        "brand": "PTT",
+        "near": [
+          120.6,
+          15.6
+        ],
+        "radius": 3000,
+        "side": "right",
+        "searchRadius": 15000,
+        "maxOff": 400
+      },
+      "lnglatSource": "approximate",
+      "short": "Quiet stop with Tarlac rice cakes for pasalubong."
     },
     {
       "id": "tplex-total-rosales",
@@ -134,7 +225,65 @@
       "lnglat": [
         120.62,
         15.89
-      ]
+      ],
+      "osm": {
+        "brand": "Total",
+        "near": [
+          120.62,
+          15.89
+        ],
+        "radius": 3000,
+        "side": "right",
+        "searchRadius": 15000,
+        "maxOff": 400
+      },
+      "lnglatSource": "approximate",
+      "short": "Max's, Gerry's Grill, coffee, modern restrooms."
+    },
+    {
+      "id": "tplex-shell-rosario",
+      "name": "Shell TPLEX Rosario",
+      "type": [
+        "gas",
+        "food"
+      ],
+      "segment": "TPLEX",
+      "where": "TPLEX end, Rosario, La Union",
+      "maps": "https://www.google.com/maps/search/?api=1&query=Shell+TPLEX+Rosario+La+Union",
+      "why": "Last stop before the mountain. Shell Café, Cha-Time, Potato Corner and snacks, with a fast EV charger.",
+      "featured": false,
+      "ev": {
+        "operator": "Shell Recharge",
+        "kw": 180,
+        "plugs": [
+          "CCS2"
+        ],
+        "note": "Plus two 22 kW AC points. Up to 4 cars at once."
+      },
+      "source": {
+        "name": "Shell Pilipinas (press release)",
+        "url": "https://pilipinas.shell.com.ph/media/current-year-press-releases-news/shell-recharge-unlocks-north-luzon-for-ev-drivers-with-ultra-rapid-chargers.html",
+        "published": "2023-09-12"
+      },
+      "checked": "2026-10-10",
+      "status": "check",
+      "note": "Charger news is from 2023. Confirm it's still running in the Shell Recharge app.",
+      "lnglat": [
+        120.49303,
+        16.22605
+      ],
+      "osm": {
+        "brand": "Shell",
+        "near": [
+          120.49,
+          16.23
+        ],
+        "radius": 2500,
+        "maxOff": 800
+      },
+      "lnglatSource": "OpenStreetMap way/834827907",
+      "osmFor": "{\"osm\":{\"brand\":\"Shell\",\"near\":[120.49,16.23],\"radius\":2500,\"maxOff\":800},\"line\":\"e8c466ef0f47\"}",
+      "short": "Last stop before the mountain: café, snacks and a fast EV charger."
     },
     {
       "id": "nlex-drive-and-dine",
@@ -159,7 +308,8 @@
       "lnglat": [
         120.97,
         14.74
-      ]
+      ],
+      "short": "Southbound only: a last stretch-and-eat before Manila."
     },
     {
       "id": "baguio-bencab-museum",
@@ -178,7 +328,8 @@
       },
       "checked": "2026-10-10",
       "status": "ok",
-      "note": "Official site is up. Check opening days there before going."
+      "note": "Official site is up. Check opening days there before going.",
+      "short": "Cordillera art, a hillside garden and café."
     },
     {
       "id": "baguio-camp-john-hay",
@@ -197,7 +348,8 @@
         "url": "https://www.campjohnhay.ph/"
       },
       "checked": "2026-10-10",
-      "status": "ok"
+      "status": "ok",
+      "short": "Pine forest trails and restaurants."
     },
     {
       "id": "baguio-pma",
@@ -217,7 +369,8 @@
       },
       "checked": "2026-10-10",
       "status": "closed",
-      "note": "PMA Road and PMA Cut-Off Road No. 3 are not passable (sinking road) as of Oct 9, 2026."
+      "note": "PMA Road and PMA Cut-Off Road No. 3 are not passable (sinking road) as of Oct 9, 2026.",
+      "short": "Cadet grounds and museum. Road closed for now."
     },
     {
       "id": "baguio-burnham-park",
@@ -235,7 +388,8 @@
         "url": "https://www.google.com/maps/search/?api=1&query=Burnham+Park+Baguio"
       },
       "checked": "2026-10-10",
-      "status": "check"
+      "status": "check",
+      "short": "Lake boating and bikes, near Session Road."
     },
     {
       "id": "baguio-mines-view",
@@ -254,7 +408,8 @@
         "url": "https://www.google.com/maps/search/?api=1&query=Mines+View+Park+Baguio"
       },
       "checked": "2026-10-10",
-      "status": "check"
+      "status": "check",
+      "short": "View over Benguet’s old mining towns."
     },
     {
       "id": "baguio-public-market",
@@ -273,7 +428,8 @@
         "url": "https://www.google.com/maps/search/?api=1&query=Baguio+City+Public+Market"
       },
       "checked": "2026-10-10",
-      "status": "check"
+      "status": "check",
+      "short": "Strawberries, ube jam, peanut brittle, coffee."
     },
     {
       "id": "baguio-good-shepherd",
@@ -291,7 +447,8 @@
         "url": "https://www.google.com/maps/search/?api=1&query=Good+Shepherd+Convent+Baguio"
       },
       "checked": "2026-10-10",
-      "status": "check"
+      "status": "check",
+      "short": "Famous ube and strawberry jam."
     },
     {
       "id": "latrinidad-strawberry-farm",
@@ -311,7 +468,8 @@
       },
       "checked": "2026-10-10",
       "status": "check",
-      "note": "Picking season not yet confirmed from an official source (Benguet LGU / DA)."
+      "note": "Picking season not yet confirmed from an official source (Benguet LGU / DA).",
+      "short": "Strawberry picking in season, strawberry taho."
     }
   ]
 }
