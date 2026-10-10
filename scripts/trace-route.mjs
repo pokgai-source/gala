@@ -9,6 +9,6 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const id = process.argv[2];
 if (!id) { console.error("usage: node scripts/trace-route.mjs <route>"); process.exit(2); }
 const route = JSON.parse(readFileSync(join(root, "data", "routes", `${id}.json`), "utf8"));
-const geo = await traceRoute(route.map.waypoints);
+const geo = await traceRoute(route.map.trace);
 writeFileSync(join(root, "data", "routes", `${id}.geo.json`), JSON.stringify(geo) + "\n");
 console.log(`traced ${id}: ${geo.coordinates.length} points`);

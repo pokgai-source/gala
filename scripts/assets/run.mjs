@@ -6,7 +6,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { traceRoute, waypointHash, brandStations, pickOnRoute, listStations } from "./osm.mjs";
+import { traceRoute, waypointHash, brandStations, pickOnRoute, listStations, offsetFrom } from "./osm.mjs";
 import { searchCandidates, fileInfo, download } from "./commons.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
@@ -22,9 +22,11 @@ const km = (a, b) => Math.round(Math.hypot((a[0] - b[0]) * 107, (a[1] - b[1]) * 
 const routesDir = join(root, "data", "routes");
 for (const f of readdirSync(routesDir).filter((f) => f.endsWith(".json") && !f.endsWith(".geo.json"))) {
   const id = f.slice(0, -5), route = readJson(join(routesDir, f)), geoFile = join(routesDir, `${id}.geo.json`);
-  const hash = waypointHash(route.map.waypoints);
+  const trace = route.map.trace;
+  if (!trace) { log(`map ${id}: no map.trace in the route file, skipped`); continue; }
+  const hash = waypointHash(trace);
   if (existsSync(geoFile) && readJson(geoFile).hash === hash) { log(`map ${id}: road line up to date`); continue; }
-  try { const geo = await traceRoute(route.map.waypoints); writeJson(geoFile, geo); log(`map ${id}: traced ${geo.coordinates.length} points`); }
+  try { const geo = await traceRoute(trace); writeJson(geoFile, geo); log(`map ${id}: traced ${geo.coordinates.length} points, ${geo.km} km, ${geo.minutes} min, via ${geo.roads}`); }
   catch (e) { log(`map ${id}: trace failed (${e.message}); keeping the old line`); }
 }
 
@@ -46,6 +48,8 @@ for (const f of readdirSync(join(root, "data")).filter((f) => /^stops-.+\.json$/
       } else {
         s.lnglatSource = "approximate";
         log(`pin ${s.id}: no ${s.osm.brand} station beside the road (${all.length} ${s.osm.brand} within ${s.osm.searchRadius || 8000} m) — kept approximate`);
+        if (line) log(`  closest to the road: ${all.map((x) => ({ x, o: offsetFrom(x.lnglat, line) })).sort((a, b) => a.o.d - b.o.d).slice(0, 4)
+          .map(({ x, o }) => `${x.id} "${x.name}" ${Math.round(o.d)} m ${o.side < 0 ? "right" : "left"}`).join("; ")}`);
       }
     } catch (e) { log(`pin ${s.id}: lookup failed (${e.message})`); }
     await sleep(3000);
