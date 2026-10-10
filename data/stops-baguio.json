@@ -29,8 +29,8 @@
       "status": "check",
       "km": 71,
       "lnglat": [
-        120.635,
-        15.1
+        120.67016,
+        15.09418
       ],
       "osm": {
         "brand": "Petron",
@@ -41,7 +41,8 @@
         "radius": 3000,
         "side": "right"
       },
-      "lnglatSource": "approximate"
+      "lnglatSource": "OpenStreetMap way/100440132",
+      "osmFor": "{\"brand\":\"Petron\",\"near\":[120.635,15.1],\"radius\":3000,\"side\":\"right\"}"
     },
     {
       "id": "sctex-seaoil-citymall",
@@ -141,8 +142,8 @@
       "checked": "2026-10-10",
       "status": "check",
       "lnglat": [
-        120.655,
-        15.09
+        120.68506,
+        15.0429
       ],
       "osm": {
         "brand": "Shell",
@@ -153,7 +154,8 @@
         "radius": 3000,
         "side": "right"
       },
-      "lnglatSource": "approximate"
+      "lnglatSource": "OpenStreetMap way/1001512904",
+      "osmFor": "{\"brand\":\"Shell\",\"near\":[120.655,15.09],\"radius\":3000,\"side\":\"right\"}"
     },
     {
       "id": "tplex-ptt-victoria",
@@ -255,8 +257,8 @@
       "status": "check",
       "note": "Charger news is from 2023. Confirm it's still running in the Shell Recharge app.",
       "lnglat": [
-        120.49,
-        16.23
+        120.49303,
+        16.22605
       ],
       "osm": {
         "brand": "Shell",
@@ -267,7 +269,8 @@
         "radius": 2500,
         "maxOff": 800
       },
-      "lnglatSource": "approximate"
+      "lnglatSource": "OpenStreetMap way/834827907",
+      "osmFor": "{\"brand\":\"Shell\",\"near\":[120.49,16.23],\"radius\":2500,\"maxOff\":800}"
     },
     {
       "id": "nlex-drive-and-dine",
