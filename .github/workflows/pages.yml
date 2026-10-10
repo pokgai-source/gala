@@ -46,7 +46,8 @@ jobs:
           set -o pipefail
           npm test 2>&1 | tee test.log || {
             # surface failures as annotations (readable from the API and the PR page)
-            grep -E -A25 "^not ok" test.log | grep -vE "^\s*(at |duration_ms|type:|code:|failureType|stack|\.\.\.|---)" | head -60 | while IFS= read -r l; do echo "::error title=npm test::$l"; done
+            # annotations are capped at 10 per step: send the most useful lines first
+            { grep -E "^not ok" test.log; grep -E "^\s+(design |pdf |Data errors|photo |fact |route )" test.log; } | head -10 | while IFS= read -r l; do echo "::error title=npm test::$l"; done
             exit 1
           }
 
